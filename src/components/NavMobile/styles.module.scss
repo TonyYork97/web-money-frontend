@@ -1,0 +1,3 @@
+.navMobile {
+    @apply fixed top-[52px] left-0 right-0 bottom-0 flex flex-col justify-start items-center bg-background border-l overflow-auto border-black px-1 py-3 md:hidden transition-all
+}
