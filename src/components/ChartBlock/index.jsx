@@ -21,41 +21,50 @@ const data = {
             borderWidth: 1,
         },
     ],
-    labels: [],
+    labels: ['qwe', 'wet', 'tqq', 'zxc', 'gsd', 'gaa'],
+
+
 };
+const options = {
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
+}
 
 export const ChartBlock = () => {
     return (
-        <div className='w-full md:max-w-xs px-3 py-3 rounded-xl shadow-block bg-secondBackground'>
-            <div className='mb-3 flex justify-between text-lg font-bold flex-wrap gap-1'>
+        <>
+            <div className='mb-4 flex justify-between text-lg font-bold flex-wrap gap-1'>
                 <h3 className=''>Расход в августе</h3>
                 <p>34994 р.</p>
             </div>
-            <div className='max-w-[180px] mx-auto mb-3'>
-                <Doughnut data={data} />
+            <div className='max-w-[240px] sm:max-w-[320px] md:max-w-[360px] mx-auto mb-4'>
+                <Doughnut options={options} data={data} />
             </div>
-            <ul className='flex flex-col mb-3'>
-                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md'>
+            <ul className='flex flex-col mb-4'>
+                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md mb-1'>
                     <div className='flex items-center gap-2 flex-wrap'>
-                        <div className='w-8 h-2 rounded-lg bg-rose-600 '></div>
+                        <div className='w-4 h-2 rounded-lg bg-rose-600 '></div>
                         <p>Супермаркеты</p>
                     </div>
                     <div>
                         <p>1335 р.</p>
                     </div>
                 </li>
-                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md'>
+                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md mb-1'>
                     <div className='flex items-center gap-2 flex-wrap'>
-                        <div className='w-8 h-2 rounded-lg bg-blue-600 '></div>
+                        <div className='w-4 h-2 rounded-lg bg-blue-600 '></div>
                         <p>Аптеки</p>
                     </div>
                     <div>
                         <p>2712 р.</p>
                     </div>
                 </li>
-                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md'>
-                    <div className='flex items-center gap-2 flex-wrap'>
-                        <div className='w-8 h-2 rounded-lg bg-green-600 '></div>
+                <li className='flex items-center justify-between gap-2 flex-wrap border-b border-black px-1 py-[2px] rounded-md mb-1'>
+                    <div className='flex items-center gap-2 flex-wrap '>
+                        <div className='w-4 h-2 rounded-lg bg-green-600 '></div>
                         <p>Кафе и рестораны</p>
                     </div>
                     <div>
@@ -65,9 +74,9 @@ export const ChartBlock = () => {
 
 
             </ul>
-            <div className='text-right'>
+            <div className='text-right py-1 s'>
                 <button className='text-mainGreen font-light text-sm hover:text-green-500 transition-colors'>Показать больше</button>
             </div>
-        </div>
+        </>
     )
 }

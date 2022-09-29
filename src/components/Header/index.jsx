@@ -34,7 +34,7 @@ export const Header = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
 
     return (
-        <div className='py-2 px-3 flex justify-between items-center h-[52px] fixed w-full bg-background'>
+        <div className='py-2 px-3 flex justify-between items-center h-[52px] fixed w-full bg-background z-[100]'>
             <Link to='/home' className='flex items-center gap-3'>
                 <div className="w-10 md:w-13 h-auto animate-spin-slow">
                     <img className='w-full h-auto' src={LogoImg} alt="logo" />
