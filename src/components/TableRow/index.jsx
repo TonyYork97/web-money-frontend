@@ -6,7 +6,7 @@ export const TableRow = ({ name, date, type, amount }) => {
     const isPlus = type === 'Входящий' ? '+' : ''
 
     return (
-        <div className='grid grid-cols-3  mb-3 rounded-lg border-b px-2 py-1 gap-2 border-black break-words'>
+        <div className='grid grid-cols-3  mb-3 rounded-lg border-b px-2 py-1 gap-2 border-black break-words bg-whiteOpacity items-center'>
             <TableCell item={name} />
             <div className='text-right sm:text-left'>
                 <TableCell item={date} />

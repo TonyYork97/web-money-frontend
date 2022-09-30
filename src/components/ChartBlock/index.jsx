@@ -36,11 +36,11 @@ const options = {
 export const ChartBlock = () => {
     return (
         <>
-            <div className='mb-4 flex justify-between text-lg font-bold flex-wrap gap-1'>
+            <div className='mb-5 flex justify-between text-lg font-bold flex-wrap gap-1'>
                 <h3 className=''>Расход в августе</h3>
                 <p>34994 р.</p>
             </div>
-            <div className='max-w-[240px] sm:max-w-[320px] md:max-w-[360px] mx-auto mb-4'>
+            <div className='max-w-[240px] sm:max-w-[320px] md:max-w-[360px] mx-auto mb-5 '>
                 <Doughnut options={options} data={data} />
             </div>
             <ul className='flex flex-col mb-4'>

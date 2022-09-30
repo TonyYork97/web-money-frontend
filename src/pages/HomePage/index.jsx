@@ -25,36 +25,6 @@ const fakeArr = [
         amount: '431 р.',
     },
     {
-        name: 'Макдональдсsdifsdfhs;hdf;sljkfhsd',
-        date: '28.09.2022',
-        type: 'Исходящий',
-        amount: '1412 р.',
-    },
-    {
-        name: 'Шаверма по питерски',
-        date: '28.09.2022',
-        type: 'Исходящий',
-        amount: '360 р.',
-    },
-    {
-        name: 'Зарплата',
-        date: '28.09.2022',
-        type: 'Входящий',
-        amount: '10000 р.',
-    },
-    {
-        name: 'Пятерочка',
-        date: '29.09.2022',
-        type: 'Исходящий',
-        amount: '994 р.',
-    },
-    {
-        name: 'Ригла',
-        date: '29.09.2022',
-        type: 'Исходящий',
-        amount: '431 р.',
-    },
-    {
         name: 'Макдональдс',
         date: '28.09.2022',
         type: 'Исходящий',
@@ -79,18 +49,6 @@ const fakeArr = [
         amount: '994 р.',
     },
     {
-        name: 'Ригла',
-        date: '29.09.2022',
-        type: 'Исходящий',
-        amount: '431 р.',
-    },
-    {
-        name: 'Макдональдс',
-        date: '28.09.2022',
-        type: 'Исходящий',
-        amount: '1412 р.',
-    },
-    {
         name: 'Шаверма по питерски',
         date: '28.09.2022',
         type: 'Исходящий',
@@ -102,6 +60,13 @@ const fakeArr = [
         type: 'Входящий',
         amount: '10000 р.',
     },
+    {
+        name: 'Пятерочка',
+        date: '29.09.2022',
+        type: 'Исходящий',
+        amount: '994 р.',
+    },
+
 ]
 
 
@@ -111,8 +76,8 @@ export const HomePage = () => {
             <div className='pt-16 pb-2'>
                 <div className='flex flex-col-reverse gap-3 md:flex-row mb-6 justify-between'>
                     <div className='flex flex-wrap gap-4'>
-                        <button className='w-full md:w-auto rounded-xl bg-mainGreen text-background py-2 px-4 font-bold  hover:bg-secondGreen transition-colors'>Добавить доход</button>
-                        <button className='w-full md:w-auto rounded-xl bg-textPrime text-background py-2 px-4 font-bold  hover:bg-secondPrime transition-colors'>Добавить расход</button>
+                        <button className='w-full md:w-auto rounded-3xl bg-mainGreen text-background py-2 px-4 font-bold  hover:bg-secondGreen transition-colors'>Добавить доход</button>
+                        <button className='w-full md:w-auto rounded-3xl border border-mainGreen py-2 px-4 font-bold  hover:bg-secondBackground transition-colors'>Добавить расход</button>
                     </div>
                     <div className='flex gap-3 items-center flex-col-reverse lg:flex-row'>
                         <div className='w-full lg:w-auto px-3 py-3 rounded-xl border-textPrime border'>
