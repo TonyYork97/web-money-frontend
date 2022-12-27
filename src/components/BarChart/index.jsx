@@ -11,6 +11,10 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import { TodayMoney } from '../TodayMoney';
+import { MainLoading } from '../MainLoading';
+import styles from './styles.module.scss'
+
 
 ChartJS.register(
     CategoryScale,
@@ -31,7 +35,7 @@ const options = {
         }
     },
     tooltips: {
-        enabled: false
+        enabled: false,
     },
     maintainAspectRatio: false,
     elements: {
@@ -52,34 +56,39 @@ const options = {
     },
 };
 
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-const data = {
-    labels,
-
-    datasets: [
-        {
-            label: '',
-            data: [12632, 19868, 30554, 53114, 29685, 35778, 41144, 25525, 63111, 13678, 53947, 24156],
-            backgroundColor: 'rgb(198, 255, 0)',
-        },
-    ],
-
-};
-
-export const BarChart = () => {
+export const BarChart = ({ yearExpense, isLoading }) => {
     const barRef = useRef();
 
     useEffect(() => {
+        if (isLoading) return
         barRef.current.scrollLeft = barRef.current.scrollWidth
-        console.log(barRef);
-    }, [])
+    }, [isLoading])
+
+    const data = {
+        labels: yearExpense.length ? yearExpense.map(el => el.title.substring(0, 3)) : [],
+        datasets: [
+            {
+
+                data: yearExpense.length ? yearExpense.map(el => el.amount) : [],
+                backgroundColor: 'rgb(198, 255, 0)',
+            },
+        ],
+    };
+
+    if (isLoading) {
+        return <div className='w-full h-screen flex justify-center items-center'><MainLoading size={32} /></div>
+    }
 
     return (
-        <div className='w-full overflow-x-auto py-2' ref={barRef}>
-            <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
-                <Bar options={options} data={data} />
+        <>
+
+            {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
+
+            <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>
+                <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
+                    <Bar options={options} data={data} />
+                </div>
             </div>
-        </div>
+        </>
     )
 }

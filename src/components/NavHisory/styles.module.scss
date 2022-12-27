@@ -1,0 +1,7 @@
+.link{
+    @apply px-1 py-2 sm:px-3 text-center
+}
+
+.activeLink{
+    @apply text-mainGreen border-b border-mainGreen  px-1 py-2 sm:px-3 text-center
+}

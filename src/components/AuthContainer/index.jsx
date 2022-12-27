@@ -5,14 +5,17 @@ import styles from './styles.module.scss'
 
 export const AuthContainer = ({ children }) => {
     return (
-        <div className=''>
-            <div className='relative flex justify-center gap-11'>
-                <Link to="/start" className='absolute w-10 md:w-13 inline-block top-2 left-2 animate-spin-slow'>
+        <>
+            <div className='h-[51px]'>
+                <Link to="/" className=' w-14 md:w-13 block p-2 animate-spin-slow'>
 
                     <img src={Logo} alt="logo" className='w-full' />
                 </Link>
+
+            </div>
+            <div className=' flex justify-center gap-x-[156px] md:pt-20'>
                 {children}
             </div>
-        </div>
+        </>
     )
 }

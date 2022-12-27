@@ -1,0 +1,46 @@
+.form{
+    @apply flex flex-col justify-between md:justify-start md:h-[calc(100%-98px)] h-[calc(100%-56px)] md:max-w-xl md:mx-auto
+}
+
+.custom-select{
+    &__control{
+        background: rgba(20,22,24,0.5) !important;
+        border: 1px solid #eeeeee !important;
+        padding: 6px 0px !important;
+        border-radius: 12px !important;
+        margin-bottom: 16px;
+        outline: none !important;
+        padding: 0 !important
+    }
+    &__control--menu-is-open  {
+        box-shadow: 0px 0px 11px 0px #ffffff;
+        outline: none !important;
+    }
+    &__control--is-focused:focus{
+        border: 1px solid #eeeeee !important; 
+        outline-color: transparent !important;
+        box-shadow: 0px 0px 11px 0px #ffffff;
+        
+    }
+    &__placeholder{
+        color: #eeeeee !important;
+        opacity: 0.25 !important
+    }
+    &__single-value{
+        color: #eeeeee !important;
+    }
+    &__menu{
+        background: rgba(20,22,24,1) !important;
+    }
+    &__option:hover{
+        background: #ffffff0a !important;
+    }
+    &__option{
+        background: transparent !important;
+    }
+    &__value-container{
+        padding: 8px !important;
+    }
+    
+}
+

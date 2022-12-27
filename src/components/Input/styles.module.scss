@@ -1,0 +1,31 @@
+.input{
+@apply py-3 px-3 rounded-xl border mb-2 bg-secondBackground  w-full active:outline-none focus:outline-none  placeholder:opacity-25
+
+}
+
+.error{
+    @apply border-myRed focus:shadow-redShadow
+}
+.valid{
+    @apply border-textPrime focus:shadow-whiteShadow
+}
+
+.inp{
+    position:relative;
+    user-select:none
+}
+.inp::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: auto;
+        color: transparent;
+        background: transparent;
+        user-select:none
+    }
+
+  

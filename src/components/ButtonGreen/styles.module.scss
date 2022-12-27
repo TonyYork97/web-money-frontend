@@ -1,0 +1,11 @@
+
+.disabled{
+@apply bg-gray-500
+}
+
+.active{
+@apply bg-mainGreen hover:bg-secondGreen
+}
+.button{
+@apply  py-3 px-3 text-background rounded-xl  transition-colors font-bold active:scale-[0.98]
+}

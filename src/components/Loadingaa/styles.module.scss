@@ -1,0 +1,78 @@
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .curcleOne {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #efefef;
+        animation: curcleOne 1.5s infinite linear;
+    }
+
+    .curcleTwo {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #efefef;
+        animation: curcleTwo 1.5s infinite linear;
+        animation-delay: 0.2s;
+    }
+
+    .curcleThree {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #efefef;
+        animation: curcleThree 1.5s infinite linear;
+        animation-delay: 0.4s;
+    }
+}
+
+@keyframes curcleOne {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes curcleTwo {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes curcleThree {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
