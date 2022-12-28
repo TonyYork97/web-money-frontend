@@ -14,29 +14,25 @@ import { userIsAuth } from '../../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 
-
-
 export const ExpensesPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD'))
     const [curCategory, setCurCategory] = useState('')
-    const [limit, setLimit] = useState(1);
-    const [totalPages, setTotalPages] = useState(0)
-    const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [operations, setOperations] = useState([]);
     const [curCategoryAmount, setCurCategoryAmount] = useState(0);
     const [activeCategory, setActiveCategory] = useState(0);
+    const [flag, setFlag] = useState(false)
 
     const dispatch = useDispatch()
     const { monthExpense, isLoadingMonthExpense } = useSelector(state => state.operations);
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
+
     const intoViefRefTwo = useRef(null)
     const changeMonth = async (direction) => {
         setOperations([])
-        setPage(1)
-
+        setCurCategoryAmount(0)
         setActiveCategory(0)
         setCurMonth(moment(curMonth).add(direction, 'M').format('YYYY-MM-DD'))
     }
@@ -55,17 +51,12 @@ export const ExpensesPage = () => {
             setIsLoading(true);
             await axios.get('app/operation/history/category-operations', {
                 params: {
-                    // limit,
-                    // page,
                     type: 'expense',
-
                     currentMonth: curMonth,
                     category: curCategory
                 }
             }).then(({ data }) => {
                 setOperations([...data.operations])
-                let totalCount = Math.ceil(data.totalCount / limit)
-                setTotalPages(totalCount)
             })
         } catch (err) {
             console.log(err);
@@ -76,30 +67,27 @@ export const ExpensesPage = () => {
 
     const getExpense = async () => {
         try {
+            setFlag(true)
             setIsLoading(true)
             setOperations([])
-            setPage(1)
 
             await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
                 setCurCategory(data.payload?.categories[0]?.title || '')
                 await axios.get('app/operation/history/category-operations', {
                     params: {
-                        // limit,
-                        // page,
                         type: 'expense',
                         currentMonth: curMonth,
                         category: data.payload?.categories[0]?.title || ''
                     }
                 }).then(({ data }) => {
                     setOperations([...data.operations])
-                    let totalCount = Math.ceil(data.totalCount / limit)
-                    setTotalPages(totalCount)
                 })
             })
         } catch (err) {
             console.log(err);
         } finally {
             setIsLoading(false)
+            setFlag(false)
         }
     }
 
@@ -113,18 +101,13 @@ export const ExpensesPage = () => {
     }, [curMonth, isAuth])
     useEffect(() => {
         window.scrollTo(0, 0)
-
     }, [])
 
     useEffect(() => {
-        if (curCategory) {
+        if (curCategory && !flag) {
             getOperations()
         }
     }, [curCategory]);
-
-    // const buttonHandler = (ref) => {
-
-    // };
 
     return (
         <>
@@ -142,13 +125,11 @@ export const ExpensesPage = () => {
                             changeMonth={changeMonth}
                             setCurCategoryAmount={setCurCategoryAmount}
                             setOperations={setOperations}
-                            setPage={setPage}
                             setCurCategory={setCurCategory}
                             curMonth={curMonth}
                             setCurMonth={setCurMonth}
                             setIsOpen={setIsOpen}
                             title='Расход'
-                            amount='42904'
                             monthExpense={monthExpense}
                             full
                         />
@@ -165,8 +146,8 @@ export const ExpensesPage = () => {
                                         className='w-8 h-8 md:hidden'
                                         onClick={() => setIsOpen(false)}
                                     />
-                                    <div className=' text-sm sm:text-base font-thin sm:font-bold  '>
-                                        <h3 className=''>{curCategory}</h3>
+                                    <div className=' text-sm sm:text-base font-thin sm:font-bold'>
+                                        <h3>{curCategory}</h3>
                                     </div>
                                 </div>
                                 {monthExpense.categories
@@ -182,9 +163,7 @@ export const ExpensesPage = () => {
                                 data={operations}
                                 full
                                 isLazyLoading={isLoading}
-                                page={page}
-                                totalPages={totalPages}
-                                setPage={setPage} />
+                            />
                         </ShadowBlock>
                     </div>
                 </div>

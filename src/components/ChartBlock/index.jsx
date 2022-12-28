@@ -68,13 +68,11 @@ export const ChartBlock = (
 
     const handleClick = (title, idx) => {
         scrollToIntoView()
-        setPage(1)
         setCurCategory(title)
         setIsOpen(true)
         setCurCategoryAmount(idx)
         setActiveCategory(idx)
     }
-
 
     if (isLoading) {
 

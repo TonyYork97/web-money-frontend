@@ -3,13 +3,12 @@ import axios from '../../axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { History } from '../../components/History'
-import { HistoryItem } from '../../components/HistoryItem'
 import { NavHistory } from '../../components/NavHisory'
 import { ShadowBlock } from '../../components/ShadowBlock'
 import { HistoryFilter } from '../../components/HistoryFilter'
 import { useNavigate } from 'react-router-dom'
 import { userIsAuth } from '../../store/slices/authSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import moment from 'moment'
 import styles from './styles.module.scss'
 
@@ -18,8 +17,7 @@ const maxDate = moment().format('YYYY-MM-DD')
 
 export const HistoryPage = () => {
     const { typeOfPayment, minDateValue, maxDateValue, minAmountValue, maxAmountValue } = useSelector(state => state.filter)
-    const isAuthLoading = useSelector(state => state.auth.isLoading)
-    const [limit, setLimit] = useState(15);
+    const [limit] = useState(15);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
@@ -30,10 +28,6 @@ export const HistoryPage = () => {
 
     // при попытки получить данные с теми же параметрами, запрос выполнится
     const [flag, setFlag] = useState(false)
-
-    const dispatch = useDispatch()
-
-
 
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
@@ -62,9 +56,6 @@ export const HistoryPage = () => {
             setIsLoading(false)
         }
     }
-
-
-
 
     useEffect(() => {
         window.scrollTo(0, 0)

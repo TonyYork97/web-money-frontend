@@ -197,7 +197,6 @@ const authSlice = createSlice({
         [fetchCheckAuth.rejected]: (state) => {
             state.isLoading = false
             state.data = null
-            localStorage.removeItem('token')
         },
     }
 

@@ -102,8 +102,6 @@ export const HistoryFilter = ({
 
   const removeDate = (e) => {
     e.stopPropagation()
-    setMinDateInput(minDate)
-    setMaxDateInput(maxDate)
     // setFlag(!flag)
     setMinDateInput(minDate)
     setMaxDateInput(maxDate)
@@ -162,6 +160,19 @@ export const HistoryFilter = ({
     setIsTypeActive(false)
   }
 
+  const changeMinDateInput = e => {
+    setMinDateInput(e.target.value)
+    if (e.target.value > maxDateInput) {
+      setMaxDateInput(e.target.value)
+    }
+  }
+  const changeMaxDateInput = e => {
+    setMaxDateInput(e.target.value)
+    if (e.target.value < minDateInput) {
+      setMinDateInput(e.target.value)
+    }
+  }
+
   return (
     <>
       <div className={`${width > 1132 ? 'overflow-visible' : 'overflow-x-auto'} pb-1 mb-3 w-[calc(100%-14px)] absolute ${styles.filterHistory}`}>
@@ -175,8 +186,8 @@ export const HistoryFilter = ({
                 ? <img onClick={removeType} className='w-5 h-5 cursor-pointer' src={Close} alt="remove" />
                 : ''
               }
-
             </div>
+
             {isTypeActive &&
               <>
                 <div onClick={closePeriod} className='fixed z-[990] top-0 right-0 left-0 bottom-0'></div>
@@ -202,8 +213,8 @@ export const HistoryFilter = ({
               <>
                 <div onClick={closePeriod} className='fixed z-[990] top-0 right-0 left-0 bottom-0'></div>
                 <div className='absolute w-full bg-blackMenu py-3 px-3 z-[997] rounded-lg'>
-                  <Input label="От" type="date" min={minDate} max={maxDateInput} value={minDateInput} onChange={(e) => setMinDateInput(e.target.value)} />
-                  <Input label="До" type="date" min={minDateInput} max={maxDate} value={maxDateInput} onChange={(e) => setMaxDateInput(e.target.value)} />
+                  <Input label="От" type="date" min={minDate} max={maxDate} value={minDateInput} onChange={(e) => changeMinDateInput(e)} />
+                  <Input label="До" type="date" min={minDate} max={maxDate} value={maxDateInput} onChange={(e) => changeMaxDateInput(e)} />
                   <button onClick={handleDate} className='text-mainGreen hover:text-secondGreen transition-colors'>Продолжить</button>
                 </div></>}
           </div>
@@ -226,8 +237,8 @@ export const HistoryFilter = ({
                   {amountError &&
                     <p className="text-red-700">{amountError}</p>
                   }
-                  <Input label="От" type="number" value={minAmountInput} onChange={(e) => setMinAmountInput(e.target.value)} placeholder="0" />
-                  <Input label="До" type="number" value={maxAmountInput} onChange={(e) => setMaxAmountInput(e.target.value)} placeholder="0" />
+                  <Input label="От" type="number" value={minAmountInput} min={0} max={999999999.99} onChange={(e) => setMinAmountInput(e.target.value)} placeholder="0" />
+                  <Input label="До" type="number" value={maxAmountInput} min={0} max={999999999.99} onChange={(e) => setMaxAmountInput(e.target.value)} placeholder="0" />
 
                   <button onClick={handleAmount} className='text-mainGreen hover:text-secondGreen transition-colors'>Продолжить</button>
                 </div></>}
@@ -240,8 +251,8 @@ export const HistoryFilter = ({
 
             <div onClick={(e) => e.stopPropagation()} className='absolute max-w-[480px] w-full top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blackMenu py-3 px-3 rounded-lg'>
 
-              <Input label="От" type="number" value={Number(minAmountInput)} onChange={(e) => setMinAmountInput(e.target.value)} placeholder="0" />
-              <Input label="До" type="number" value={Number(maxAmountInput)} onChange={(e) => setMaxAmountInput(e.target.value)} placeholder="0" />
+              <Input label="От" type="number" min={0} max={999999999.99} value={minAmountInput} onChange={(e) => setMinAmountInput(e.target.value)} placeholder="0" />
+              <Input label="До" type="number" min={0} max={999999999.99} value={maxAmountInput} onChange={(e) => setMaxAmountInput(e.target.value)} placeholder="0" />
               <button onClick={handleAmount} className='text-mainGreen hover:text-secondGreen transition-colors'>Продолжить</button>
             </div>
           </div>
@@ -251,8 +262,8 @@ export const HistoryFilter = ({
           ? <div onClick={closeActive} className='fixed z-[990] bg-[rgba(0,0,0,0.8)] left-0 top-0 right-0 h-[100vh] w-full    '>
 
             <div onClick={(e) => e.stopPropagation()} className='absolute max-w-[480px] w-full  top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blackMenu py-3 px-3 rounded-lg'>
-              <Input label="От" type="date" min={minDate} max={maxDateInput} value={minDateInput} onChange={(e) => setMinDateInput(e.target.value)} />
-              <Input label="До" type="date" min={minDateInput} max={maxDate} value={maxDateInput} onChange={(e) => setMaxDateInput(e.target.value)} />
+              <Input label="От" type="date" min={minDate} max={maxDate} value={minDateInput} onChange={changeMinDateInput} />
+              <Input label="До" type="date" min={minDate} max={maxDate} value={maxDateInput} onChange={changeMaxDateInput} />
               <button onClick={handleDate} className='text-mainGreen hover:text-secondGreen transition-colors'>Продолжить</button>
             </div>
           </div>
