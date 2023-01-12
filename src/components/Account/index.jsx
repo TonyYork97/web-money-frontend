@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Avatar from '../../assets/images/avatar.png'
+import { Link, } from 'react-router-dom'
 import { ButtonGreen } from '../../components/ButtonGreen'
 import { Input } from '../../components/Input'
 import { links } from '../../links'
+
 import { fetchChangeLastName, fetchChangeName } from '../../store/slices/authSlice'
 
 export const Account = () => {
@@ -16,7 +16,8 @@ export const Account = () => {
   const [helperTextLastName, setHelperTextLastName] = useState('');
   const [nameState, setName] = useState('')
   const [lastNameState, setLastName] = useState('')
-  const { isLoading, data } = useSelector(state => state.auth)
+  const { data } = useSelector(state => state.auth)
+
 
   const dispatch = useDispatch()
   const emailRef = useRef()
@@ -80,7 +81,7 @@ export const Account = () => {
 
   return (
     <div className=''>
-      <h3 className='mb-8 font-bold text-lg ml-8 mt-1'>Аккаунт</h3>
+      <h3 className='mb-8 font-bold text-lg '>Аккаунт</h3>
       {/* <div className='mb-8'>
         <h4 className='text-lg font-bold mb-3'>Фото</h4>
         <div className='flex gap-3 sm:items-end flex-col sm:flex-row'>

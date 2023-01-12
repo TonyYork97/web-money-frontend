@@ -4,12 +4,12 @@ import StickerLogin from '../../assets/images/sticker3.png'
 import { AuthContainer } from '../../components/AuthContainer'
 import { Input } from '../../components/Input'
 import { ButtonGreen } from '../../components/ButtonGreen'
-import styles from './styles.module.scss'
 import { links } from '../../links'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchLogin, userIsAuth } from '../../store/slices/authSlice'
 import { useForm } from 'react-hook-form'
 import { MainLoading } from '../../components/MainLoading'
+import styles from './styles.module.scss'
 
 export const LoginPage = () => {
     const dispatch = useDispatch()

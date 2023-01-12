@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BarChart } from '../../components/BarChart'
 import { ChartBlock } from '../../components/ChartBlock'
 import { Container } from '../../components/Container'
@@ -14,7 +14,6 @@ import { MainLoading } from '../../components/MainLoading'
 import { useResize } from '../../hooks/Rezise'
 
 export const HomePage = () => {
-    const [isAllLoading, setisAllLoading] = useState(false);
     const dispatch = useDispatch();
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
@@ -35,15 +34,14 @@ export const HomePage = () => {
         yearExpense } = useSelector(state => state.operations)
 
     const getOperations = async () => {
-        setisAllLoading(true)
         dispatch(fetchGetMontExpense())
         dispatch(fetchGetMontRevenue())
         dispatch(fetchGetOperations({ limit: 8 }))
         dispatch(fetchGetTodayExpense())
         dispatch(fetchGetTotalCash())
         await dispatch(fetchGetYearExpense())
-        setisAllLoading(false)
     }
+
 
     useEffect(() => {
         if (!localStorage.getItem('token') || !isAuth) {
@@ -52,6 +50,10 @@ export const HomePage = () => {
             getOperations()
         }
     }, [isAuth])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
 
 
@@ -63,28 +65,30 @@ export const HomePage = () => {
     return (
         <Container>
             <div className='pb-2'>
-                <div className='flex flex-col-reverse gap-3 md:items-center md:flex-row mb-6 justify-between'>
+                <div className='flex flex-col-reverse gap-3 md:items-center md:flex-row mb-4 justify-between'>
                     <div className='flex  flex-col sm:flex-row  gap-4'>
                         {/* <Link to="add">Добавить доход</Link> */}
-                        <Link className='w-full md:w-auto  rounded-3xl text-center border border-mainGreen py-4 px-4 md:py-6 font-bold  hover:bg-secondBackground transition-colors' to={links.addExpense}>Добавить расход</Link>
-                        <Link className='w-full md:w-auto rounded-3xl bg-mainGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:bg-secondGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
+                        <Link className='w-full md:w-auto  rounded-3xl text-center border border-mainGreen py-4 px-4 md:py-6 font-bold  hover:bg-secondBackground dark:hover:bg-bggTop transition-colors' to={links.addExpense}>Добавить расход</Link>
+                        <Link className='w-full md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
                     </div>
                     <div className={`flex gap-3 items-center flex-row ${width < 375 ? 'flex-wrap' : ''}`}>
-                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu border-textPrime border'>
+                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu  dark:bg-bggTop  dark:border-bggBottom border-textPrime border'>
                             <div className='  text-right ml-auto'>
-                                <p className='text-sm mb-1 text-textOpacity'>Потрачено сегодня</p>
+                                <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Потрачено сегодня</p>
                                 {isLoadingTodayExpense
                                     ? <MainLoading size={23} />
-                                    : <p className='font-bold text-lg whitespace-nowrap' >{todayExpense} &#8381;</p>
+                                    : <p className='font-bold text-lg whitespace-nowrap dark:text-darkBlack' >{todayExpense} &#8381;</p>
                                 }
                             </div>
                         </div>
-                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu border-textPrime border'>
+                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu dark:bg-bggTop dark:border-bggBottom border-textPrime border'>
                             <div className='text-right'>
-                                <p className='text-sm mb-1 text-textOpacity'>Всего средств</p>
+                                <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Всего средств</p>
                                 {isLoadingTotalCash
                                     ? <MainLoading size={23} />
-                                    : <p className='font-bold text-lg text-mainGreen whitespace-nowrap'>{totalCash} &#8381;</p>
+                                    : totalCash.includes('-')
+                                        ? <p className='font-bold text-lg text-darkRed dark:text-darkRed whitespace-nowrap'>{totalCash} &#8381;</p>
+                                        : <p className='font-bold text-lg text-mainGreen dark:text-darkBlack whitespace-nowrap'>{totalCash} &#8381;</p>
                                 }
                             </div>
                         </div>

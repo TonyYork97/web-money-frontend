@@ -1,54 +1,37 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Chart as ChartJS, ArcElement, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import Percent from '../../assets/images/percent.png'
-import Ruble from '../../assets/images/ruble.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { links } from '../../links';
-import { useEffect } from 'react';
 import { CategoryItem } from '../CategoryItem';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment'
 import { MainLoading } from '../MainLoading';
+import { ShowMoreButton } from '../ShowMoreButton';
+import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen } from '../../store/slices/filterSlice';
 ChartJS.register(ArcElement, Legend);
 
 export const ChartBlock = (
     {
         scrollToIntoView,
-        setActiveCategory,
         activeCategory,
         changeMonth,
-        setCurCategoryAmount,
-        setPage,
         title = '',
         full = false,
-        setIsOpen = false,
         monthExpense = {},
-        divededMonth,
         curMonth,
-        setCurCategory,
         isLoading
 
     }) => {
     const [isPercent, setIsPercent] = useState(false)
-    // const [allCategory, setAllCategory] = useState([])
-    const [percentCategory, setPercentCategory] = useState([])
+    const dispatch = useDispatch()
 
-    const intoViewRef = useRef(null)
+    const navigate = useNavigate()
 
-    useEffect(() => {
-        // setAllCategory(monthExpense?.categories?.filter((_, idx) => idx < 3))
-        setPercentCategory(monthExpense?.categories?.map((el, idx) => {
-            return Math.round(el.amount * 100 / monthExpense.totalMonthAmount)
-        }))
-    }, [])
     const data = {
         datasets: [
             {
                 label: '# of Votes',
-                // data: divededMonth.amounts.length ? divededMonth?.amounts : [],
-                // backgroundColor: divededMonth ? divededMonth?.colorHex : [],
-                // borderColor: divededMonth ? divededMonth?.colorHex : [],
                 data: monthExpense?.categories ? monthExpense.categories.map(el => el.amount) : [],
                 backgroundColor: monthExpense?.categories ? monthExpense.categories.map(el => el.colorHex) : [],
                 borderColor: monthExpense?.categories ? monthExpense.categories.map(el => el.colorHex) : [],
@@ -68,10 +51,18 @@ export const ChartBlock = (
 
     const handleClick = (title, idx) => {
         scrollToIntoView()
-        setCurCategory(title)
-        setIsOpen(true)
-        setCurCategoryAmount(idx)
-        setActiveCategory(idx)
+        dispatch(setIsOpen(true))
+        dispatch(setCurCategory(title))
+        dispatch(setCurCategoryAmount(idx))
+        dispatch(setActiveCategory(idx))
+    }
+    const navigateLink = (titleItem, idx) => {
+        navigate(title === 'Расход' ? links.expenses : links.income)
+        dispatch(setIsOpen(true))
+        dispatch(setCurCategory(titleItem))
+        dispatch(setCurCategoryAmount(idx))
+        dispatch(setActiveCategory(idx))
+
     }
 
     if (isLoading) {
@@ -86,7 +77,7 @@ export const ChartBlock = (
                     <h3 className='capitalize'>{title} {monthExpense.month}</h3>
                     <p className='whitespace-nowrap'>{monthExpense.totalMonthAmount} &#8381;</p>
                 </div>
-                <div className='max-full mx-auto mb-7 relative'>
+                <div className='max-full mx-auto mb-3 relative'>
                     {full
                         ? curMonth === moment().add(-11, 'M').format('YYYY-MM-DD')
                             ? ''
@@ -101,13 +92,13 @@ export const ChartBlock = (
                             ><path
                                 d="M353 450a15 15 0 0 1-10.61-4.39L157.5 260.71a15 15 0 0 1 0-21.21L342.39 54.6a15 15 0 1 1 21.22 21.21L189.32 250.1l174.29 174.29A15 15 0 0 1 353 450Z"
                                 data-name="1"
-                                fill="#eeeeee"
+                                fill={localStorage.getItem('theme') === 'dark' ? "#eeeeee" : '#292929'}
                                 className="fill-000000"
 
                             ></path></svg></div>
                         : ''
                     }
-                    {monthExpense?.categories.length
+                    {monthExpense?.categories?.length
                         ? <div className='max-w-[208px] sm:max-w-[320px] md:max-w-[260px] lg:max-w-[360px] mx-auto'> <Doughnut data={data}
                             options={options}
                             height={400}
@@ -122,7 +113,7 @@ export const ChartBlock = (
                             : <div className='flex flex-col justify-center items-center gap-8 h-[360px] max-w-[360px] mx-auto w-full'>
                                 <h3 className='font-bold text-lg max-w-[220px] text-center mx-auto'>Добавь свой первый доход в этом месяце</h3>
                                 <Link to={links.addRevenue}
-                                    className="w-[160px] sm:w-full mx-7 sm:mx-0 md:w-auto rounded-3xl bg-mainGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:bg-secondGreen transition-colors"
+                                    className="w-[160px] sm:w-full mx-7 sm:mx-0 md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors"
                                 >Добавить доход</Link>
                             </div>
                     }
@@ -139,18 +130,44 @@ export const ChartBlock = (
                             ><path
                                 d="M353 450a15 15 0 0 1-10.61-4.39L157.5 260.71a15 15 0 0 1 0-21.21L342.39 54.6a15 15 0 1 1 21.22 21.21L189.32 250.1l174.29 174.29A15 15 0 0 1 353 450Z"
                                 data-name="1"
-                                fill="#eeeeee"
+                                fill={localStorage.getItem('theme') === 'dark' ? "#eeeeee" : '#292929'}
                                 className="fill-000000"
 
                             ></path></svg></div>
                         : ''
                     }
                 </div>
-                <div className='flex justify-end mb-3 select-none'>
-                    {monthExpense?.categories.length ? isPercent
-                        ? <img className='w-5 h-5 block mr-1 cursor-pointer' onClick={() => setIsPercent(false)} src={Ruble} alt="ruble" />
+                {/* <img className='w-5 h-5 block mr-1 cursor-pointer' onClick={() => setIsPercent(false)} src={Ruble} alt="ruble" /> */}
 
-                        : <img className='w-5 h-5 block mr-1 cursor-pointer' onClick={() => setIsPercent(true)} src={Percent} alt="percent" />
+                <div className='flex justify-end mb-3 select-none'>
+                    {monthExpense?.categories?.length ? isPercent
+                        ? <svg
+                            onClick={() => setIsPercent(false)}
+                            className='w-5 h-5 block mr-1 cursor-pointer'
+                            viewBox="0 0 256 256"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                fill="none"
+                                d="M0 0h256v256H0z"></path><path
+                                    stroke={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'} strokeLinecap="round"
+                                    strokeLinejoin="round" strokeWidth="16"
+                                    d="M200 56 56 200"
+                                    fill={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'}
+                                    className="fill-000000 stroke-000000"></path><circle cx="76" cy="76"
+                                        fill="none" r="28"
+                                        stroke={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'} strokeMiterlimit="10"
+                                        strokeWidth="16" className="stroke-000000"></circle>
+                            <circle cx="180" cy="180" fill="none" r="28"
+                                stroke={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'}
+                                strokeMiterlimit="10" strokeWidth="16" className="stroke-000000"></circle></svg>
+
+                        : <svg
+                            onClick={() => setIsPercent(true)}
+                            className='w-5 h-5 block mr-1 cursor-pointer'
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 21h2v-3h6v-2h-6v-2h4.5c2.757 0 5-2.243 5-5s-2.243-5-5-5H9a1 1 0 0 0-1 1v7H5v2h3v2H5v2h3v3zm2-15h4.5c1.654 0 3 1.346 3 3s-1.346 3-3 3H10V6z"
+                                fill={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'}
+                                className="fill-000000"></path></svg>
 
                         : ''
                     }
@@ -174,11 +191,12 @@ export const ChartBlock = (
                                 />)
                                 : ''
                             : monthExpense.categories.map((el, i) => i < 3 ? <CategoryItem
+                                onClick={navigateLink}
+                                id={i}
                                 key={el.title}
                                 title={el.title}
                                 amount={el.amount}
                                 isPercent={isPercent}
-
                                 percentAmount={el.percentAmount}
                                 colorHex={el.colorHex}
                             /> : '')
@@ -188,12 +206,10 @@ export const ChartBlock = (
             </div>
             {monthExpense?.categories.length ? !full &&
                 < div className='text-right py-1 '>
-                    <Link
+                    <ShowMoreButton
                         to={title === 'Расход' ? links.expenses : links.income}
-                        className='text-mainGreen font-light text-sm hover:text-green-500 transition-colors'
-                    >
-                        Показать больше
-                    </Link>
+                        title="Показать больше"
+                    />
                 </div>
                 : ''
             }

@@ -2,6 +2,7 @@ export const links = {
     main: '/',
     home: '/app/home',
     profile: '/app/profile/account',
+    profileTheme: '/app/profile/theme',
     email: '/app/profile/account/email',
     password: '/app/profile/account/password',
     history: '/app/history',

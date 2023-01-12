@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { fetchGetMontExpense } from '../../store/slices/operationsSlice'
+import { fetchGetMontExpense, fetchGetMontRevenue } from '../../store/slices/operationsSlice'
 import { History } from '../../components/History'
 import { userIsAuth } from '../../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -18,7 +18,7 @@ import { useResize } from '../../hooks/Rezise'
 import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen } from '../../store/slices/filterSlice'
 
 
-export const ExpensesPage = () => {
+export const CategoriesPage = ({ type }) => {
     // const [isOpen, setIsOpen] = useState(false);
     const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD'))
     // const [curCategory, setCurCategory] = useState('')
@@ -30,13 +30,13 @@ export const ExpensesPage = () => {
     const { width } = useResize()
 
     const dispatch = useDispatch()
-    const { monthExpense, isLoadingMonthExpense } = useSelector(state => state.operations);
+    const { monthExpense, monthRevenue, isLoadingMonthExpense, isLoadingMonthRevenue } = useSelector(state => state.operations);
     const { curCategory, curCategoryAmount, activeCategory, isOpen } = useSelector(state => state.filter);
 
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
 
-    const classBlock = ` ${isOpen ? '' : 'translate-x-full'} md:translate-x-0  transition-all fixed md:static top-0 bottom-0 left-0 right-0 z-[500] md:z-0 overflow-auto bg-blackMenu md:bg-transparent rounded-xl`
+    const classBlock = ` ${isOpen ? '' : 'translate-x-full'} md:translate-x-0  transition-all fixed md:static top-0 bottom-0 left-0 right-0 z-[500] md:z-0 overflow-auto bg-blackMenu dark:bg-bggTop  md:bg-transparent rounded-xl`
 
     const intoViefRefTwo = useRef(null)
     const changeMonth = async (direction) => {
@@ -51,7 +51,6 @@ export const ExpensesPage = () => {
         intoViefRefTwo.current.scrollIntoView({
             behavior: 'smooth',
             block: 'start',
-
         })
     }
 
@@ -61,7 +60,7 @@ export const ExpensesPage = () => {
             setIsLoading(true);
             await axios.get('app/operation/history/category-operations', {
                 params: {
-                    type: 'expense',
+                    type,
                     currentMonth: curMonth,
                     category: curCategory
                 }
@@ -80,27 +79,52 @@ export const ExpensesPage = () => {
             setFlag(true)
             setIsLoading(true)
             setOperations([])
+            if (type === 'expense') {
 
-            await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
-                if (!curCategory) {
-                    dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
-                }
-                await axios.get('app/operation/history/category-operations', {
-                    params: {
-                        type: 'expense',
-                        currentMonth: curMonth,
-                        category: curCategory || data.payload?.categories[0]?.title || ''
+                await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
+                    if (!curCategory) {
+                        dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
                     }
-                }).then(({ data }) => {
-                    setOperations([...data.operations])
+                    await axios.get('app/operation/history/category-operations', {
+                        params: {
+                            type,
+                            currentMonth: curMonth,
+                            category: curCategory || data.payload?.categories[0]?.title || ''
+                        }
+                    }).then(({ data }) => {
+                        setOperations([...data.operations])
+                    })
                 })
-            })
+            } else {
+                await dispatch(fetchGetMontRevenue({ currentMonth: curMonth })).then(async (data) => {
+                    if (!curCategory) {
+                        dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
+                    }
+                    await axios.get('app/operation/history/category-operations', {
+                        params: {
+                            type,
+                            currentMonth: curMonth,
+                            category: curCategory || data.payload?.categories[0]?.title || ''
+                        }
+                    }).then(({ data }) => {
+                        setOperations([...data.operations])
+                    })
+                })
+            }
         } catch (err) {
             console.log(err);
         } finally {
             setIsLoading(false)
             setFlag(false)
         }
+    }
+
+    const resetParams = () => {
+        dispatch(setCurCategory(''))
+        dispatch(setCurCategoryAmount(0))
+        dispatch(setActiveCategory(0))
+        dispatch(setIsOpen(false))
+        setCurMonth(moment().format('YYYY-MM-DD'))
     }
 
     useEffect(() => {
@@ -110,16 +134,13 @@ export const ExpensesPage = () => {
         if (isAuth) {
             getExpense()
         }
-    }, [curMonth, isAuth])
+    }, [curMonth, isAuth, type])
     useEffect(() => {
         window.scrollTo(0, 0)
         return () => {
-            dispatch(setCurCategory(''))
-            dispatch(setCurCategoryAmount(0))
-            dispatch(setActiveCategory(0))
-            dispatch(setIsOpen(false))
+            resetParams()
         }
-    }, [])
+    }, [type])
 
     useEffect(() => {
         if (curCategory && !flag) {
@@ -127,24 +148,26 @@ export const ExpensesPage = () => {
         }
     }, [curCategory]);
 
+
     return (
         <>
             <NavHistory
                 ref={intoViefRefTwo}
+                reset={resetParams}
             >
                 <div className='grid md:grid-cols-2 gap-2 items-start'>
 
                     <ShadowBlock>
                         <ChartBlock
                             scrollToIntoView={scrollToIntoView}
-                            isLoading={isLoadingMonthExpense}
+                            isLoading={type === 'expense' ? isLoadingMonthExpense : isLoadingMonthRevenue}
                             activeCategory={activeCategory}
                             changeMonth={changeMonth}
                             setOperations={setOperations}
                             curMonth={curMonth}
                             setCurMonth={setCurMonth}
-                            title='Расход'
-                            monthExpense={monthExpense}
+                            title={type === 'expense' ? 'Расход' : 'Доход'}
+                            monthExpense={type === 'expense' ? monthExpense : monthRevenue}
                             full
                         />
                     </ShadowBlock>
@@ -172,13 +195,19 @@ export const ExpensesPage = () => {
                                         <h3>{curCategory}</h3>
                                     </div>
                                 </div>
-                                {monthExpense.categories
-                                    ? monthExpense.categories[curCategoryAmount]?.amount !== undefined
-                                        ? <p className=' whitespace-nowrap'>{monthExpense.categories[curCategoryAmount]?.amount} &#8381;</p>
+                                {type === 'expense'
+                                    ? monthExpense.categories
+                                        ? monthExpense.categories[curCategoryAmount]?.amount !== undefined
+                                            ? <p className=' whitespace-nowrap'>{monthExpense.categories[curCategoryAmount]?.amount} &#8381;</p>
+                                            : ''
                                         : ''
-                                    : ''
-                                }
 
+                                    : monthRevenue.categories
+                                        ? monthRevenue.categories[curCategoryAmount]?.amount !== undefined
+                                            ? <p className=' whitespace-nowrap'>{monthRevenue.categories[curCategoryAmount]?.amount} &#8381;</p>
+                                            : ''
+                                        : ''
+                                }
                             </div>
                             <div className='pt-12 md:hidden'></div>
                             <History

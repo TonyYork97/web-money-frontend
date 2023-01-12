@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axios'
-import moment from "moment";
 
 export const fetchGetOperations = createAsyncThunk('operations/get', async (params) => {
     const { data } = await axios.get('/app/operation', {
@@ -66,12 +65,6 @@ const operationsSlice = createSlice({
     reducers: {
         clearOneOperation: (state) => {
             state.operation = {}
-        },
-        expenseToPercent: (state) => {
-            // if (state.monthExpense?.categories) {
-            //     state.monthExpense.categories = state.monthExpense.categories
-            //     .map(el => )
-            // }
         }
     },
     extraReducers: {

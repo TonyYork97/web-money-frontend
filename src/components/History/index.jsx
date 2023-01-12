@@ -2,23 +2,18 @@ import moment from 'moment';
 import React, { useState } from 'react'
 import { useMemo } from 'react';
 import { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { useObserver } from '../../hooks/useObserver';
 import { links } from '../../links';
 import { HistoryCategoryItem } from '../HistoryCategoryItem';
 import { HistoryItem } from '../HistoryItem';
 import { MainLoading } from '../MainLoading';
-
-
+import { ShowMoreButton } from '../ShowMoreButton';
 
 let dateHistory = ''
 moment().locale('ru');
 
-
 export const History = ({ data, full = false, title = '', isLazyLoading, isLoading, totalPages, page, setPage, withDate = false }) => {
   const observerRef = useRef();
-  // const [dateHistory, setDate] = useState('');
 
 
   useObserver(observerRef, page < totalPages, isLazyLoading, () => {
@@ -98,59 +93,32 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
   }, [data])
 
 
-
-
-
   // max-h-[520px] overflow-y-auto
   if (isLoading && !data.length) {
     return <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><MainLoading size={32} /></div>
   }
   return (
-    <div className='flex flex-col justify-between h-full'>
+    <div className='flex flex-col justify-between'>
 
       <div>
         {title &&
           <h3 className='text-lg font-bold mb-4'>{title}</h3>
         }
-        {/* {data.length ? data.map((el, idx) =>
 
-                <HistoryItem
-                    key={idx}
-                    id={el._id}
-                    title={el.title}
-                    date={el.date}
-                    amount={el.amount}
-                    type={el.type}
-                    idx={idx}
-                    paymentMethod={el.paymentMethod}
-                    paymentMethodImage={el.paymentMethodImage}
-                    category={el.category}
-                />)
-                : <div className='flex justify-center items-center h-[540px] w-full'>
-                    {isLazyLoading
-                        ? <MainLoading size={32} />
-                        : <p>Операций не найдено</p>
-                    }
-                </div>
-            } */}
-
-        {
-          withDate
+        {withDate
+          ? funcData
             ? funcData
-              ? funcData
-              : <div className="flex justify-center items-center h-[480px] w-full">{isLazyLoading
-                ? <MainLoading size={32} />
-                : <p>Операций не найдено</p>
-              }</div>
+            : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
+              ? <MainLoading size={32} />
+              : <p>Операций не найдено</p>
+            }</div>
 
-            : funcDataWithoutDate
-              ? funcDataWithoutDate
-              : <div className="flex justify-center items-center h-[480px] w-full">{isLazyLoading
-                ? <MainLoading size={32} />
-                : <p>Операций не найдено</p>
-              }</div>
-
-
+          : funcDataWithoutDate
+            ? funcDataWithoutDate
+            : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
+              ? <MainLoading size={32} />
+              : <p>Операций не найдено</p>
+            }</div>
         }
 
         {full
@@ -165,7 +133,10 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
       </div>
       {data.length ? !full ?
         <div className='text-right py-1'>
-          <Link to={links.history} className='text-mainGreen font-light text-sm hover:text-green-500 transition-colors'>Показать больше</Link>
+          <ShowMoreButton
+            to={links.history}
+            title="Показать больше"
+          />
         </div>
         : ''
         : ''

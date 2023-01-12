@@ -68,9 +68,8 @@ export const BarChart = ({ yearExpense, isLoading }) => {
         labels: yearExpense.length ? yearExpense.map(el => el.title.substring(0, 3)) : [],
         datasets: [
             {
-
                 data: yearExpense.length ? yearExpense.map(el => el.amount) : [],
-                backgroundColor: 'rgb(198, 255, 0)',
+                backgroundColor: localStorage.getItem('theme') === 'light' ? '#292929' : 'rgb(198, 255, 0)',
             },
         ],
     };
@@ -81,7 +80,6 @@ export const BarChart = ({ yearExpense, isLoading }) => {
 
     return (
         <>
-
             {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
 
             <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>

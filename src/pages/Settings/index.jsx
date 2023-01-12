@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Container } from '../../components/Container'
 import { links } from '../../links'
-import ArrowLeft from '../../assets/images/arrow-left.png'
+import ArrowLeft from '../../assets/images/arrow.svg'
+import ArrowLeftLight from '../../assets/images/arrow-light.svg'
 import Close from '../../assets/images/close.svg'
+import CloseLight from '../../assets/images/close-light.svg'
 import { fetchLogOut, userIsAuth } from '../../store/slices/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 
+const profileLinks = [
+  {
+    title: "Аккаунт",
+    link: links.profile
+  },
+  {
+    title: "Тема",
+    link: links.profileTheme
+  }
+]
+
 export const Settings = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(false);
+  const [activeLink, setActiveLink] = useState(0);
+  const styleLink = localStorage.getItem('theme') === 'dark' ? 'bg-whiteOpacity' : 'dark:bg-bggBottom'
   const navigate = useNavigate();
   const dispatch = useDispatch()
+
   const isAuth = useSelector(userIsAuth);
 
+  let slashes = window.location.pathname.split('').filter(el => el === '/')
 
   const closeMenu = () => {
     setActiveMenu(false)
   }
   const openMenu = () => {
-    setActiveMenu(true)
+    window.scrollTo(0, 0)
+
+    if (slashes.length === 3) {
+      setActiveMenu(true)
+    } else {
+      navigate(-1)
+    }
   }
 
   const logOutClick = () => {
@@ -31,21 +54,36 @@ export const Settings = ({ children }) => {
     if (!localStorage.getItem('token') && !isAuth) {
       navigate('/', { replace: true })
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
 
 
 
   return (
     <Container>
-      <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu rounded-lg h-[calc(100vh-56px)] p-3'>
-        <div className={`${activeMenu ? 'translate-x-0' : '-translate-x-[110%]'} md:translate-x-0 md:min-w-[260px]  top-0 left-0 right-0 bottom-0 rounded-lg  absolute z-[998] bg-blackMenu md:static transition-all md:col-span-1 overflow-y-auto border-r border-background md:h-[calc(100vh-68px)] pr-3`}>
+      <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu dark:bg-bggTop rounded-lg h-[calc(100vh-56px)] p-3'>
+        <div className={`${activeMenu ? 'translate-x-0' : '-translate-x-[110%]'} md:translate-x-0 md:min-w-[260px]  top-0 left-0 right-0 bottom-0 rounded-lg  absolute z-[997] md:z-[1] bg-blackMenu dark:bg-bggTop md:static transition-all md:col-span-1 overflow-y-auto border-r border-background dark:border-bggBottom md:h-[calc(100vh-68px)] pr-3`}>
           <div className='flex justify-between p-3 md:p-0 items-center mb-3'>
             <h3 className='font-bold text-lg '>Настройки</h3>
-            <img onClick={closeMenu} className='w-7 h-7 md:hidden' src={Close} alt="close" />
+            {localStorage.getItem('theme') === 'dark'
+              ? <img onClick={closeMenu} className='w-7 h-7 md:hidden' src={Close} alt="close" />
+              : <img onClick={closeMenu} className='w-7 h-7 md:hidden' src={CloseLight} alt="close" />
+
+
+            }
           </div>
           <div className='flex flex-col'>
-            <Link to={links.profile} className='px-3 py-2 rounded-full font-bold mb-2 bg-whiteOpacity hover:bg-whiteOpacity'>Аккаунт</Link>
-            <Link to="account" className='px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity'>Тема</Link>
+            {profileLinks.map((el, i) => <Link
+              key={el.title}
+              onClick={() => {
+                setActiveLink(i)
+                setActiveMenu(false)
+              }}
+              to={el.link}
+              className={`${activeLink === i ? styleLink : ''} px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity dark:hover:bg-bggBottom transition-colors`}
+            >{el.title}</Link>
+            )}
+            {/* <Link to={links.profile} className='px-3 py-2 rounded-full font-bold mb-2  hover:bg-whiteOpacity'>Аккаунт</Link>
+            <Link to={links.profileTheme} className='px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity'>Тема</Link> */}
 
             <button
               onClick={logOutClick}
@@ -54,9 +92,11 @@ export const Settings = ({ children }) => {
           </div>
         </div>
         <div className='overflow-y-auto relative w-full h-[calc(100vh-68px)] px-0 md:px-3 md:col-span-3'>
-          <div className='absolute'>
-
-            <img onClick={openMenu} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer ' />
+          <div className='mb-1'>
+            {localStorage.getItem('theme') === 'dark'
+              ? <img onClick={openMenu} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer ' />
+              : <img onClick={openMenu} src={ArrowLeftLight} alt="" className='w-8 h-8 cursor-pointer ' />
+            }
           </div>
           {children}
         </div>

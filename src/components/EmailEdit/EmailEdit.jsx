@@ -1,12 +1,9 @@
 import React from 'react'
 import { ButtonGreen } from '../ButtonGreen'
 import { Input } from '../Input'
-import ArrowLeft from '../../assets/images/arrow-left.png'
-import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchChangeEmail } from '../../store/slices/authSlice'
-
 
 export const EmailEdit = () => {
   const [email, setEmail] = useState('');
@@ -17,8 +14,6 @@ export const EmailEdit = () => {
 
   const dispatch = useDispatch()
 
-
-  const navigate = useNavigate();
   const changeEmail = () => {
     if (email !== confirmEmail) {
       setConfirmEmailError(true);
@@ -45,11 +40,8 @@ export const EmailEdit = () => {
   }
 
   return (
-    <div className=' absolute left-0 md:left-3 right-0 top-0'>
-      <div className=''>
-        <img onClick={() => navigate(-1)} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer' />
-        <h3>Изменить Email который привязан к акаунту WebMoney</h3>
-      </div>
+    <div>
+      <h3 className=''>Изменить Email который привязан к акаунту WebMoney</h3>
       <div >
         <div>
           <h4 className='text-lg font-bold mb-3'>Новый Email</h4>

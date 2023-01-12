@@ -5,7 +5,7 @@ export const Textarea = ({ onChange, value = undefined, maxLength = '50' }) => {
 
     <textarea
       onChange={onChange}
-      className='py-3 px-3 rounded-xl border mb-4 bg-secondBackground  w-full active:outline-none focus:outline-none  placeholder:opacity-25'
+      className='py-3 px-3 rounded-xl border mb-4 bg-secondBackground dark:bg-bggTop dark:border dark:border-darkBlack  w-full active:outline-none focus:outline-none  placeholder:opacity-25'
       cols="30"
       maxLength={maxLength}
       value={value}

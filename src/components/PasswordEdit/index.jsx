@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ArrowLeft from '../../assets/images/arrow-left.png'
 import { fetchChangePassword } from '../../store/slices/authSlice';
 import { ButtonGreen } from '../ButtonGreen';
 import { Input } from '../Input';
@@ -76,10 +75,9 @@ export const PasswordEdit = () => {
   }
 
   return (
-    <div className=' absolute left-0 md:left-3 right-0 top-0'>
+    <div className=' '>
       {isPopup && <PopupWindow setPopup={setIsPopup} text={error ? error.message : 'Пароль успешно изменен'} />}
       <div className=''>
-        <img onClick={() => navigate(-1)} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer' />
         <h3>Изменить пароль который привязан к акаунту WebMoney</h3>
       </div>
       <div >

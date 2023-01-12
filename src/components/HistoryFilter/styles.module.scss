@@ -1,14 +1,14 @@
 .filterHistory::-webkit-scrollbar {
   
-  @apply h-1 bg-background
+  @apply h-1 
 }
 
 .filterHistory::-webkit-scrollbar-thumb {
  
-  @apply border-r-8 rounded-xl bg-gray-600
+  @apply border-r-8 rounded-xl bg-bggBottom
 }
 
 .filterHistory::-webkit-scrollbar-track {
   box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
-  @apply bg-blackMenu
+ 
 }

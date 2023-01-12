@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Close from '../../assets/images/close.svg'
+import CloseLight from '../../assets/images/close-light.svg'
 import { Input } from '../Input'
 import { ButtonGreen } from '../ButtonGreen'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -12,15 +13,13 @@ import Select from 'react-select'
 import { Controller, useForm } from 'react-hook-form'
 import axios from '../../axios'
 import styles from './styles.scss'
-import { clearOneOperation, fetchGetOneOperation, getOneOperation } from '../../store/slices/operationsSlice'
+import { clearOneOperation } from '../../store/slices/operationsSlice'
 import { PopupWindow } from '../PopupWindow'
 import { MainLoading } from '../MainLoading'
-import { removeListener } from '@reduxjs/toolkit'
 
 export const AddOperation = () => {
     const [typeOpeation, setTypeOperation] = useState('Добавить')
     const [typeCategory, setTypeCategory] = useState('расход')
-    const [typeCategoryInput, setTypeCategoryInput] = useState('')
     const [isPopup, setIsPopup] = useState(false)
     const [categoriesArr, setCategoriesArr] = useState([])
     const [paymentMethodsArr, setPaymentMethodsArr] = useState([])
@@ -42,11 +41,7 @@ export const AddOperation = () => {
             date: ''
         },
         mode: 'onChange'
-
-
     });
-
-
 
     const title = register('title', { required: 'Название должно иметь не менее 2 и не более 24 символов', minLength: 2, maxLength: 24, })
     const type = register('type')
@@ -83,14 +78,12 @@ export const AddOperation = () => {
         setIsPopup(true);
         setTimeout(() => {
             setIsPopup(false)
-            console.log('false');
         }, 3000)
 
     }
 
     const getOperation = async () => {
         if (id) {
-            // dispatch(fetchGetOneOperation(id))
             await axios.get(`app/operation/${id}`).then(({ data }) => {
                 setValue('title', data.title)
                 setValue('amount', data.amount)
@@ -128,7 +121,6 @@ export const AddOperation = () => {
 
     useEffect(() => {
         if (location.pathname.includes('expense')) {
-            setTypeCategoryInput('expense')
             if (id) {
                 setTypeOperation('Изменить')
                 setTypeCategory('расход')
@@ -137,7 +129,6 @@ export const AddOperation = () => {
                 setTypeCategory('расход')
             }
         } else {
-            setTypeCategoryInput('revenue')
             if (id) {
                 setTypeOperation('Изменить')
                 setTypeCategory('доход')
@@ -148,7 +139,6 @@ export const AddOperation = () => {
         }
     }, [])
 
-    // console.log(categoriesArr);
     // Минимальные и максимальные даты операций
     const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
     const maxDate = moment().format('YYYY-MM-DD')
@@ -162,11 +152,15 @@ export const AddOperation = () => {
     return (
         <>
             {isPopup && <PopupWindow setPopup={setIsPopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
-            <div className='w-full pt-0 md:pt-14 md:max-w-[864px] mx-auto py-2 px-3 fixed md:static overflow-auto bg-background md:bg-transparent h-screen z-[888] '>
+            <div className='w-full pt-0 md:pt-14 md:max-w-[864px] mx-auto py-2 px-3 fixed md:static overflow-auto bg-background dark:bg-white md:bg-transparent h-screen z-[888] '>
                 <div className='flex py-2 justify-between md:justify-center  items-center mb-3'>
                     <h3 className='font-bold text-lg'>{typeOpeation} {typeCategory}</h3>
                     <Link to={links.home} className='w-8 h-8 cursor-pointer md:hidden'>
-                        <img src={Close} alt="close" className='w-8 h-8 cursor-pointer md:hidden' />
+                        {localStorage.getItem('theme') === 'dark'
+                            ? <img src={Close} alt="close" className='w-8 h-8 cursor-pointer md:hidden' />
+                            : <img src={CloseLight} alt="close" className='w-8 h-8 cursor-pointer md:hidden' />
+
+                        }
                     </Link>
                 </div>
                 <form
@@ -215,7 +209,9 @@ export const AddOperation = () => {
                                     [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
                                 }
                                 placeholder="Выберете способ оплаты"
-                                classNamePrefix="custom-select"
+                                classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
+
+
                                 value={getPaymentMethodValue(value)}
                                 onChange={(newValue) => onChange(newValue.value)}
                             />}
@@ -230,7 +226,7 @@ export const AddOperation = () => {
                             render={({ field: { onChange, value }, fieldState: { error } }) => <Select
                                 options={categoriesArr}
                                 placeholder="Выберете категорию"
-                                classNamePrefix="custom-select"
+                                classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
                                 value={getValue(value)}
                                 onChange={(newValue) => onChange(newValue.value)}
                             />}
@@ -258,7 +254,7 @@ export const AddOperation = () => {
                             cn='w-full '
                         />
 
-                        <Link to={links.home} className='py-3 px-3 border bg-background text-center border-white rounded-xl'>Отмена</Link>
+                        <Link to={links.home} className='py-3 px-3 border bg-gradient-to-r from-darkBlack to-darkBlack dark:text-textPrime text-center hover:from-darkBlack hover:to-bggBottom transition-all border-white rounded-xl'>Отмена</Link>
                     </div>
                 </form>
 

@@ -1,5 +1,5 @@
 .input{
-@apply py-3 px-3 rounded-xl border mb-2 bg-secondBackground  w-full active:outline-none focus:outline-none  placeholder:opacity-25
+@apply py-3 px-3 rounded-xl border mb-2   w-full active:outline-none focus:outline-none  
 
 }
 
@@ -7,7 +7,7 @@
     @apply border-myRed focus:shadow-redShadow
 }
 .valid{
-    @apply border-textPrime focus:shadow-whiteShadow
+    @apply border-textPrime 
 }
 
 .inp{

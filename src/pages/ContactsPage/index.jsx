@@ -116,7 +116,7 @@ export const ContactsPage = () => {
               <h4 className='text-lg font-bold '>Соообщение
                 <span className='text-red-700'> *</span>
               </h4>
-              <h5 className='text-[11px] text-textOpacity mb-1'>Максимум 350 символов</h5>
+              <h5 className='text-[11px] text-textOpacity dark:text-black dark:text-opacity-75 mb-1'>Максимум 350 символов</h5>
             </div>
             <Textarea
               maxLength='350'
@@ -126,9 +126,9 @@ export const ContactsPage = () => {
           </div>
           <div className='mb-3'>
             <h4 className='text-lg font-bold '>Загрузите файлы</h4>
-            <h5 className='text-[11px] text-textOpacity mb-1'>Только файлы с расширением .jpg, .jpeg, .png, .pdf, .doc, .docx</h5>
+            <h5 className='text-[11px] text-textOpacity dark:text-black dark:text-opacity-75 mb-1'>Только файлы с расширением .jpg, .jpeg, .png, .pdf, .doc, .docx</h5>
             <div
-              className='w-full h-[126px] p-3 flex items-center justify-center border border-dashed rounded-xl bg-blackMenu hover:bg-background cursor-pointer'
+              className='w-full h-[126px] p-3 flex items-center justify-center border border-dashed rounded-xl bg-blackMenu hover:bg-background dark:bg-bggBottom dark:hover:bg-bggTop transition-colors cursor-pointer'
               onClick={() => inputFileRef.current.click()}
               onDragStart={dragStartHandler}
               onDragLeave={dragLeaveHandler}
@@ -136,8 +136,8 @@ export const ContactsPage = () => {
               onDrop={onDropHandler}
             >
               <div className='flex flex-col items-center'>
-                <img src={UploadImg} className="w-8" alt="" />
-                <p className='text-textOpacity text-xs mt-2'><span className='text-mainGreen'>Выберите файл</span> или перетащите его сюда</p>
+                <img src={UploadImg} className="w-8 dark:bg-darkBlack dark:rounded-md" alt="" />
+                <p className='text-textOpacity dark:text-darkBlack text-xs mt-2'><span className='text-mainGreen dark:text-darkBlack dark:underline'>Выберите файл</span> или перетащите его сюда</p>
               </div>
               <Input hidden={true} multiple={true} ref={inputFileRef} onChange={handleChangeFile} type="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx" />
             </div>

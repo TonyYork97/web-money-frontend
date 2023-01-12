@@ -1,17 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from "moment";
-
-const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
-const maxDate = moment().format('YYYY-MM-DD')
 
 const initialState = {
   typeOfPayment: '',
+  type: '',
   minDateValue: '',
   maxDateValue: '',
   minAmountValue: 0,
   maxAmountValue: 999999999.99,
   page: 1,
-  totalPages: 0
+  totalPages: 0,
+
+  curCategory: '',
+  curCategoryAmount: 0,
+  activeCategory: 0,
+  isOpen: false
 }
 
 const filterSlice = createSlice({
@@ -20,6 +22,9 @@ const filterSlice = createSlice({
   reducers: {
     setTypeOfPaymentOperation: (state, action) => {
       state.typeOfPayment = action.payload
+    },
+    setTypeOperation: (state, action) => {
+      state.type = action.payload
     },
     setMinDateValue: (state, action) => {
       state.minDateValue = action.payload
@@ -39,8 +44,33 @@ const filterSlice = createSlice({
     setTotalPages: (state, action) => {
       state.totalPages = action.payload
     },
+    setCurCategory: (state, action) => {
+      state.curCategory = action.payload
+    },
+    setCurCategoryAmount: (state, action) => {
+      state.curCategoryAmount = action.payload
+    },
+    setActiveCategory: (state, action) => {
+      state.activeCategory = action.payload
+    },
+    setIsOpen: (state, action) => {
+      state.isOpen = action.payload
+    },
   }
 })
 
-export const { setTypeOfPaymentOperation, setMinDateValue, setMaxDateValue, setMinAmountValue, setMaxAmountValue, setTotalPages, setPage } = filterSlice.actions;
+export const {
+  setTypeOfPaymentOperation,
+  setTypeOperation,
+  setMinDateValue,
+  setMaxDateValue,
+  setMinAmountValue,
+  setMaxAmountValue,
+  setTotalPages,
+  setPage,
+  setCurCategory,
+  setCurCategoryAmount,
+  setActiveCategory,
+  setIsOpen
+} = filterSlice.actions;
 export const filterReducer = filterSlice.reducer

@@ -11,24 +11,21 @@ padding: 0;
 
 *::-webkit-scrollbar {
   
-  @apply w-2 bg-background
+  @apply w-2 bg-white
 }
 
 *::-webkit-scrollbar-thumb {
  
-  @apply border-r-8 bg-whiteOpacity
+  @apply rounded-md bg-bggBottom
 }
 
 *::-webkit-scrollbar-track {
   box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
-  @apply bg-blackMenu
 }
 
 body {
 	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  background-color: #1D2023;
-  color: #eeeeee;
- 
+
 }
 
 input::-webkit-outer-spin-button,
@@ -39,7 +36,7 @@ input::-webkit-inner-spin-button {
 }
 
 body{
-  @apply text-sm 
+  @apply text-sm bg-background
 }
 
 .active{

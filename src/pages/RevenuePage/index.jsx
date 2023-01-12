@@ -12,6 +12,7 @@ import { fetchGetMontRevenue } from '../../store/slices/operationsSlice'
 import { History } from '../../components/History'
 import { userIsAuth } from '../../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
+import { useResize } from '../../hooks/Rezise'
 
 
 
@@ -24,6 +25,10 @@ export const RevenuePage = () => {
     const [curCategoryAmount, setCurCategoryAmount] = useState(0);
     const [activeCategory, setActiveCategory] = useState(0);
     const [flag, setFlag] = useState(false)
+
+    const { width } = useResize()
+    const classBlock = ` ${isOpen ? '' : 'translate-x-full'} md:translate-x-0  transition-all fixed md:static top-0 bottom-0 left-0 right-0 z-[500] md:z-0 overflow-auto bg-blackMenu md:bg-transparent rounded-xl`
+
 
     const dispatch = useDispatch()
     const { monthRevenue, isLoadingMonthRevenue } = useSelector(state => state.operations);
@@ -131,7 +136,8 @@ export const RevenuePage = () => {
                             full
                         />
                     </ShadowBlock>
-                    <div className={`${isOpen ? '' : 'translate-x-full'} md:translate-x-0 transition-all fixed md:static top-0 bottom-0 left-0 right-0 z-[500] md:z-0 overflow-auto bg-blackMenu rounded-xl`} >
+                    <div className={`${width < 768 ? classBlock : ''}`} >
+
                         <ShadowBlock>
                             <div
                                 className='flex max-h-14 justify-between items-center text-lg font-bold fixed md:static mb-3  bg-background md:bg-transparent left-0 right-0 top-0 z-[501] py-2 px-1 md:py-0 gap-1'>

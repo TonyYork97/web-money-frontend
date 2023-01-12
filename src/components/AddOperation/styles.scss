@@ -2,7 +2,7 @@
     @apply flex flex-col justify-between md:justify-start md:h-[calc(100%-98px)] h-[calc(100%-56px)] md:max-w-xl md:mx-auto
 }
 
-.custom-select{
+.custom-select-dark{
     &__control{
         background: rgba(20,22,24,0.5) !important;
         border: 1px solid #eeeeee !important;
@@ -10,16 +10,18 @@
         border-radius: 12px !important;
         margin-bottom: 16px;
         outline: none !important;
-        padding: 0 !important
+        padding: 0 !important;
+        box-shadow: none !important;
+        
     }
     &__control--menu-is-open  {
-        box-shadow: 0px 0px 11px 0px #ffffff;
+        box-shadow: 0px 0px 11px 0px #ffffff !important;
         outline: none !important;
     }
     &__control--is-focused:focus{
         border: 1px solid #eeeeee !important; 
         outline-color: transparent !important;
-        box-shadow: 0px 0px 11px 0px #ffffff;
+        box-shadow: 0px 0px 11px 0px #ffffff !important;
         
     }
     &__placeholder{
@@ -35,8 +37,58 @@
     &__option:hover{
         background: #ffffff0a !important;
     }
+    &__option:focus{
+        background: #ffffff0a !important;
+    }
+    &__option:active{
+        background: #ffffff0a !important;
+    }
     &__option{
         background: transparent !important;
+    }
+    &__value-container{
+        padding: 8px !important;
+    }
+}
+
+.custom-select{
+    &__control{
+        background: #f1f1f2 !important;
+        border: 1px solid #292929 !important;
+        padding: 6px 0px !important;
+        border-radius: 12px !important;
+        margin-bottom: 16px;
+        outline: none !important;
+        padding: 0 !important;
+        box-shadow: none !important
+    }
+    &__control--menu-is-open  {
+        box-shadow: 0px 0px 11px 0px #292929 !important;
+        outline: none !important;
+    }
+    &__control--is-focused:focus{
+        border: 1px solid #292929 !important; 
+        outline-color: transparent !important;
+        outline: none !important;
+        box-shadow: 0px 0px 11px 0px #292929 !important;
+        
+    }
+    &__placeholder{
+        color: black !important;
+        opacity: 0.75 !important
+    }
+    &__single-value{
+        color: #292929 !important;
+    }
+    &__menu{
+        background: #f1f1f2 !important;
+    }
+    &__option:hover{
+        background: #a2a2a2 !important;
+    }
+    &__option{
+        background: transparent !important;
+    
     }
     &__value-container{
         padding: 8px !important;

@@ -9,14 +9,10 @@ import { HistoryFilter } from '../../components/HistoryFilter'
 import { useNavigate } from 'react-router-dom'
 import { userIsAuth } from '../../store/slices/authSlice'
 import { useSelector } from 'react-redux'
-import moment from 'moment'
 import styles from './styles.module.scss'
 
-const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
-const maxDate = moment().format('YYYY-MM-DD')
-
 export const HistoryPage = () => {
-    const { typeOfPayment, minDateValue, maxDateValue, minAmountValue, maxAmountValue } = useSelector(state => state.filter)
+    const { typeOfPayment, type, minDateValue, maxDateValue, minAmountValue, maxAmountValue } = useSelector(state => state.filter)
     const [limit] = useState(15);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
@@ -39,7 +35,7 @@ export const HistoryPage = () => {
                 params: {
                     limit,
                     page,
-                    typeOfPayment,
+                    type: type?.value,
                     dateFrom: minDateValue,
                     dateTo: maxDateValue,
                     amountFrom: minAmountValue,
@@ -59,7 +55,7 @@ export const HistoryPage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-    }, [flag, typeOfPayment, minDateValue, maxDateValue, minAmountValue, maxAmountValue])
+    }, [flag, type, typeOfPayment, minDateValue, maxDateValue, minAmountValue, maxAmountValue])
 
     useEffect(() => {
         if (!localStorage.getItem('token') && !isAuth) {
