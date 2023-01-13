@@ -116,7 +116,7 @@ export const AddOperation = () => {
 
     useEffect(() => {
         setCategoriesArr(categories ? categories.map(el => ({ value: el.title, label: el.title })) : [])
-        setPaymentMethodsArr(dataPaymentMethods ? dataPaymentMethods.map(el => ({ value: el.title, label: <div className='flex gap-3 items-center'><img className='w-12' src={`https://web-money-backend.vercel.app/${el.imageUrl}`} alt={el.title} /><h3>{el.title}</h3></div> })) : [])
+        setPaymentMethodsArr(dataPaymentMethods ? dataPaymentMethods.map(el => ({ value: el.title, label: <div className='flex gap-3 items-center'><img className='w-12' src={process.env.REACT_APP_API_URL`${el.imageUrl}`} alt={el.title} /><h3>{el.title}</h3></div> })) : [])
     }, [categories, dataPaymentMethods])
 
     useEffect(() => {
