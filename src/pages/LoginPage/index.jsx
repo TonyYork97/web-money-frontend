@@ -31,7 +31,7 @@ export const LoginPage = () => {
     const onSubmit = async (value) => {
         const data = await dispatch(fetchLogin(value));
 
-        if (!data.payload.message) {
+        if (!data.payload?.message) {
             navigate('/app/home', { replace: true })
 
         }
