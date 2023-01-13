@@ -1,11 +1,11 @@
 
 .disabled{
-@apply bg-gray-500
+@apply bg-gray-500;
 }
 
 .active{
-@apply bg-gradient-to-r 
+@apply bg-gradient-to-r;
 }
 .button{
-@apply  py-3 px-3 text-background rounded-xl  transition-colors font-bold active:scale-[0.98]
+@apply  py-3 px-3 text-background rounded-xl  transition-colors active:scale-[0.98] font-bold;
 }
