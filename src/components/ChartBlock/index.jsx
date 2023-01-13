@@ -66,7 +66,6 @@ export const ChartBlock = (
     }
 
     if (isLoading) {
-
         return <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><MainLoading size={32} /></div>
     }
 
@@ -74,8 +73,8 @@ export const ChartBlock = (
         <div className='flex flex-col justify-between h-full'>
             <div className=''>
                 <div className=' mb-5 flex justify-between text-lg font-bold gap-1'>
-                    <h3 className='capitalize'>{title} {monthExpense.month}</h3>
-                    <p className='whitespace-nowrap'>{monthExpense.totalMonthAmount} &#8381;</p>
+                    <h3 className='capitalize'>{title} {monthExpense?.month}</h3>
+                    <p className='whitespace-nowrap'>{monthExpense?.totalMonthAmount} &#8381;</p>
                 </div>
                 <div className='max-full mx-auto mb-3 relative'>
                     {full
