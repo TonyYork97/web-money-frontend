@@ -18,7 +18,7 @@ export const HistoryItem = ({ id, title, amount, date, type, category, func, pay
                     }
                     {paymentMethod && <div className=''>
                         {paymentMethodImage
-                            ? <img className='w-6 sm:w-7 text-textOpacity' src={`https://web-money-backend.vercel.app${paymentMethodImage}`} alt={paymentMethod} title={paymentMethod} />
+                            ? <img className='w-6 sm:w-7 text-textOpacity' src={`https://web-money-frontend-pxpz7xzns-tonyyork97.vercel.app${paymentMethodImage}`} alt={paymentMethod} title={paymentMethod} />
                             : <p className='text-[11px]'>{paymentMethod}</p>
                         }
                     </div>}
