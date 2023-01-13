@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/web-money-frontend/static/css/main.e38e173b.css",
-    "main.js": "/web-money-frontend/static/js/main.446f420f.js",
+    "main.js": "/web-money-frontend/static/js/main.b4266443.js",
     "static/js/787.c4e7f8f9.chunk.js": "/web-money-frontend/static/js/787.c4e7f8f9.chunk.js",
     "static/media/sticker3.png": "/web-money-frontend/static/media/sticker3.b51d45e76817885c376e.png",
     "static/media/sticker2.png": "/web-money-frontend/static/media/sticker2.e48a7eff3b7a2a698819.png",
@@ -26,11 +26,11 @@
     "static/media/arrow-light.svg": "/web-money-frontend/static/media/arrow-light.7b29bdb2bde46cec8c7c7fd959b0debf.svg",
     "static/media/arrow.svg": "/web-money-frontend/static/media/arrow.3ecb1edb3aeb403a2b4d0b9a6ac089f4.svg",
     "main.e38e173b.css.map": "/web-money-frontend/static/css/main.e38e173b.css.map",
-    "main.446f420f.js.map": "/web-money-frontend/static/js/main.446f420f.js.map",
+    "main.b4266443.js.map": "/web-money-frontend/static/js/main.b4266443.js.map",
     "787.c4e7f8f9.chunk.js.map": "/web-money-frontend/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e38e173b.css",
-    "static/js/main.446f420f.js"
+    "static/js/main.b4266443.js"
   ]
 }
