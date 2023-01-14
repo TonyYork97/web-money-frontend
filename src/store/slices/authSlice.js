@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 import axios from '../../axios'
 
 export const fetchSignUp = createAsyncThunk('auth/signUp', async (params) => {
@@ -197,6 +198,8 @@ const authSlice = createSlice({
         [fetchCheckAuth.rejected]: (state) => {
             state.isLoading = false
             state.data = null
+            window.localStorage.removeItem('token')
+            window.location.reload()
         },
     }
 

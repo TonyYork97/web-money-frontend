@@ -32,7 +32,7 @@ function App() {
 
   const checkAuth = async () => {
     if (localStorage.getItem('token')) {
-      await dispatch(fetchCheckAuth());
+      dispatch(fetchCheckAuth());
     }
   }
 

@@ -20,17 +20,18 @@ import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen } fr
 
 export const CategoriesPage = ({ type }) => {
     // const [isOpen, setIsOpen] = useState(false);
-    const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD'))
+    // const [curCategoryAmount, setCurCategoryAmount] = useState(0);
     // const [curCategory, setCurCategory] = useState('')
+    // const [activeCategory, setActiveCategory] = useState(0);
+    const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD'))
     const [isLoading, setIsLoading] = useState(false)
     const [operations, setOperations] = useState([]);
-    // const [curCategoryAmount, setCurCategoryAmount] = useState(0);
-    // const [activeCategory, setActiveCategory] = useState(0);
     const [flag, setFlag] = useState(false)
+    const [errorOperation, setErrorOperation] = useState(null)
     const { width } = useResize()
 
     const dispatch = useDispatch()
-    const { monthExpense, monthRevenue, isLoadingMonthExpense, isLoadingMonthRevenue } = useSelector(state => state.operations);
+    const { monthExpense, monthRevenue, isLoadingMonthExpense, isLoadingMonthRevenue, monthExpenseError, monthRevenueError } = useSelector(state => state.operations);
     const { curCategory, curCategoryAmount, activeCategory, isOpen } = useSelector(state => state.filter);
 
     const isAuth = useSelector(userIsAuth);
@@ -65,10 +66,17 @@ export const CategoriesPage = ({ type }) => {
                     category: curCategory
                 }
             }).then(({ data }) => {
+                if (data?.message) {
+                    setOperations([])
+                    setErrorOperation('error')
+                }
+                setErrorOperation(null)
                 setOperations([...data.operations])
             })
         } catch (err) {
             console.log(err);
+            setErrorOperation('error')
+            setOperations([])
         } finally {
             setIsLoading(false);
         }
@@ -168,6 +176,8 @@ export const CategoriesPage = ({ type }) => {
                             setCurMonth={setCurMonth}
                             title={type === 'expense' ? 'Расход' : 'Доход'}
                             monthExpense={type === 'expense' ? monthExpense : monthRevenue}
+                            error={type === 'expense' ? monthExpenseError : monthRevenueError}
+                            reload={getExpense}
                             full
                         />
                     </ShadowBlock>
@@ -214,6 +224,8 @@ export const CategoriesPage = ({ type }) => {
                                 data={operations}
                                 full
                                 isLazyLoading={isLoading}
+                                error={errorOperation}
+                                reload={getOperations}
                             />
                         </ShadowBlock>
                     </div>

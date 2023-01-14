@@ -31,7 +31,8 @@ export const HistoryFilter = ({
   setOperations,
   fullDateValue,
   setFullDateValue,
-  setTotalPages
+  setTotalPages,
+  setError
 }) => {
 
   const [isPeriodActive, setIsPeriodActive] = useState(false)
@@ -66,13 +67,23 @@ export const HistoryFilter = ({
           amountTo: maxAmount ? maxAmount : maxAmountInput
         }
       }).then(({ data }) => {
+        if (data?.message) {
+          setOperations([])
+          setTotalPages(0)
+          setError('error')
+        }
+        setError(null)
         setOperations([...data.operations])
         let totalCount = Math.ceil(data.totalCount / 15)
         setTotalPages(totalCount)
+
       })
 
     } catch (err) {
       console.warn(err);
+      setOperations([])
+      setTotalPages(0)
+      setError('error')
     } finally {
       setIsLoading(false)
       setFlag(false)

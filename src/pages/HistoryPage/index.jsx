@@ -18,6 +18,7 @@ export const HistoryPage = () => {
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [operations, setOperations] = useState([])
+    const [error, setError] = useState(null)
 
     const [fullDateValue, setFullDateValue] = useState('')
 
@@ -42,12 +43,22 @@ export const HistoryPage = () => {
                     amountTo: maxAmountValue
                 }
             }).then(({ data }) => {
-                setOperations([...operations, ...data.operations])
-                let totalCount = Math.ceil(data.totalCount / limit)
-                setTotalPages(totalCount)
+                if (data?.message) {
+                    setError('error')
+                    setOperations([])
+                    setTotalPages(0)
+                } else {
+                    setError(null)
+                    setOperations([...operations, ...data.operations])
+                    let totalCount = Math.ceil(data.totalCount / limit)
+                    setTotalPages(totalCount)
+                }
             })
         } catch (err) {
             console.warn(err);
+            setError('error')
+            setOperations([])
+            setTotalPages(0)
         } finally {
             setIsLoading(false)
         }
@@ -79,6 +90,7 @@ export const HistoryPage = () => {
                                 setFullDateValue={setFullDateValue}
                                 fullDateValue={fullDateValue}
                                 setFlag={setFlag}
+                                setError={setError}
                                 setOperations={setOperations}
                             />
                             <div className='mt-10 lg:mt-12'>
@@ -90,6 +102,8 @@ export const HistoryPage = () => {
                                     page={page}
                                     totalPages={totalPages}
                                     setPage={setPage}
+                                    error={error}
+                                    reload={getOperations}
                                 />
                             </div>
                         </ShadowBlock>

@@ -12,13 +12,13 @@ import { ShowMoreButton } from '../ShowMoreButton';
 let dateHistory = ''
 moment().locale('ru');
 
-export const History = ({ data, full = false, title = '', isLazyLoading, isLoading, totalPages, page, setPage, withDate = false }) => {
+export const History = ({ data, full = false, title = '', isLazyLoading, isLoading, totalPages, page, setPage, withDate = false, reload, error }) => {
   const observerRef = useRef();
 
 
   useObserver(observerRef, page < totalPages, isLazyLoading, () => {
     setPage(prev => prev + 1)
-  }, full, isLoading)
+  }, full, isLoading, error)
 
   const funcData = useMemo(() => {
     const dataWithDate =
@@ -99,38 +99,41 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
   }
   return (
     <div className='flex flex-col justify-between'>
+      {error
+        ? <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><button onClick={reload}>Попробуйте обновить</button></div>
+        : <div>
+          {title &&
+            <h3 className='text-lg font-bold mb-4'>{title}</h3>
+          }
 
-      <div>
-        {title &&
-          <h3 className='text-lg font-bold mb-4'>{title}</h3>
-        }
-
-        {withDate
-          ? funcData
+          {withDate
             ? funcData
-            : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
-              ? <MainLoading size={32} />
-              : <p>Операций не найдено</p>
-            }</div>
+              ? funcData
+              : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
+                ? <MainLoading size={32} />
+                : <p>Операций не найдено</p>
+              }</div>
 
-          : funcDataWithoutDate
-            ? funcDataWithoutDate
-            : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
-              ? <MainLoading size={32} />
-              : <p>Операций не найдено</p>
-            }</div>
-        }
+            : funcDataWithoutDate
+              ? funcDataWithoutDate
+              : <div className="flex justify-center items-center h-[470px] w-full">{isLazyLoading
+                ? <MainLoading size={32} />
+                : <p>Операций не найдено</p>
+              }</div>
+          }
 
-        {full
-          ? <div className="h-1 w-full flex justify-center" ref={observerRef} >
-            {isLazyLoading ?
-              <MainLoading size={32} />
-              : ''
-            }
-          </div>
-          : ''
-        }
-      </div>
+          {full
+            ? <div className="h-1 w-full flex justify-center" ref={observerRef} >
+              {isLazyLoading ?
+                <MainLoading size={32} />
+                : ''
+              }
+            </div>
+            : ''
+          }
+        </div>
+      }
+
       {data.length ? !full ?
         <div className='text-right py-1'>
           <ShowMoreButton

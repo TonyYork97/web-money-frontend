@@ -9,6 +9,10 @@ import filePdf from '../../assets/images/pdf-file.svg'
 import fileWord from '../../assets/images/word-file.svg'
 import Close from '../../assets/images/close.svg'
 import { ButtonGreen } from '../../components/ButtonGreen';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { userIsAuth } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const ContactsPage = () => {
   const [imageUrl, setImageUrl] = useState([]);
@@ -16,7 +20,8 @@ export const ContactsPage = () => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState();
   const inputFileRef = useRef(null);
-
+  const isAuth = useSelector(userIsAuth)
+  const navigate = useNavigate()
 
   const handleChangeFile = async (event) => {
     try {
@@ -92,6 +97,12 @@ export const ContactsPage = () => {
 
     }
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem('token') && !isAuth) {
+      navigate('/', { replace: true })
+    }
+  }, [])
 
   return (
     <Container >

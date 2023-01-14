@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
-export const useObserver = (ref, canLoad, isLoading, callback, full, isLoadingAuth) => {
+export const useObserver = (ref, canLoad, isLoading, callback, full, isLoadingAuth, error) => {
 
     const observer = useRef();
     React.useEffect(() => {
         if (!full) return
         if (isLoadingAuth) return
         if (isLoading) return;
+        if (error) return;
         if (observer.current) observer.current.disconnect()
 
         let cb = function (entries, observer) {

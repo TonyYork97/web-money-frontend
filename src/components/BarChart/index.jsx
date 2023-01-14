@@ -56,11 +56,12 @@ const options = {
     },
 };
 
-export const BarChart = ({ yearExpense, isLoading }) => {
+export const BarChart = ({ yearExpense, isLoading, reload, error }) => {
     const barRef = useRef();
 
     useEffect(() => {
         if (isLoading) return
+        if (error) return
         barRef.current.scrollLeft = barRef.current.scrollWidth
     }, [isLoading])
 
@@ -80,13 +81,19 @@ export const BarChart = ({ yearExpense, isLoading }) => {
 
     return (
         <>
-            {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
+            {error
+                ? <div className='w-full h-screen flex justify-center items-center'><button onClick={reload}>Попробуйте обновить</button></div>
+                : <>
+                    {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
 
-            <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>
-                <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
-                    <Bar options={options} data={data} />
-                </div>
-            </div>
+                    <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>
+                        <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
+                            <Bar options={options} data={data} />
+                        </div>
+                    </div>
+                </>
+            }
+
         </>
     )
 }

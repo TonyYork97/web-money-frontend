@@ -12,6 +12,8 @@ import { userIsAuth } from '../../store/slices/authSlice'
 import { fetchGetMontExpense, fetchGetMontRevenue, fetchGetOperations, fetchGetTodayExpense, fetchGetTotalCash, fetchGetYearExpense } from '../../store/slices/operationsSlice'
 import { MainLoading } from '../../components/MainLoading'
 import { useResize } from '../../hooks/Rezise'
+import { TodayExpense } from '../../components/TodayExpense'
+import { TotalCash } from '../../components/TotalCash'
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -21,17 +23,23 @@ export const HomePage = () => {
     const isLoading = useSelector(state => state.auth.isLoading)
     const {
         data,
+        dataError,
         isLoadingOperations,
         todayExpense,
         totalCash,
+        isLoadingTotalCash,
+        totalCashError,
         monthExpense,
+        monthExpenseError,
         monthRevenue,
+        monthRevenueError,
         isLoadingMonthExpense,
         isLoadingMonthRevenue,
         isLoadingTodayExpense,
-        isLoadingTotalCash,
         isLoadingYearExpense,
-        yearExpense } = useSelector(state => state.operations)
+        todayExpenseError,
+        yearExpense,
+        yearExpenseError } = useSelector(state => state.operations)
 
     const getOperations = async () => {
         dispatch(fetchGetMontExpense())
@@ -39,7 +47,26 @@ export const HomePage = () => {
         dispatch(fetchGetOperations({ limit: 8 }))
         dispatch(fetchGetTodayExpense())
         dispatch(fetchGetTotalCash())
-        await dispatch(fetchGetYearExpense())
+        dispatch(fetchGetYearExpense())
+    }
+
+    const reloadMonthExpense = () => {
+        dispatch(fetchGetMontExpense())
+    }
+    const reloadMonthRevenue = () => {
+        dispatch(fetchGetMontRevenue())
+    }
+    const reloadTodayExpense = () => {
+        dispatch(fetchGetTodayExpense())
+    }
+    const reloadTotalCash = () => {
+        dispatch(fetchGetTotalCash())
+    }
+    const reloadOperations = () => {
+        dispatch(fetchGetOperations({ limit: 8 }))
+    }
+    const reloadYearExpense = () => {
+        dispatch(fetchGetYearExpense())
     }
 
 
@@ -72,26 +99,8 @@ export const HomePage = () => {
                         <Link className='w-full md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
                     </div>
                     <div className={`flex gap-3 items-center flex-row ${width < 375 ? 'flex-wrap' : ''}`}>
-                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu  dark:bg-bggTop  dark:border-bggBottom border-textPrime border'>
-                            <div className='  text-right ml-auto'>
-                                <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Потрачено сегодня</p>
-                                {isLoadingTodayExpense
-                                    ? <MainLoading size={23} />
-                                    : <p className='font-bold text-lg whitespace-nowrap dark:text-darkBlack' >{todayExpense} &#8381;</p>
-                                }
-                            </div>
-                        </div>
-                        <div className='w-full md:min-w-[152px] lg:w-auto px-2 sm:px-3 py-2 rounded-xl bg-blackMenu dark:bg-bggTop dark:border-bggBottom border-textPrime border'>
-                            <div className='text-right'>
-                                <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Всего средств</p>
-                                {isLoadingTotalCash
-                                    ? <MainLoading size={23} />
-                                    : totalCash.includes('-')
-                                        ? <p className='font-bold text-lg text-darkRed dark:text-darkRed whitespace-nowrap'>{totalCash} &#8381;</p>
-                                        : <p className='font-bold text-lg text-mainGreen dark:text-darkBlack whitespace-nowrap'>{totalCash} &#8381;</p>
-                                }
-                            </div>
-                        </div>
+                        <TodayExpense data={todayExpense} isLoading={isLoadingTodayExpense} reload={reloadTodayExpense} error={todayExpenseError} />
+                        <TotalCash data={totalCash} isLoading={isLoadingTotalCash} reload={reloadTotalCash} error={totalCashError} />
                     </div>
                 </div>
                 <div className=' flex flex-wrap md:grid md:grid-cols-2 md:grid-rows-2  xl:grid-rows-1 xl:grid xl:grid-cols-4 gap-3 mb-3'>
@@ -100,6 +109,8 @@ export const HomePage = () => {
                             title='Расход'
                             monthExpense={monthExpense}
                             isLoading={isLoadingMonthExpense}
+                            error={monthExpenseError}
+                            reload={reloadMonthExpense}
                         />
                     </ShadowBlock>
                     <ShadowBlock>
@@ -108,19 +119,20 @@ export const HomePage = () => {
                             link={links.income}
                             monthExpense={monthRevenue}
                             isLoading={isLoadingMonthRevenue}
-
+                            error={monthRevenueError}
+                            reload={reloadMonthRevenue}
                         />
                     </ShadowBlock>
                     <div className='flex w-full md:col-span-2'>
                         <ShadowBlock>
-                            <History title='История операций' data={data} isLoading={isLoadingOperations} />
+                            <History title='История операций' data={data} isLoading={isLoadingOperations} reload={reloadOperations} error={dataError} />
                         </ShadowBlock>
                     </div>
                 </div>
                 <div className='grid grid-cols-4'>
                     <div className='col-span-4  xl:col-span-2'>
                         <ShadowBlock>
-                            <BarChart isLoading={isLoadingYearExpense} yearExpense={yearExpense} />
+                            <BarChart isLoading={isLoadingYearExpense} yearExpense={yearExpense} reload={reloadYearExpense} error={yearExpenseError} />
                         </ShadowBlock>
                     </div>
                 </div>
