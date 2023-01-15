@@ -14,6 +14,8 @@ import { MainLoading } from '../../components/MainLoading'
 import { useResize } from '../../hooks/Rezise'
 import { TodayExpense } from '../../components/TodayExpense'
 import { TotalCash } from '../../components/TotalCash'
+import moment from 'moment'
+import { useState } from 'react'
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -21,6 +23,7 @@ export const HomePage = () => {
     const navigate = useNavigate();
     const { width } = useResize()
     const isLoading = useSelector(state => state.auth.isLoading)
+    const [time, setTime] = useState('')
     const {
         data,
         dataError,
@@ -69,6 +72,12 @@ export const HomePage = () => {
         dispatch(fetchGetYearExpense())
     }
 
+    useEffect(() => {
+        setInterval(() => {
+            setTime(moment().format('DD MM, hh:mm:ss'))
+        }, 1000)
+    }, [time])
+
 
     useEffect(() => {
         if (!localStorage.getItem('token') || !isAuth) {
@@ -97,6 +106,7 @@ export const HomePage = () => {
                         {/* <Link to="add">Добавить доход</Link> */}
                         <Link className='w-full md:w-auto  rounded-3xl text-center border border-mainGreen py-4 px-4 md:py-6 font-bold  hover:bg-secondBackground  dark:hover:bg-bggTop transition-colors' to={links.addExpense}>Добавить расход</Link>
                         <Link className='w-full md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
+                        <div>{time}</div>
                     </div>
                     <div className={`flex gap-3 items-center flex-row ${width < 375 ? 'flex-wrap' : ''}`}>
                         <TodayExpense data={todayExpense} isLoading={isLoadingTodayExpense} reload={reloadTodayExpense} error={todayExpenseError} />
