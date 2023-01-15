@@ -125,7 +125,7 @@ export const HomePage = () => {
                     </ShadowBlock>
                     <div className='flex w-full md:col-span-2'>
                         <ShadowBlock>
-                            <History title='История операций' data={data} isLoading={isLoadingOperations} reload={reloadOperations} error={dataError} />
+                            <History title='История операций' data={data} isLoading={isLoadingOperations} reloadAll={getOperations} reload={reloadOperations} error={dataError} />
                         </ShadowBlock>
                     </div>
                 </div>

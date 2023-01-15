@@ -226,6 +226,7 @@ export const CategoriesPage = ({ type }) => {
                                 isLazyLoading={isLoading}
                                 error={errorOperation}
                                 reload={getOperations}
+                                reloadAll={getExpense}
                             />
                         </ShadowBlock>
                     </div>

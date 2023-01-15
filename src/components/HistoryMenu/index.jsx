@@ -23,7 +23,7 @@ export const HistoryMenu = ({ id, type, reload }) => {
     try {
       await axios.delete(`/app/operation/${id}`);
       setActiveMenu(false)
-      reload()
+      await reload(true)
     } catch (err) {
       console.warn(err);
     }

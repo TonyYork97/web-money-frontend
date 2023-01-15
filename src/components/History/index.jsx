@@ -12,7 +12,7 @@ import { ShowMoreButton } from '../ShowMoreButton';
 let dateHistory = ''
 moment().locale('ru');
 
-export const History = ({ data, full = false, title = '', isLazyLoading, isLoading, totalPages, page, setPage, withDate = false, reload, error }) => {
+export const History = ({ data, full = false, title = '', isLazyLoading, setOperations, isLoading, totalPages, page, setPage, withDate = false, reload, reloadAll, error }) => {
   const observerRef = useRef();
 
 
@@ -44,6 +44,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
                   paymentMethod={el.paymentMethod}
                   paymentMethodImage={el.paymentMethodImage}
                   category={el.category}
+                  reload={reloadAll}
                 />
               </div>
             )
@@ -60,7 +61,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
                 paymentMethod={el.paymentMethod}
                 paymentMethodImage={el.paymentMethodImage}
                 category={el.category}
-                reload={reload}
+                reload={reloadAll}
               />
             )
           }
@@ -86,7 +87,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
               paymentMethod={el.paymentMethod}
               paymentMethodImage={el.paymentMethodImage}
               category={el.category}
-              reload={reload}
+              reload={reloadAll}
             />
           )
         })

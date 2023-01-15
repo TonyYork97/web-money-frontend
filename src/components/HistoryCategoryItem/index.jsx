@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { HistoryMenu } from '../HistoryMenu'
 
-export const HistoryCategoryItem = ({ id, title, amount, date, type, category, paymentMethod, paymentMethodImage, idx }) => {
+export const HistoryCategoryItem = ({ id, title, amount, date, type, category, paymentMethod, paymentMethodImage, idx, reload }) => {
 
     return (
         <div className='flex gap-2 justify-between bg-background dark:bg-bggTop dark:shadow-blockLight px-2 py-1 rounded-lg border-b boreder-textPrime mb-3'>
@@ -23,7 +23,7 @@ export const HistoryCategoryItem = ({ id, title, amount, date, type, category, p
                         }
                     </div>}
                 </div>
-                <HistoryMenu id={id} type={type} />
+                <HistoryMenu id={id} type={type} reload={reload} />
             </div>
         </div>
     )

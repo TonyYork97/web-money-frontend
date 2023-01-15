@@ -29,7 +29,7 @@ export const HistoryPage = () => {
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
 
-    const getOperations = async () => {
+    const getOperations = async (clear) => {
         try {
             setIsLoading(true)
             await axios.get('/app/operation', {
@@ -48,8 +48,12 @@ export const HistoryPage = () => {
                     setOperations([])
                     setTotalPages(0)
                 } else {
+                    if (clear) {
+                        setOperations([...data.operations])
+                    } else {
+                        setOperations([...operations, ...data.operations])
+                    }
                     setError(null)
-                    setOperations([...operations, ...data.operations])
                     let totalCount = Math.ceil(data.totalCount / limit)
                     setTotalPages(totalCount)
                 }
@@ -104,6 +108,8 @@ export const HistoryPage = () => {
                                     setPage={setPage}
                                     error={error}
                                     reload={getOperations}
+                                    setOperations={setOperations}
+                                    reloadAll={getOperations}
                                 />
                             </div>
                         </ShadowBlock>
