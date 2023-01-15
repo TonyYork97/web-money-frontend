@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import axios from '../../axios'
 
 
-export const HistoryMenu = ({ id, type }) => {
+export const HistoryMenu = ({ id, type, reload }) => {
   const [activeMenu, setActiveMenu] = useState(false);
 
   const handleClick = () => {
@@ -23,7 +23,7 @@ export const HistoryMenu = ({ id, type }) => {
     try {
       await axios.delete(`/app/operation/${id}`);
       setActiveMenu(false)
-      window.location.reload()
+      reload()
     } catch (err) {
       console.warn(err);
     }

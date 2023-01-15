@@ -60,6 +60,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
                 paymentMethod={el.paymentMethod}
                 paymentMethodImage={el.paymentMethodImage}
                 category={el.category}
+                reload={reload}
               />
             )
           }
@@ -85,6 +86,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, isLoadi
               paymentMethod={el.paymentMethod}
               paymentMethodImage={el.paymentMethodImage}
               category={el.category}
+              reload={reload}
             />
           )
         })
