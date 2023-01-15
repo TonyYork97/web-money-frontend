@@ -16,6 +16,7 @@ import { TodayExpense } from '../../components/TodayExpense'
 import { TotalCash } from '../../components/TotalCash'
 import moment from 'moment'
 import { useState } from 'react'
+import axios from '../../axios'
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -72,11 +73,14 @@ export const HomePage = () => {
         dispatch(fetchGetYearExpense())
     }
 
+    const getTimeFunc = async () => {
+        const { data } = await axios.post('/app/get-time')
+        setTime(data)
+    }
+
     useEffect(() => {
-        setInterval(() => {
-            setTime(moment().format('DD MM, hh:mm:ss'))
-        }, 1000)
-    }, [time])
+        getTimeFunc()
+    }, [])
 
 
     useEffect(() => {
@@ -107,6 +111,7 @@ export const HomePage = () => {
                         <Link className='w-full md:w-auto  rounded-3xl text-center border border-mainGreen py-4 px-4 md:py-6 font-bold  hover:bg-secondBackground  dark:hover:bg-bggTop transition-colors' to={links.addExpense}>Добавить расход</Link>
                         <Link className='w-full md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
                         <div>{time}</div>
+                        <button onClick={getTimeFunc}>Get time</button>
                     </div>
                     <div className={`flex gap-3 items-center flex-row ${width < 375 ? 'flex-wrap' : ''}`}>
                         <TodayExpense data={todayExpense} isLoading={isLoadingTodayExpense} reload={reloadTodayExpense} error={todayExpenseError} />
