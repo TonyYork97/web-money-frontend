@@ -15,10 +15,8 @@ import { useResize } from '../../hooks/Rezise'
 import { TodayExpense } from '../../components/TodayExpense'
 import { TotalCash } from '../../components/TotalCash'
 import moment from 'moment'
-import 'moment/locale/ru'
 import { useState } from 'react'
 import axios from '../../axios'
-moment.locale('ru')
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -81,7 +79,7 @@ export const HomePage = () => {
                 time: moment().format()
             }
         })
-        setTime(moment(data).format('DD-MM hh:mm:ss'))
+        setTime(moment(data).format('DD-MM HH:mm:ss'))
     }
 
     useEffect(() => {
