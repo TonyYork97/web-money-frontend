@@ -76,7 +76,7 @@ export const HomePage = () => {
     const getTimeFunc = async () => {
         const { data } = await axios.post('/app/get-time', {
             params: {
-                time: moment().local().format('DD-MM-YYYY hh:mm:ss')
+                time: moment().format()
             }
         })
         setTime(data)
