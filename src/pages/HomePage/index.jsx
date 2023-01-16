@@ -74,7 +74,11 @@ export const HomePage = () => {
     }
 
     const getTimeFunc = async () => {
-        const { data } = await axios.post('/app/get-time')
+        const { data } = await axios.post('/app/get-time', {
+            params: {
+                time: moment()
+            }
+        })
         setTime(data)
     }
 
