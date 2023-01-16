@@ -79,7 +79,7 @@ export const HomePage = () => {
                 time: moment().format()
             }
         })
-        setTime(moment(data).format('DD-MM hh:mm:ss'))
+        setTime(moment(data).locale().format('DD-MM hh:mm:ss'))
     }
 
     useEffect(() => {
