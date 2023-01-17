@@ -66,9 +66,6 @@ const operationsSlice = createSlice({
     name: 'operations',
     initialState,
     reducers: {
-        clearOneOperation: (state) => {
-            state.operation = {}
-        }
     },
     extraReducers: {
         [fetchGetOperations.pending]: (state) => {

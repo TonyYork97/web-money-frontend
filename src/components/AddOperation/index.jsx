@@ -13,13 +13,13 @@ import Select from 'react-select'
 import { Controller, useForm } from 'react-hook-form'
 import axios from '../../axios'
 import styles from './styles.scss'
-import { clearOneOperation } from '../../store/slices/operationsSlice'
 import { PopupWindow } from '../PopupWindow'
 import { MainLoading } from '../MainLoading'
 
 export const AddOperation = () => {
     const [typeOpeation, setTypeOperation] = useState('Добавить')
     const [typeCategory, setTypeCategory] = useState('расход')
+    const [isLoadingSubmit, setisLoadingSubmit] = useState(false)
     const [isPopup, setIsPopup] = useState(false)
     const [categoriesArr, setCategoriesArr] = useState([])
     const [paymentMethodsArr, setPaymentMethodsArr] = useState([])
@@ -59,6 +59,7 @@ export const AddOperation = () => {
 
     const onSubmit = async (values) => {
         try {
+            setisLoadingSubmit(true)
             id
                 ? await axios.patch(`app/operation/${id}`, values)
                 : await axios.post(`app/operation`, values)
@@ -68,10 +69,10 @@ export const AddOperation = () => {
         } finally {
             if (id) {
                 navigate('/app/home', { replace: true })
-                dispatch(clearOneOperation())
             } else {
                 reset()
             }
+            setisLoadingSubmit(false)
         }
     }
     const togglePopup = () => {
@@ -83,14 +84,18 @@ export const AddOperation = () => {
     }
 
     const getOperation = async () => {
-        if (id) {
-            await axios.get(`app/operation/${id}`).then(({ data }) => {
-                setValue('title', data.title)
-                setValue('amount', data.amount)
-                setValue('category', data.category)
-                setValue('date', data.date)
-                setValue('paymentMethod', data.paymentMethod)
-            });
+        try {
+            if (id) {
+                await axios.get(`app/operation/${id}`).then(({ data }) => {
+                    setValue('title', data.title)
+                    setValue('amount', data.amount)
+                    setValue('category', data.category)
+                    setValue('date', data.date)
+                    setValue('paymentMethod', data.paymentMethod)
+                });
+            }
+        } catch (err) {
+            console.warn(err);
         }
     }
 
@@ -108,9 +113,6 @@ export const AddOperation = () => {
         getOperation()
         getCategories();
 
-        return () => {
-            dispatch(clearOneOperation())
-        }
     }, []);
 
 
@@ -248,7 +250,7 @@ export const AddOperation = () => {
 
                     <div className='flex flex-col gap-3 '>
                         <ButtonGreen
-                            disabled={isValid}
+                            disabled={isValid && !isLoadingSubmit}
                             type="submit"
                             title={`${typeOpeation} ${typeCategory}`}
                             cn='w-full '

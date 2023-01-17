@@ -101,7 +101,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, setOper
     return <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><MainLoading size={32} /></div>
   }
   return (
-    <div className='flex flex-col justify-between'>
+    <div className='flex flex-col h-full justify-between'>
       {error
         ? <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><button onClick={reload}>Попробуйте обновить</button></div>
         : <div>
