@@ -31,14 +31,14 @@ export const AddOperation = () => {
     const { data: categories, isLoading: isLoadingCategories, dataPaymentMethods } = useSelector(state => state.categories)
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, reset, control, formState: { errors, isValid } } = useForm({
+    const { register, handleSubmit, setValue, reset, getValues, control, formState: { errors, isValid } } = useForm({
         defaultValues: {
             title: '',
             amount: '',
             category: '',
             paymentMethod: '',
             type: location.pathname.includes('expense') ? 'expense' : 'revenue',
-            date: ''
+            date: moment().format('YYYY-MM-DD')
         },
         mode: 'onChange'
     });
@@ -151,6 +151,9 @@ export const AddOperation = () => {
         return <div className='w-full h-screen flex justify-center items-center'><MainLoading /></div>
     }
 
+    console.log(moment().format('YYYY-MM-DD'));
+    console.log(getValues('date'));
+
     return (
         <>
             {isPopup && <PopupWindow setPopup={setIsPopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
@@ -244,7 +247,6 @@ export const AddOperation = () => {
                             ref={date.ref}
                             error={Boolean(errors.date)}
                             helperText={errors.date?.message}
-                            placeholder="Введите дату"
                         />
                     </div>
 
