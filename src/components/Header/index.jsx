@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import LogoImg from '../../assets/images/logo.png'
 import Burger from '../../assets/images/burger.svg'
 import BurgerLight from '../../assets/images/burger-light.svg'
@@ -49,13 +49,21 @@ const nav = [
 
 export const Header = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
+    const intoViewfRef = useRef()
     const closeNav = () => {
         setIsOpenNav(false)
     }
 
+    const scrollToIntoView = () => {
+        intoViewfRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        })
+    }
+
     return (
         <div className="py-2 px-3 flex justify-between items-center h-[52px] fixed w-full bg-background dark:bg-gradient-to-r dark:from-bggBottom dark:via-bggTop dark:to-white z-[100]">
-            <Link to={links.home} className='flex items-center gap-3'>
+            <Link to={links.home} ref={intoViewfRef} onClick={scrollToIntoView} className='flex items-center gap-3'>
                 <div className="w-10 md:w-13 h-auto animate-spin-slow">
                     <img className='w-full h-auto' src={LogoImg} alt="logo" />
                 </div>
