@@ -244,7 +244,7 @@ export const AddOperation = () => {
                             ref={date.ref}
                             error={Boolean(errors.date)}
                             helperText={errors.date?.message}
-
+                            placeholder="Введите дату"
                         />
                     </div>
 
