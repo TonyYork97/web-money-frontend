@@ -9,6 +9,7 @@ import { HistoryFilter } from '../../components/HistoryFilter'
 import { useNavigate } from 'react-router-dom'
 import { userIsAuth } from '../../store/slices/authSlice'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 import styles from './styles.module.scss'
 
 export const HistoryPage = () => {
@@ -37,8 +38,8 @@ export const HistoryPage = () => {
                     limit,
                     page,
                     type: type?.value,
-                    dateFrom: minDateValue,
-                    dateTo: maxDateValue,
+                    dateFrom: minDateValue || moment().add(-11, 'M').startOf('M').format(),
+                    dateTo: maxDateValue || moment().format(),
                     amountFrom: minAmountValue,
                     amountTo: maxAmountValue
                 }

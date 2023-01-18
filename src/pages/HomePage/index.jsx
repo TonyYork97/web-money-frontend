@@ -48,7 +48,11 @@ export const HomePage = () => {
     const getOperations = async () => {
         dispatch(fetchGetMontExpense())
         dispatch(fetchGetMontRevenue())
-        dispatch(fetchGetOperations({ limit: 8 }))
+        dispatch(fetchGetOperations({
+            limit: 8,
+            dateFrom: moment().add(-11, 'M').startOf('M').format(),
+            dateTo: moment().format()
+        }))
         dispatch(fetchGetTodayExpense())
         dispatch(fetchGetTotalCash())
         dispatch(fetchGetYearExpense())
@@ -144,14 +148,26 @@ export const HomePage = () => {
                     </ShadowBlock>
                     <div className='flex w-full md:col-span-2'>
                         <ShadowBlock>
-                            <History title='История операций' data={data} isLoading={isLoadingOperations} reloadAll={getOperations} reload={reloadOperations} error={dataError} />
+                            <History
+                                title='История операций'
+                                data={data}
+                                isLoading={isLoadingOperations}
+                                reloadAll={getOperations}
+                                reload={reloadOperations}
+                                error={dataError}
+                            />
                         </ShadowBlock>
                     </div>
                 </div>
                 <div className='grid grid-cols-4'>
                     <div className='col-span-4  xl:col-span-2'>
                         <ShadowBlock>
-                            <BarChart isLoading={isLoadingYearExpense} yearExpense={yearExpense} reload={reloadYearExpense} error={yearExpenseError} />
+                            <BarChart
+                                isLoading={isLoadingYearExpense}
+                                yearExpense={yearExpense}
+                                reload={reloadYearExpense}
+                                error={yearExpenseError}
+                            />
                         </ShadowBlock>
                     </div>
                 </div>
