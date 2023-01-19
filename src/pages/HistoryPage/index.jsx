@@ -15,7 +15,7 @@ import { setUpdateFlag } from '../../store/slices/filterSlice'
 
 export const HistoryPage = () => {
     const { typeOfPayment, type, minDateValue, maxDateValue, minAmountValue, maxAmountValue, updateFlag } = useSelector(state => state.filter)
-    const [limit] = useState(10);
+    const [limit] = useState(20);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
