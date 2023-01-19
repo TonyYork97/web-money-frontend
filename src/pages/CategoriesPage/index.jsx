@@ -15,7 +15,7 @@ import { userIsAuth } from '../../store/slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { useRef } from 'react'
 import { useResize } from '../../hooks/Rezise'
-import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen } from '../../store/slices/filterSlice'
+import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen, setUpdateFlag } from '../../store/slices/filterSlice'
 
 
 export const CategoriesPage = ({ type }) => {
@@ -30,9 +30,11 @@ export const CategoriesPage = ({ type }) => {
     const [errorOperation, setErrorOperation] = useState(null)
     const { width } = useResize()
 
+    const operationBlockRef = useRef()
+
     const dispatch = useDispatch()
     const { monthExpense, monthRevenue, isLoadingMonthExpense, isLoadingMonthRevenue, monthExpenseError, monthRevenueError } = useSelector(state => state.operations);
-    const { curCategory, curCategoryAmount, activeCategory, isOpen } = useSelector(state => state.filter);
+    const { curCategory, curCategoryAmount, activeCategory, isOpen, updateFlag } = useSelector(state => state.filter);
 
     const isAuth = useSelector(userIsAuth);
     const navigate = useNavigate();
@@ -151,11 +153,20 @@ export const CategoriesPage = ({ type }) => {
     }, [type])
 
     useEffect(() => {
-        if (curCategory && !flag) {
+        if (curCategory && !flag && updateFlag) {
             getOperations()
         }
+        dispatch(setUpdateFlag(true))
+
     }, [curCategory]);
 
+    const closeOperations = () => {
+        dispatch(setIsOpen(false))
+        operationBlockRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+        })
+    }
 
     return (
         <>
@@ -192,13 +203,13 @@ export const CategoriesPage = ({ type }) => {
                                             src={Close}
                                             alt="close category"
                                             className='w-8 h-8 md:hidden'
-                                            onClick={() => dispatch(setIsOpen(false))}
+                                            onClick={closeOperations}
                                         />
                                         : <img
                                             src={CloseLight}
                                             alt="close category"
                                             className='w-8 h-8 md:hidden'
-                                            onClick={() => dispatch(setIsOpen(false))}
+                                            onClick={closeOperations}
                                         />
                                     }
                                     <div className=' text-sm sm:text-base font-thin sm:font-bold dark:text-darkBlack'>
@@ -219,7 +230,7 @@ export const CategoriesPage = ({ type }) => {
                                         : ''
                                 }
                             </div>
-                            <div className='pt-12 md:hidden'></div>
+                            <div ref={operationBlockRef} className='pt-12 md:hidden'></div>
                             <History
                                 data={operations}
                                 full

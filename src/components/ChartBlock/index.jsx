@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment'
 import { MainLoading } from '../MainLoading';
 import { ShowMoreButton } from '../ShowMoreButton';
-import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen } from '../../store/slices/filterSlice';
+import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen, setUpdateFlag } from '../../store/slices/filterSlice';
 ChartJS.register(ArcElement, Legend);
 
 export const ChartBlock = (
@@ -64,6 +64,7 @@ export const ChartBlock = (
         dispatch(setCurCategory(titleItem))
         dispatch(setCurCategoryAmount(idx))
         dispatch(setActiveCategory(idx))
+        dispatch(setUpdateFlag(false))
 
     }
     const reloadData = () => {

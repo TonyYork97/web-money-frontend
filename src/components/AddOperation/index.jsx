@@ -31,7 +31,7 @@ export const AddOperation = () => {
     const { data: categories, isLoading: isLoadingCategories, dataPaymentMethods } = useSelector(state => state.categories)
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, reset, getValues, control, formState: { errors, isValid } } = useForm({
+    const { register, handleSubmit, setValue, reset, getValues, setError, control, formState: { errors, isValid } } = useForm({
         defaultValues: {
             title: '',
             amount: '',
@@ -58,6 +58,11 @@ export const AddOperation = () => {
     }
 
     const onSubmit = async (values) => {
+        if (!values.title.trim()) {
+            setError('title', { type: 'empty', message: 'Введите название операции' }, { shouldFocus: true })
+            return
+        };
+        values.title = values.title.trim()
         try {
             setisLoadingSubmit(true)
             id
@@ -65,7 +70,7 @@ export const AddOperation = () => {
                 : await axios.post(`app/operation`, values)
             togglePopup()
         } catch (err) {
-            console.log(err);
+            console.warn(err);
         } finally {
             if (id) {
                 navigate('/app/home', { replace: true })
@@ -145,14 +150,9 @@ export const AddOperation = () => {
     const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
     const maxDate = moment().format('YYYY-MM-DD')
 
-
-
     if ((isLoading && !isAuth) || isLoadingCategories) {
         return <div className='w-full h-screen flex justify-center items-center'><MainLoading /></div>
     }
-
-    console.log(moment().format('YYYY-MM-DD'));
-    console.log(getValues('date'));
 
     return (
         <>
@@ -210,6 +210,7 @@ export const AddOperation = () => {
 
                             name='paymentMethod'
                             render={({ field: { onChange, value }, fieldState: { error } }) => <Select
+                                scrollToFocusedOptionOnUpdate={true}
                                 options={
                                     [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
                                 }

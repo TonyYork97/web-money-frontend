@@ -13,13 +13,18 @@ const initialState = {
   curCategory: '',
   curCategoryAmount: 0,
   activeCategory: 0,
-  isOpen: false
+  isOpen: false,
+
+  updateFlag: true
 }
 
 const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
+    setUpdateFlag: (state, action) => {
+      state.updateFlag = action.payload
+    },
     setTypeOfPaymentOperation: (state, action) => {
       state.typeOfPayment = action.payload
     },
@@ -71,6 +76,7 @@ export const {
   setCurCategory,
   setCurCategoryAmount,
   setActiveCategory,
-  setIsOpen
+  setIsOpen,
+  setUpdateFlag
 } = filterSlice.actions;
 export const filterReducer = filterSlice.reducer

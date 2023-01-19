@@ -8,13 +8,14 @@ import { ShadowBlock } from '../../components/ShadowBlock'
 import { HistoryFilter } from '../../components/HistoryFilter'
 import { useNavigate } from 'react-router-dom'
 import { userIsAuth } from '../../store/slices/authSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import styles from './styles.module.scss'
+import { setUpdateFlag } from '../../store/slices/filterSlice'
 
 export const HistoryPage = () => {
-    const { typeOfPayment, type, minDateValue, maxDateValue, minAmountValue, maxAmountValue } = useSelector(state => state.filter)
-    const [limit] = useState(15);
+    const { typeOfPayment, type, minDateValue, maxDateValue, minAmountValue, maxAmountValue, updateFlag } = useSelector(state => state.filter)
+    const [limit] = useState(10);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
@@ -23,6 +24,7 @@ export const HistoryPage = () => {
 
     const [fullDateValue, setFullDateValue] = useState('')
 
+    const dispatch = useDispatch()
 
     // при попытки получить данные с теми же параметрами, запрос выполнится
     const [flag, setFlag] = useState(false)
@@ -32,11 +34,16 @@ export const HistoryPage = () => {
 
     const getOperations = async (clear) => {
         try {
+            if (clear) {
+                setPage(1)
+                setOperations([])
+                window.scrollTo(0, 0)
+            }
             setIsLoading(true)
             await axios.get('/app/operation', {
                 params: {
                     limit,
-                    page,
+                    page: clear ? 1 : page,
                     type: type?.value,
                     dateFrom: minDateValue || moment().add(-11, 'M').startOf('M').format(),
                     dateTo: maxDateValue || moment().format(),
@@ -77,8 +84,9 @@ export const HistoryPage = () => {
         if (!localStorage.getItem('token') && !isAuth) {
             navigate('/', { replace: true })
         }
-        if (isAuth && !flag) {
+        if (isAuth && !flag && updateFlag) {
             getOperations()
+            dispatch(setUpdateFlag(true))
         }
     }, [page])
 

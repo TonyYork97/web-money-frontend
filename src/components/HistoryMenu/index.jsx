@@ -6,9 +6,12 @@ import Edit from '../../assets/images/edit.svg'
 import EditLight from '../../assets/images/edit-light.svg'
 import { Link } from 'react-router-dom'
 import axios from '../../axios'
+import { useDispatch } from 'react-redux'
+import { setUpdateFlag } from '../../store/slices/filterSlice'
 
 
 export const HistoryMenu = ({ id, type, reload }) => {
+  const dispatch = useDispatch()
   const [activeMenu, setActiveMenu] = useState(false);
 
   const handleClick = () => {
@@ -21,11 +24,14 @@ export const HistoryMenu = ({ id, type, reload }) => {
 
   const deleteOperation = async () => {
     try {
+      dispatch(setUpdateFlag(false))
       await axios.delete(`/app/operation/${id}`);
       setActiveMenu(false)
       await reload(true)
     } catch (err) {
       console.warn(err);
+    } finally {
+      dispatch(setUpdateFlag(true))
     }
   }
 

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useState } from 'react'
+import React from 'react'
 import { useMemo } from 'react';
 import { useRef } from 'react';
 import { useObserver } from '../../hooks/useObserver';
@@ -12,7 +12,20 @@ import { ShowMoreButton } from '../ShowMoreButton';
 let dateHistory = ''
 moment().locale('ru');
 
-export const History = ({ data, full = false, title = '', isLazyLoading, setOperations, isLoading, totalPages, page, setPage, withDate = false, reload, reloadAll, error }) => {
+export const History = ({
+  data,
+  full = false,
+  title = '',
+  isLazyLoading,
+  isLoading,
+  totalPages,
+  page,
+  setPage,
+  withDate = false,
+  reload,
+  reloadAll,
+  error
+}) => {
   const observerRef = useRef();
 
 
@@ -21,6 +34,9 @@ export const History = ({ data, full = false, title = '', isLazyLoading, setOper
   }, full, isLoading, error)
 
   const funcData = useMemo(() => {
+    if (!withDate) {
+      return null
+    }
     const dataWithDate =
       data.length
         ? data.map((el, idx) => {
@@ -72,6 +88,9 @@ export const History = ({ data, full = false, title = '', isLazyLoading, setOper
   }, [data])
 
   const funcDataWithoutDate = useMemo(() => {
+    if (withDate) {
+      return null
+    }
     const dataWhithoutDate =
       data.length
         ? data.map((el, idx) => {
@@ -97,7 +116,7 @@ export const History = ({ data, full = false, title = '', isLazyLoading, setOper
 
 
   // max-h-[520px] overflow-y-auto
-  if (isLoading && !data.length) {
+  if ((isLoading || isLazyLoading) && !data.length) {
     return <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><MainLoading size={32} /></div>
   }
   return (
