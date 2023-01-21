@@ -45,8 +45,8 @@ export const HistoryPage = () => {
                     limit,
                     page: clear ? 1 : page,
                     type: type?.value,
-                    dateFrom: minDateValue || moment().add(-11, 'M').startOf('M').format(),
-                    dateTo: maxDateValue || moment().format(),
+                    dateFrom: minDateValue || moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD'),
+                    dateTo: maxDateValue || moment().format('YYYY-MM-DD'),
                     amountFrom: minAmountValue,
                     amountTo: maxAmountValue
                 }

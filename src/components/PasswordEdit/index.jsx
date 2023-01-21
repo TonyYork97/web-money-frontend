@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchChangePassword, setChangePasswordError, setIsSuccessChangePassword } from '../../store/slices/authSlice';
 import { ButtonGreen } from '../ButtonGreen';
 import { Input } from '../Input';
+import { MainLoading } from '../MainLoading';
 import { PopupWindow } from '../PopupWindow';
 
 
@@ -103,7 +104,7 @@ export const PasswordEdit = () => {
       {/* {isPopup && <PopupWindow setPopup={setIsPopup} text={error ? error.message : 'Пароль успешно изменен'} />} */}
       {changePasswordError && < PopupWindow text={changePasswordError?.message || "Не удалось обновить пароль! Попробуйте еще раз"} error onClose={closePopupError} />}
       {isSuccessChangePassword && < PopupWindow text="Пароль успешно обновлен!" onClose={closePopupSuccess} />}
-      <h3 className='text-lg font-bold mb-3'>Изменить пароль который привязан к акаунту <span className=' text-transparent  bg-clip-text bg-gradient-to-r from-mainGreen to-mainYellow dark:from-darkBlack dark:to-bggBottom'>WebMoney</span></h3>
+      <h3 className='text-lg font-bold mb-3'>Изменить пароль который привязан к акаунту <span className='text-transparent bg-clip-text bg-gradient-to-r from-mainGreen to-mainYellow dark:from-darkBlack dark:to-bggBottom'>WebMoney</span></h3>
       <div >
         <div>
           <h4 className='text-base font-bold mb-2'>Текущий пароль</h4>
@@ -145,7 +146,10 @@ export const PasswordEdit = () => {
             showPassword
           />
         </div>
-        <ButtonGreen func={changePassword} title="Изменить Пароль" />
+        <div className='flex gap-3 items-center'>
+          <ButtonGreen func={changePassword} title="Изменить Пароль" />
+          {isLoadingChangePassword && <MainLoading size={20} />}
+        </div>
       </div>
     </div>
   )

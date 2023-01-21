@@ -81,7 +81,7 @@ export const EmailEdit = () => {
     <div>
       {changeEmailError && < PopupWindow text={changeEmailError?.message || "Не удалось обновить Email! Попробуйте еще раз"} error onClose={closePopupError} />}
       {isSuccessChangeEmail && < PopupWindow text="Email успешно обновлен!" onClose={closePopupSuccess} />}
-      <h3 className='text-lg font-bold mb-3'>Изменить Email который привязан к акаунту WebMoney</h3>
+      <h3 className='text-lg font-bold mb-3'>Изменить Email который привязан к акаунту <span className='text-transparent bg-clip-text bg-gradient-to-r from-mainGreen to-mainYellow dark:from-darkBlack dark:to-bggBottom'>WebMoney</span></h3>
       <div >
         <div>
           <h4 className='text-lg font-bold mb-3'>Новый Email</h4>

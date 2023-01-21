@@ -76,16 +76,16 @@ export const AddOperation = () => {
                 ? await axios.patch(`app/operation/${id}`, values)
                 : await axios.post(`app/operation`, values)
             if (data?.message) {
-                toggleErrorPopup()
+                setErrorPopup(true)
             } else {
-                togglePopup()
+                setIsPopup(true)
                 if (id) {
                     navigate(-1, { replace: true })
                 }
             }
         } catch (err) {
             console.warn(err);
-            toggleErrorPopup()
+            setErrorPopup(true)
         } finally {
             if (!id) {
                 reset()
@@ -94,16 +94,10 @@ export const AddOperation = () => {
         }
     }
     const togglePopup = () => {
-        setIsPopup(true);
-        setTimeout(() => {
-            setIsPopup(false)
-        }, 3000)
+        setIsPopup(false);
     }
     const toggleErrorPopup = () => {
-        setErrorPopup(true);
-        setTimeout(() => {
-            setErrorPopup(false)
-        }, 3000)
+        setErrorPopup(false);
     }
 
     const getOperation = async () => {
@@ -175,8 +169,8 @@ export const AddOperation = () => {
 
     return (
         <>
-            {isPopup && <PopupWindow setPopup={setIsPopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
-            {errorPopup && <PopupWindow setPopup={setIsPopup} error text={id ? 'Не удалось изменить операцию' : 'Не удалось добавить операцию'} />}
+            {isPopup && <PopupWindow onClose={togglePopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
+            {errorPopup && <PopupWindow onClose={toggleErrorPopup} error text={id ? 'Не удалось изменить операцию' : 'Не удалось добавить операцию'} />}
             <div className='w-full pt-0 md:pt-14 md:max-w-[864px] mx-auto py-2 px-3 fixed md:static overflow-auto bg-background dark:bg-white md:bg-transparent h-screen z-[888] '>
                 <div className='flex py-2 justify-between md:justify-center  items-center mb-3'>
                     <h3 className='font-bold text-lg'>{typeOpeation} {typeCategory}</h3>

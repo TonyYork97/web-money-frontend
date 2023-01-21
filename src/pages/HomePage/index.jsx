@@ -17,7 +17,6 @@ import { TotalCash } from '../../components/TotalCash'
 import moment from 'moment'
 import { useState } from 'react'
 import axios from '../../axios'
-import { ButtonLink } from '../../components/ButtonLink'
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -51,8 +50,8 @@ export const HomePage = () => {
         dispatch(fetchGetMontRevenue())
         dispatch(fetchGetOperations({
             limit: 8,
-            dateFrom: moment().add(-11, 'M').startOf('M').format(),
-            dateTo: moment().format()
+            dateFrom: moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD'),
+            dateTo: moment().format('YYYY-MM-DD')
         }))
         dispatch(fetchGetTodayExpense())
         dispatch(fetchGetTotalCash())
