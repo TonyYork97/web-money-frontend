@@ -14,7 +14,7 @@ export const StartPage = () => {
     const isLoading = useSelector(state => state.auth.isLoading)
     const navigate = useNavigate();
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && localStorage.getItem('token')) {
             navigate('/app/home', { replace: true })
         }
     })

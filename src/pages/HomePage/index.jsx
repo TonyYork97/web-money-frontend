@@ -17,6 +17,7 @@ import { TotalCash } from '../../components/TotalCash'
 import moment from 'moment'
 import { useState } from 'react'
 import axios from '../../axios'
+import { ButtonLink } from '../../components/ButtonLink'
 
 export const HomePage = () => {
     const dispatch = useDispatch();
@@ -97,7 +98,7 @@ export const HomePage = () => {
         } else {
             getOperations()
         }
-    }, [isAuth])
+    }, [])
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -115,11 +116,11 @@ export const HomePage = () => {
             <div className='pb-2'>
                 <div className='flex flex-col-reverse gap-3 md:items-center md:flex-row mb-4 justify-between'>
                     <div className='flex  flex-col sm:flex-row  gap-4'>
-                        {/* <Link to="add">Добавить доход</Link> */}
                         <Link className='w-full md:w-auto  rounded-3xl text-center border border-mainGreen py-4 px-4 md:py-6 font-bold  hover:bg-secondBackground  dark:hover:bg-bggTop transition-colors' to={links.addExpense}>Добавить расход</Link>
                         <Link className='w-full md:w-auto rounded-3xl  bg-gradient-to-r from-mainGreen to-bggGreen text-center text-background py-4 md:py-6 px-4 font-bold  hover:from-mainGreen hover:to-mainGreen transition-colors' to={links.addRevenue}>Добавить доход</Link>
-                        <div>{time}</div>
-                        <button onClick={getTimeFunc}>Get time</button>
+
+                        {/* <div>{time}</div> */}
+                        {/* <button onClick={getTimeFunc}>Get time</button> */}
                     </div>
                     <div className={`flex gap-3 items-center flex-row ${width < 375 ? 'flex-wrap' : ''}`}>
                         <TodayExpense data={todayExpense} isLoading={isLoadingTodayExpense} reload={reloadTodayExpense} error={todayExpenseError} />

@@ -8,6 +8,7 @@ import Close from '../../assets/images/close.svg'
 import CloseLight from '../../assets/images/close-light.svg'
 import { fetchLogOut, userIsAuth } from '../../store/slices/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useResize } from '../../hooks/Rezise'
 
 
 const profileLinks = [
@@ -27,6 +28,7 @@ export const Settings = ({ children }) => {
   const styleLink = localStorage.getItem('theme') === 'dark' ? 'bg-whiteOpacity' : 'dark:bg-bggBottom'
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const { width } = useResize()
 
   const isAuth = useSelector(userIsAuth);
 
@@ -36,7 +38,12 @@ export const Settings = ({ children }) => {
     setActiveMenu(false)
   }
   const openMenu = () => {
-    window.scrollTo(0, 0)
+    setTimeout(() => {
+      document.body.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }, 1)
 
     if (slashes.length === 3) {
       setActiveMenu(true)
@@ -60,15 +67,13 @@ export const Settings = ({ children }) => {
 
   return (
     <Container>
-      <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu dark:bg-bggTop rounded-lg h-[calc(100vh-56px)] p-3'>
+      <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu dark:bg-bggTop rounded-lg p-3'>
         <div className={`${activeMenu ? 'translate-x-0' : '-translate-x-[110%]'} md:translate-x-0 md:min-w-[260px]  top-0 left-0 right-0 bottom-0 rounded-lg  absolute z-[997] md:z-[1] bg-blackMenu dark:bg-bggTop md:static transition-all md:col-span-1 overflow-y-auto border-r border-background dark:border-bggBottom md:h-[calc(100vh-68px)] pr-3`}>
           <div className='flex justify-between p-3 md:p-0 items-center mb-3'>
             <h3 className='font-bold text-lg '>Настройки</h3>
             {localStorage.getItem('theme') === 'dark'
               ? <img onClick={closeMenu} className='w-7 h-7 md:hidden' src={Close} alt="close" />
               : <img onClick={closeMenu} className='w-7 h-7 md:hidden' src={CloseLight} alt="close" />
-
-
             }
           </div>
           <div className='flex flex-col'>
@@ -91,11 +96,13 @@ export const Settings = ({ children }) => {
             >Выйти из профиля</button>
           </div>
         </div>
-        <div className='overflow-y-auto relative w-full h-[calc(100vh-68px)] px-0 md:px-3 md:col-span-3'>
+        <div className=' relative w-full px-0 md:px-3 md:col-span-3'>
           <div className='mb-1'>
-            {localStorage.getItem('theme') === 'dark'
-              ? <img onClick={openMenu} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer ' />
-              : <img onClick={openMenu} src={ArrowLeftLight} alt="" className='w-8 h-8 cursor-pointer ' />
+            {slashes.length > 3 || width < 768
+              ? localStorage.getItem('theme') === 'dark'
+                ? <img onClick={openMenu} src={ArrowLeft} alt="" className='w-8 h-8 cursor-pointer ' />
+                : <img onClick={openMenu} src={ArrowLeftLight} alt="" className='w-8 h-8 cursor-pointer ' />
+              : ''
             }
           </div>
           {children}

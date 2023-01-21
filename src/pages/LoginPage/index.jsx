@@ -33,13 +33,12 @@ export const LoginPage = () => {
 
         if (!data.payload?.message) {
             navigate('/app/home', { replace: true })
-
         }
     }
 
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && localStorage.getItem('token')) {
             navigate('/app/home', { replace: true })
         }
 

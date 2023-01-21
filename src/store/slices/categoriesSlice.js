@@ -15,6 +15,8 @@ const initialState = {
     data: null,
     dataPaymentMethods: null,
     isLoading: false,
+    categoriesError: null,
+    paymentMethodsError: null
 }
 
 const categoriesSlice = createSlice({
@@ -24,25 +26,42 @@ const categoriesSlice = createSlice({
         [fetchGetcategories.pending]: (state) => {
             state.isLoading = true
             state.data = null
+            state.categoriesError = null
         },
         [fetchGetcategories.fulfilled]: (state, action) => {
             state.isLoading = false
-            state.data = action.payload
+            if (!action.payload?.message) {
+                state.categoriesError = null
+                state.data = action.payload
+            } else {
+                state.data = null
+                state.categoriesError = action.payload
+            }
         },
         [fetchGetcategories.rejected]: (state) => {
             state.isLoading = false
+            state.categoriesError = 'error'
             state.data = null
         },
         [fetchGetPaymentMethods.pending]: (state) => {
             state.isLoading = true
             state.dataPaymentMethods = null
+            state.paymentMethodsError = null
         },
         [fetchGetPaymentMethods.fulfilled]: (state, action) => {
             state.isLoading = false
-            state.dataPaymentMethods = action.payload
+            if (!action.payload?.message) {
+                state.paymentMethodsError = null
+                state.dataPaymentMethods = action.payload
+            } else {
+                state.paymentMethodsError = action.payload
+                state.dataPaymentMethods = null
+
+            }
         },
         [fetchGetPaymentMethods.rejected]: (state) => {
             state.isLoading = false
+            state.paymentMethodsError = 'error'
             state.dataPaymentMethods = null
         },
     }

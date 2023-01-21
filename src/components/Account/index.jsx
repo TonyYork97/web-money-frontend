@@ -7,6 +7,7 @@ import { Input } from '../../components/Input'
 import { links } from '../../links'
 
 import { fetchChangeLastName, fetchChangeName } from '../../store/slices/authSlice'
+import { ButtonLink } from '../ButtonLink'
 
 export const Account = () => {
   const [emailState, setEmail] = useState('')
@@ -22,43 +23,42 @@ export const Account = () => {
   const dispatch = useDispatch()
   const emailRef = useRef()
 
-  const changeName = (e) => {
+  const changefullName = (e) => {
+    if (lastNameState.length < 2 || lastNameState.length > 20) {
+      setErrorLastName(true);
+      setHelperTextLastName('Фамилия должна содержать не менее 2 и не более 20 символов')
+      return
+    }
     if (nameState.length < 2 || nameState.length > 20) {
       setErrorName(true);
       setHelperTextName('Имя должно содержать не менее 2 и не более 20 символов')
-    } else {
+      return
+    }
+    if (nameState !== data?.user?.name) {
       dispatch(fetchChangeName({ name: nameState }))
       setErrorName(false);
       setHelperTextName('')
     }
-  }
-
-  const changeLastName = (e) => {
-    if (lastNameState.length < 2 || lastNameState.length > 20) {
-      setErrorLastName(true);
-      setHelperTextLastName('Фамилия должна содержать не менее 2 и не более 20 символов')
-    } else {
+    if (lastNameState !== data?.user?.lastName) {
       dispatch(fetchChangeLastName({ lastName: lastNameState }))
       setErrorLastName(false);
       setHelperTextLastName('')
     }
   }
 
-
   useEffect(() => {
     setEmail(data?.user?.email)
     setName(data?.user?.name)
     setLastName(data?.user?.lastName)
   }, [data])
-  const removeChangeName = () => {
-    setName(data?.user?.name);
-    setErrorName(false);
-    setHelperTextName('')
-  }
-  const removeChangeLastName = () => {
+
+  const resetFullName = () => {
     setLastName(data?.user?.lastName);
     setErrorLastName(false);
     setHelperTextLastName('')
+    setName(data?.user?.name);
+    setErrorName(false);
+    setHelperTextName('')
   }
 
   const copyEmail = (e) => {
@@ -91,36 +91,31 @@ export const Account = () => {
           <input type="file" className='file:rounded-full file:px-3 file:py-2 file:hover:bg-green-300 file:cursor-pointer file:transition-colors' />
         </div>
       </div> */}
-      <div className='mb-8'>
-        <h4 className='text-lg font-bold mb-3'>Имя</h4>
-        <Input
-          onChange={onChangeName}
-          value={nameState}
-          helperText={helperTextName}
-          error={errorName}
-          maxLength={20}
-        />
-        {nameState !== data?.user?.name
+      <div className='bg-newBlack rounded-xl p-2 mb-3'>
+        <div className=''>
+          <h4 className='text-lg font-bold mb-3'>Имя</h4>
+          <Input
+            onChange={onChangeName}
+            value={nameState}
+            helperText={helperTextName}
+            error={errorName}
+            maxLength={20}
+          />
+        </div>
+        <div className='mb-3'>
+          <h4 className='text-lg font-bold mb-3'>Фамилия</h4>
+          <Input
+            onChange={onChangeLastName}
+            value={lastNameState}
+            helperText={helperTextLastName}
+            error={errorLastName}
+            maxLength={20}
+          />
+        </div>
+        {lastNameState !== data?.user?.lastName || nameState !== data?.user?.name
           ? <div className='flex gap-4'>
-            <ButtonGreen func={changeName} title="Сохранить изменения" />
-            <ButtonGreen func={removeChangeName} title="Отменить" />
-          </div>
-          : ''
-        }
-      </div>
-      <div className='mb-8'>
-        <h4 className='text-lg font-bold mb-3'>Фамилия</h4>
-        <Input
-          onChange={onChangeLastName}
-          value={lastNameState}
-          helperText={helperTextLastName}
-          error={errorLastName}
-          maxLength={20}
-        />
-        {lastNameState !== data?.user?.lastName
-          ? <div className='flex gap-4'>
-            <ButtonGreen func={changeLastName} title="Сохранить изменения" />
-            <ButtonGreen func={removeChangeLastName} title="Отменить" />
+            <ButtonGreen func={changefullName} title="Сохранить изменения" />
+            <ButtonGreen func={resetFullName} title="Отменить" />
           </div>
           : ''
         }
@@ -130,14 +125,14 @@ export const Account = () => {
         <input ref={emailRef} className='bg-transparent inline mb-2 cursor-default focus:outline-none' value={emailState} readOnly />
         <div className='flex gap-4'>
           {/* <button onClick={copyEmail}>copy</button> */}
-          <Link to={links.email} className=" py-3 px-3 text-background rounded-xl  transition-colors font-bold bg-mainGreen hover:bg-secondGreen">Изменить почту</Link>
+          <ButtonLink link={links.email} title="Изменить почту" />
         </div>
       </div>
       <div className='mb-8'>
         <h4 className='text-lg font-bold mb-3'>Пароль</h4>
 
         <div className='flex gap-4'>
-          <Link to={links.password} className=" py-3 px-3 text-background rounded-xl  transition-colors font-bold bg-mainGreen hover:bg-secondGreen">Изменить пароль</Link>
+          <ButtonLink link={links.password} title="Изменить пароль" />
         </div>
       </div>
     </div>

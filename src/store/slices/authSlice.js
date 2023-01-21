@@ -75,15 +75,39 @@ export const fetchCheckAuth = createAsyncThunk('auth/checkAuth', async () => {
 const initialState = {
     data: null,
     isLoading: false,
-    error: null
+    error: null,
+
+    isLoadingChangeEmail: false,
+    changeEmailError: null,
+    isSuccessChangeEmail: false,
+
+    isLoadingChangePassword: false,
+    changePasswordError: null,
+    isSuccessChangePassword: false,
+
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
+    reducers: {
+        setChangeEmailError: (state, action) => {
+            state.changeEmailError = action.payload
+        },
+        setIsSuccessChangeEmail: (state, action) => {
+            state.isSuccessChangeEmail = action.payload
+        },
+        setChangePasswordError: (state, action) => {
+            state.changePasswordError = action.payload
+        },
+        setIsSuccessChangePassword: (state, action) => {
+            state.isSuccessChangePassword = action.payload
+        },
+    },
     extraReducers: {
         [fetchSignUp.pending]: (state) => {
             state.isLoading = true
+            state.error = null
             state.data = null
         },
         [fetchSignUp.fulfilled]: (state, action) => {
@@ -98,10 +122,12 @@ const authSlice = createSlice({
         },
         [fetchSignUp.rejected]: (state) => {
             state.isLoading = false
+            state.error = 'error'
             state.data = null
         },
         [fetchLogin.pending]: (state) => {
             state.isLoading = true
+            state.error = null
             state.data = null
         },
         [fetchLogin.fulfilled]: (state, action) => {
@@ -117,39 +143,49 @@ const authSlice = createSlice({
         [fetchLogin.rejected]: (state) => {
             state.isLoading = false
             state.data = null
+            state.error = 'error'
+
         },
         [fetchChangeEmail.pending]: (state) => {
-            state.isLoading = true
-            state.data = null
+            state.isSuccessChangeEmail = false
+            state.changeEmailError = null
+            state.isLoadingChangeEmail = true
         },
         [fetchChangeEmail.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.data = action.payload
+            state.isLoadingChangeEmail = false
+            if (!action.payload?.message) {
+                state.isSuccessChangeEmail = true
+                state.data = action.payload
+                state.changeEmailError = null
+            } else {
+                state.changeEmailError = action.payload
+            }
         },
         [fetchChangeEmail.rejected]: (state) => {
-            state.isLoading = false
-            state.data = null
+            state.changeEmailError = 'Не удалось изменить E-mail! Повторите попытку'
+            state.isSuccessChangeEmail = false
+            state.isLoadingChangeEmail = false
         },
         [fetchChangePassword.pending]: (state) => {
-            state.isLoading = false
-            state.error = null
+            state.isSuccessChangePassword = false
+            state.isLoadingChangePassword = true
+            state.changePasswordError = null
         },
         [fetchChangePassword.fulfilled]: (state, action) => {
-            state.isLoading = false
-            if (action.payload?.message) {
-                state.error = action.payload
-                console.log(action);
-            } else {
+            state.isLoadingChangePassword = false
+            if (!action.payload?.message) {
                 state.data = action.payload
-                state.error = null
-                console.log(action);
-
+                state.isSuccessChangePassword = true
+                state.changePasswordError = null
+            } else {
+                state.isSuccessChangePassword = false
+                state.changePasswordError = action.payload
             }
         },
         [fetchChangePassword.rejected]: (state, action) => {
-            state.isLoading = false
-            state.error = action.payload
-            console.log(action);
+            state.isSuccessChangePassword = false
+            state.isLoadingChangePassword = false
+            state.changePasswordError = "Не удалось изменить пароль"
         },
         [fetchChangeName.pending]: (state) => {
             state.isLoading = true
@@ -207,5 +243,12 @@ const authSlice = createSlice({
 
 
 export const userIsAuth = state => Boolean(state.auth.data);
+
+export const {
+    setChangeEmailError,
+    setIsSuccessChangeEmail,
+    setChangePasswordError,
+    setIsSuccessChangePassword
+} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

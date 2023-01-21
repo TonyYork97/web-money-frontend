@@ -144,7 +144,7 @@ export const CategoriesPage = ({ type }) => {
         if (isAuth) {
             getExpense()
         }
-    }, [curMonth, isAuth, type])
+    }, [curMonth, type])
     useEffect(() => {
         window.scrollTo(0, 0)
         return () => {

@@ -30,6 +30,7 @@ export const ThemePage = ({ theme, setTheme }) => {
         </div>
         <p className=''>{theme ? 'Темная тема' : 'Светлая тема'}</p>
       </div>
+
     </div>
   )
 }

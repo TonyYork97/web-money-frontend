@@ -21,6 +21,7 @@ export const AddOperation = () => {
     const [typeCategory, setTypeCategory] = useState('расход')
     const [isLoadingSubmit, setisLoadingSubmit] = useState(false)
     const [isPopup, setIsPopup] = useState(false)
+    const [errorPopup, setErrorPopup] = useState(false)
     const [categoriesArr, setCategoriesArr] = useState([])
     const [paymentMethodsArr, setPaymentMethodsArr] = useState([])
     const { id } = useParams()
@@ -28,10 +29,16 @@ export const AddOperation = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector(userIsAuth);
     const isLoading = useSelector(state => state.auth.isLoading)
-    const { data: categories, isLoading: isLoadingCategories, dataPaymentMethods } = useSelector(state => state.categories)
+    const {
+        data: categories,
+        isLoading: isLoadingCategories,
+        dataPaymentMethods,
+        categoriesError,
+        paymentMethodsError
+    } = useSelector(state => state.categories)
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, reset, getValues, setError, control, formState: { errors, isValid } } = useForm({
+    const { register, handleSubmit, setValue, reset, setError, control, formState: { errors, isValid } } = useForm({
         defaultValues: {
             title: '',
             amount: '',
@@ -50,10 +57,10 @@ export const AddOperation = () => {
 
     const getCategories = async () => {
         if (location.pathname.includes('expense')) {
-            await dispatch(fetchGetcategories({ category: 'expense' }));
-            await dispatch(fetchGetPaymentMethods());
+            dispatch(fetchGetcategories({ category: 'expense' }));
+            dispatch(fetchGetPaymentMethods());
         } else {
-            await dispatch(fetchGetcategories({ category: 'revenue' }));
+            dispatch(fetchGetcategories({ category: 'revenue' }));
         }
     }
 
@@ -65,16 +72,22 @@ export const AddOperation = () => {
         values.title = values.title.trim()
         try {
             setisLoadingSubmit(true)
-            id
+            let { data } = id
                 ? await axios.patch(`app/operation/${id}`, values)
                 : await axios.post(`app/operation`, values)
-            togglePopup()
+            if (data?.message) {
+                toggleErrorPopup()
+            } else {
+                togglePopup()
+                if (id) {
+                    navigate(-1, { replace: true })
+                }
+            }
         } catch (err) {
             console.warn(err);
+            toggleErrorPopup()
         } finally {
-            if (id) {
-                navigate('/app/home', { replace: true })
-            } else {
+            if (!id) {
                 reset()
             }
             setisLoadingSubmit(false)
@@ -85,7 +98,12 @@ export const AddOperation = () => {
         setTimeout(() => {
             setIsPopup(false)
         }, 3000)
-
+    }
+    const toggleErrorPopup = () => {
+        setErrorPopup(true);
+        setTimeout(() => {
+            setErrorPopup(false)
+        }, 3000)
     }
 
     const getOperation = async () => {
@@ -114,9 +132,10 @@ export const AddOperation = () => {
     useEffect(() => {
         if (!localStorage.getItem('token') && !isAuth) {
             navigate('/', { replace: true })
+        } else {
+            getOperation()
+            getCategories();
         }
-        getOperation()
-        getCategories();
 
     }, []);
 
@@ -157,6 +176,7 @@ export const AddOperation = () => {
     return (
         <>
             {isPopup && <PopupWindow setPopup={setIsPopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
+            {errorPopup && <PopupWindow setPopup={setIsPopup} error text={id ? 'Не удалось изменить операцию' : 'Не удалось добавить операцию'} />}
             <div className='w-full pt-0 md:pt-14 md:max-w-[864px] mx-auto py-2 px-3 fixed md:static overflow-auto bg-background dark:bg-white md:bg-transparent h-screen z-[888] '>
                 <div className='flex py-2 justify-between md:justify-center  items-center mb-3'>
                     <h3 className='font-bold text-lg'>{typeOpeation} {typeCategory}</h3>
@@ -164,7 +184,6 @@ export const AddOperation = () => {
                         {localStorage.getItem('theme') === 'dark'
                             ? <img src={Close} alt="close" className='w-8 h-8 cursor-pointer md:hidden' />
                             : <img src={CloseLight} alt="close" className='w-8 h-8 cursor-pointer md:hidden' />
-
                         }
                     </Link>
                 </div>
@@ -204,39 +223,48 @@ export const AddOperation = () => {
                             helperText={errors.amount?.message}
 
                         />
+                        {paymentMethodsError
+                            ? <div className='mb-3'><span>Способы оплаты не загрузились! попробуйте </span><button className=''
+                                onClick={getCategories}
+                            >Обновить</button></div>
+                            : location.pathname.includes('expense') && <Controller
+                                control={control}
+                                name='paymentMethod'
+                                render={({ field: { onChange, value }, fieldState: { error } }) => <Select
+                                    scrollToFocusedOptionOnUpdate={true}
+                                    options={
+                                        [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
+                                    }
+                                    placeholder="Выберете способ оплаты"
+                                    classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
 
-                        {location.pathname.includes('expense') && <Controller
-                            control={control}
 
-                            name='paymentMethod'
-                            render={({ field: { onChange, value }, fieldState: { error } }) => <Select
-                                scrollToFocusedOptionOnUpdate={true}
-                                options={
-                                    [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
-                                }
-                                placeholder="Выберете способ оплаты"
-                                classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
+                                    value={getPaymentMethodValue(value)}
+                                    onChange={(newValue) => onChange(newValue.value)}
+                                />}
+                            />
+                        }
 
+                        {categoriesError
+                            ? <div className='mb-3'><span>Способы оплаты не загрузились! попробуйте </span><button className='mb-3'
+                                onClick={getCategories}
+                            >Обновить</button></div>
+                            : <Controller
+                                control={control}
+                                rules={{
+                                    required: 'Укажите категорию'
+                                }}
+                                name='category'
+                                render={({ field: { onChange, value }, fieldState: { error } }) => <Select
+                                    options={categoriesArr}
+                                    placeholder="Выберете категорию"
+                                    classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
+                                    value={getValue(value)}
+                                    onChange={(newValue) => onChange(newValue.value)}
+                                />}
+                            />
+                        }
 
-                                value={getPaymentMethodValue(value)}
-                                onChange={(newValue) => onChange(newValue.value)}
-                            />}
-                        />}
-
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: 'Укажите категорию'
-                            }}
-                            name='category'
-                            render={({ field: { onChange, value }, fieldState: { error } }) => <Select
-                                options={categoriesArr}
-                                placeholder="Выберете категорию"
-                                classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
-                                value={getValue(value)}
-                                onChange={(newValue) => onChange(newValue.value)}
-                            />}
-                        />
 
                         <Input
                             id='nameOperation'
@@ -259,7 +287,12 @@ export const AddOperation = () => {
                             cn='w-full '
                         />
 
-                        <Link to={links.home} className='py-3 px-3 border bg-gradient-to-r from-darkBlack to-darkBlack dark:text-textPrime text-center hover:from-darkBlack hover:to-bggBottom transition-all border-white rounded-xl'>Отмена</Link>
+                        <Link
+                            to={links.home}
+                            className='py-3 px-3 border bg-gradient-to-r from-darkBlack to-darkBlack dark:text-textPrime text-center hover:from-darkBlack hover:to-bggBottom transition-all border-white rounded-xl'
+                        >
+                            Отмена
+                        </Link>
                     </div>
                 </form>
 

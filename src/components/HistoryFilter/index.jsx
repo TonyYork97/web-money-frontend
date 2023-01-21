@@ -256,7 +256,7 @@ export const HistoryFilter = ({
       </div>
       <div>
         {isAmountActive && width <= 1132
-          ? <ModalWindow onClose={closeActive}>
+          ? <ModalWindow title="Выберете сумму" onClose={closeActive}>
             <Input label="От" type="number" min={0} max={999999999.99} value={minAmountInput} onChange={(e) => setMinAmountInput(e.target.value)} placeholder="0" />
             <Input label="До" type="number" min={0} max={999999999.99} value={maxAmountInput} onChange={(e) => setMaxAmountInput(e.target.value)} placeholder="0" />
             <button onClick={handleAmount} className='text-mainGreen hover:text-bggGreen dark:text-darkBlack dark:hover:text-textPrime transition-colors'>Продолжить</button>
@@ -264,7 +264,7 @@ export const HistoryFilter = ({
           : ''
         }
         {isPeriodActive && width <= 1132
-          ? <ModalWindow onClose={closeActive}>
+          ? <ModalWindow title="Выберете дату" onClose={closeActive}>
             <Input label="От" type="date" min={minDate} max={maxDate} value={minDateInput} onChange={changeMinDateInput} />
             <Input label="До" type="date" min={minDate} max={maxDate} value={maxDateInput} onChange={changeMaxDateInput} />
             <button onClick={handleDate} className='text-mainGreen hover:text-bggGreen dark:text-darkBlack dark:hover:text-textPrime transition-colors'>Продолжить</button>
@@ -272,7 +272,7 @@ export const HistoryFilter = ({
           : ''
         }
         {isTypeActive && width <= 1132
-          ? <ModalWindow onClose={closeActive}>
+          ? <ModalWindow title="Тип операции" onClose={closeActive}>
             {typeOperations.map(el => <p key={el.label} className='cursor-pointer select-none hover:bg-background dark:hover:bg-bggBottom  transition-colors rounded-lg mb-2 last:mb-0 p-2' onClick={() => handleType(el)}>{el.label}</p>)}
 
           </ModalWindow>

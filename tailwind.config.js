@@ -25,9 +25,11 @@ module.exports = {
         errorRed: '#d30000',
         bggTop: '#f1f1f2',
         bggBottom: '#a2a2a2',
+        newBlack: '#151719',
         darkBlack: '#292929',
         bggGreen: '#a8d800',
-        darkRed: '#d30000'
+        darkRed: '#d30000',
+        mainYellow: '#f1ff00'
       },
       keyframes: {
         toRight: {

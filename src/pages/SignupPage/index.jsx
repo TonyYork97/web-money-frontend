@@ -40,7 +40,7 @@ export const SignupPage = () => {
     }
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && localStorage.getItem('token')) {
             navigate('/app/home', { replace: true })
         }
 
