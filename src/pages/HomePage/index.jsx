@@ -53,7 +53,9 @@ export const HomePage = () => {
             dateFrom: moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD'),
             dateTo: moment().format('YYYY-MM-DD')
         }))
-        dispatch(fetchGetTodayExpense())
+        dispatch(fetchGetTodayExpense({
+            date: moment().format('YYYY-MM-DD')
+        }))
         dispatch(fetchGetTotalCash())
         dispatch(fetchGetYearExpense())
     }

@@ -8,8 +8,10 @@ export const fetchGetOperations = createAsyncThunk('operations/get', async (para
     return data
 })
 
-export const fetchGetTodayExpense = createAsyncThunk('operations/todayExpense', async () => {
-    const { data } = await axios.get('/app/operation/stat/today-expense');
+export const fetchGetTodayExpense = createAsyncThunk('operations/todayExpense', async (params) => {
+    const { data } = await axios.get('/app/operation/stat/today-expense', {
+        params
+    });
     return data
 })
 
