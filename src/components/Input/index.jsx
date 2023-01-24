@@ -62,7 +62,7 @@ export const Input = React.forwardRef((
                     placeholder={placeholder}
                     defaultValue={defaultValue}
                 />
-                {showPassword && <div className='w-8 h-8 absolute right-3 top-2'>
+                {showPassword && <div className='w-8 h-8 absolute right-3 top-2 '>
                     <img onClick={toggleType} className='w-full cursor-pointer' src={Eye} alt="Show password" />
                 </div>
                 }

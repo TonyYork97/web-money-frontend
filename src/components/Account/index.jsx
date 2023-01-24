@@ -91,7 +91,7 @@ export const Account = () => {
           <input type="file" className='file:rounded-full file:px-3 file:py-2 file:hover:bg-green-300 file:cursor-pointer file:transition-colors' />
         </div>
       </div> */}
-      <div className='bg-newBlack rounded-xl p-2 mb-3'>
+      <div className='bg-newBlack dark:bg-bggBottom rounded-xl p-2 mb-3'>
         <div className=''>
           <h4 className='text-lg font-bold mb-3'>Имя</h4>
           <Input

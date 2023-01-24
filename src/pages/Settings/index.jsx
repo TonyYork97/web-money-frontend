@@ -68,7 +68,7 @@ export const Settings = ({ children }) => {
   return (
     <Container>
       <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu dark:bg-bggTop rounded-lg p-3'>
-        <div className={`${activeMenu ? 'translate-x-0' : '-translate-x-[110%]'} md:translate-x-0 md:min-w-[260px]  top-0 left-0 right-0 bottom-0 rounded-lg  absolute z-[997] md:z-[1] bg-blackMenu dark:bg-bggTop md:static transition-all md:col-span-1 overflow-y-auto border-r border-background dark:border-bggBottom md:h-[calc(100vh-68px)] pr-3`}>
+        <div className={`${activeMenu ? 'translate-x-0' : '-translate-x-[110%]'} md:translate-x-0 md:min-w-[260px] absolute top-0 left-0 right-0 bottom-0 rounded-lg   z-[997] md:z-[1] bg-blackMenu dark:bg-bggTop md:static transition-all md:col-span-1 overflow-y-auto border-r border-background dark:border-bggBottom md:h-[calc(100vh-132px)] pr-3`}>
           <div className='flex justify-between p-3 md:p-0 items-center mb-3'>
             <h3 className='font-bold text-lg '>Настройки</h3>
             {localStorage.getItem('theme') === 'dark'
@@ -96,7 +96,7 @@ export const Settings = ({ children }) => {
             >Выйти из профиля</button>
           </div>
         </div>
-        <div className=' relative w-full px-0 md:px-3 md:col-span-3'>
+        <div className=' relative w-full min-h-[calc(100vh-132px)] px-0 md:px-3 md:col-span-3'>
           <div className='mb-1'>
             {slashes.length > 3 || width < 768
               ? localStorage.getItem('theme') === 'dark'

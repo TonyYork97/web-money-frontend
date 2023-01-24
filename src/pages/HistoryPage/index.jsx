@@ -13,9 +13,11 @@ import moment from 'moment'
 import styles from './styles.module.scss'
 import { setUpdateFlag } from '../../store/slices/filterSlice'
 
+const minAmount = '0'
+const maxAmount = '999999999.99'
 export const HistoryPage = () => {
     const { typeOfPayment, type, minDateValue, maxDateValue, minAmountValue, maxAmountValue, updateFlag } = useSelector(state => state.filter)
-    const [limit] = useState(20);
+    const [limit] = useState(10);
     const [totalPages, setTotalPages] = useState(0)
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
@@ -47,8 +49,8 @@ export const HistoryPage = () => {
                     type: type?.value,
                     dateFrom: minDateValue || moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD'),
                     dateTo: maxDateValue || moment().format('YYYY-MM-DD'),
-                    amountFrom: minAmountValue,
-                    amountTo: maxAmountValue
+                    amountFrom: minAmountValue || minAmount,
+                    amountTo: maxAmountValue || maxAmount
                 }
             }).then(({ data }) => {
                 if (data?.message) {
@@ -97,6 +99,7 @@ export const HistoryPage = () => {
                     <div className=' md:col-span-1' >
                         <ShadowBlock height='min-h-[calc(100vh-80px)]'>
                             <HistoryFilter
+                                limit={limit}
                                 setIsLoading={setIsLoading}
                                 setPage={setPage}
                                 setTotalPages={setTotalPages}

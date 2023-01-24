@@ -38,16 +38,16 @@ export const AddOperation = () => {
     } = useSelector(state => state.categories)
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, reset, setError, control, formState: { errors, isValid } } = useForm({
+    const { register, handleSubmit, setValue, getValues, reset, setError, control, formState: { errors, isValid } } = useForm({
         defaultValues: {
-            title: '',
-            amount: '',
-            category: '',
+            title: 'Расход',
+            amount: '500',
+            category: 'Супермаркеты',
             paymentMethod: '',
             type: location.pathname.includes('expense') ? 'expense' : 'revenue',
             date: moment().format('YYYY-MM-DD')
         },
-        mode: 'onChange'
+        mode: 'all'
     });
 
     const title = register('title', { required: 'Название должно иметь не менее 2 и не более 24 символов', minLength: 2, maxLength: 24, })
@@ -65,6 +65,7 @@ export const AddOperation = () => {
     }
 
     const onSubmit = async (values) => {
+
         if (!values.title.trim()) {
             setError('title', { type: 'empty', message: 'Введите название операции' }, { shouldFocus: true })
             return
@@ -101,18 +102,16 @@ export const AddOperation = () => {
     }
 
     const getOperation = async () => {
-        try {
-            if (id) {
-                await axios.get(`app/operation/${id}`).then(({ data }) => {
-                    setValue('title', data.title)
-                    setValue('amount', data.amount)
-                    setValue('category', data.category)
-                    setValue('date', data.date)
-                    setValue('paymentMethod', data.paymentMethod)
-                });
-            }
-        } catch (err) {
-            console.warn(err);
+        if (id) {
+            await axios.get(`app/operation/${id}`).then(({ data }) => {
+                setValue('title', data.title)
+                setValue('amount', data.amount)
+                setValue('category', data.category)
+                setValue('date', data.date)
+                setValue('paymentMethod', data.paymentMethod)
+            }).catch(err => {
+                console.warn(err);
+            });
         }
     }
 
@@ -127,11 +126,16 @@ export const AddOperation = () => {
         if (!localStorage.getItem('token') && !isAuth) {
             navigate('/', { replace: true })
         } else {
-            getOperation()
             getCategories();
+            getOperation()
         }
-
     }, []);
+
+    useEffect(() => {
+        // console.log(getValues());
+        // console.log(isValid);
+
+    }, [isValid])
 
 
     useEffect(() => {
@@ -158,7 +162,6 @@ export const AddOperation = () => {
             }
         }
     }, [])
-
     // Минимальные и максимальные даты операций
     const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
     const maxDate = moment().format('YYYY-MM-DD')
@@ -221,9 +224,10 @@ export const AddOperation = () => {
                             ? <div className='mb-3'><span>Способы оплаты не загрузились! попробуйте </span><button className=''
                                 onClick={getCategories}
                             >Обновить</button></div>
-                            : location.pathname.includes('expense') && <Controller
+                            : location.pathname.includes('expense') && <div className='mb-4'> <Controller
                                 control={control}
                                 name='paymentMethod'
+
                                 render={({ field: { onChange, value }, fieldState: { error } }) => <Select
                                     scrollToFocusedOptionOnUpdate={true}
                                     options={
@@ -237,13 +241,14 @@ export const AddOperation = () => {
                                     onChange={(newValue) => onChange(newValue.value)}
                                 />}
                             />
+                            </div>
                         }
 
                         {categoriesError
-                            ? <div className='mb-3'><span>Способы оплаты не загрузились! попробуйте </span><button className='mb-3'
+                            ? <div className='mb-3'><span>Категории не загрузились! попробуйте </span><button className='mb-3'
                                 onClick={getCategories}
                             >Обновить</button></div>
-                            : <Controller
+                            : <div className='mb-4'> <Controller
                                 control={control}
                                 rules={{
                                     required: 'Укажите категорию'
@@ -251,12 +256,17 @@ export const AddOperation = () => {
                                 name='category'
                                 render={({ field: { onChange, value }, fieldState: { error } }) => <Select
                                     options={categoriesArr}
+
                                     placeholder="Выберете категорию"
                                     classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
                                     value={getValue(value)}
                                     onChange={(newValue) => onChange(newValue.value)}
                                 />}
                             />
+                                {errors.category && <div className='text-xs text-errorRed'>
+                                    {errors.category?.message || 'Укажите категорию'}
+                                </div>}
+                            </div>
                         }
 
 
@@ -275,7 +285,7 @@ export const AddOperation = () => {
 
                     <div className='flex flex-col gap-3 '>
                         <ButtonGreen
-                            disabled={isValid && !isLoadingSubmit}
+                            // disabled={isValid}
                             type="submit"
                             title={`${typeOpeation} ${typeCategory}`}
                             cn='w-full '

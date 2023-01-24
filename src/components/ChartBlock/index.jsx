@@ -9,6 +9,7 @@ import moment from 'moment'
 import { MainLoading } from '../MainLoading';
 import { ShowMoreButton } from '../ShowMoreButton';
 import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen, setUpdateFlag } from '../../store/slices/filterSlice';
+import { ButtonError } from '../ButtonError';
 ChartJS.register(ArcElement, Legend);
 
 export const ChartBlock = (
@@ -67,16 +68,14 @@ export const ChartBlock = (
         dispatch(setUpdateFlag(false))
 
     }
-    const reloadData = () => {
-        reload()
-    }
+
 
     if (isLoading) {
         return <div className='absolute top-1/2 left-1/2 -translate-x-1/2'><MainLoading size={32} /></div>
     }
     if (error) {
-        <div className='absolute top-1/2 left-1/2 -translate-x-1/2'>
-            <button onClick={reloadData}>Попробуйте обновить</button>
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+            <ButtonError update={reload} />
         </div>
     }
 
@@ -84,8 +83,8 @@ export const ChartBlock = (
         <>
             {
                 error
-                    ? <div className='absolute top-1/2 left-1/2 -translate-x-1/2'>
-                        <button onClick={reloadData}>Попробуйте обновить</button>
+                    ? <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+                        <ButtonError update={reload} />
                     </div>
                     :
                     < div className='flex flex-col justify-between h-full' >

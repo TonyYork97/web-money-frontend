@@ -21,6 +21,7 @@ module.exports = {
         blackMenu: 'rgb(24, 27, 29)',
         myRed: 'rgba(239, 68, 68, 0.2)',
         myGreen: 'rgba(34, 197, 94, 0.2)',
+        totalGreen: 'rgba(34, 197, 94)',
         whiteOpacity: '#ffffff0a',
         errorRed: '#d30000',
         bggTop: '#f1f1f2',
@@ -36,10 +37,24 @@ module.exports = {
           '100%': { transform: 'translateX(0px)', opacity: '1' },
           '80%': { transform: 'translateX(18px)', opacity: '1' },
           '0%': { transform: 'translateX(-100px)', opacity: '0' },
+        },
+        upDown: {
+          '100%': { transform: 'translateY(0px)' },
+          '70%': { transform: 'translateY(-5px)' },
+          '24%': { transform: 'translateY(6px)' },
+          '0%': { transform: 'translateY(-4px)' },
+        },
+        leftRight: {
+          '100%': { transform: 'translateX(0px)' },
+          '66%': { transform: 'translateX(-1px)' },
+          '33%': { transform: 'translateX(1px)' },
+          '0%': { transform: 'translateX(0px)' },
         }
       },
       animation: {
         'spin-slow': 'toRight .5s ease-in-out 1',
+        'jumping': 'upDown .7s .15s ease-in-out 1',
+        'warning': 'leftRight .2s .15s ease-in-out 4',
       },
       boxShadow: {
         'block': '0px 3px 5px 0px #ffffff2e',

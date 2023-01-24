@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { TodayMoney } from '../TodayMoney';
 import { MainLoading } from '../MainLoading';
 import styles from './styles.module.scss'
+import { ButtonError } from '../ButtonError';
 
 
 ChartJS.register(
@@ -82,7 +83,9 @@ export const BarChart = ({ yearExpense, isLoading, reload, error }) => {
     return (
         <>
             {error
-                ? <div className='w-full h-screen flex justify-center items-center'><button onClick={reload}>Попробуйте обновить</button></div>
+                ? <div className='w-full h-screen flex justify-center items-center'>
+                    <ButtonError update={reload} />
+                </div>
                 : <>
                     {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
 

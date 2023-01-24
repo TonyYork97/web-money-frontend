@@ -61,13 +61,22 @@ const initialState = {
     yearExpense: [],
     yearExpenseError: null,
     minExpense: {},
-    maxExpense: {}
+    maxExpense: {},
+
+    deleteError: null,
+    deleteSuccess: false
 }
 
 const operationsSlice = createSlice({
     name: 'operations',
     initialState,
     reducers: {
+        setDeleteError: (state, action) => {
+            state.deleteError = action.payload
+        },
+        setDeleteSuccess: (state, action) => {
+            state.deleteSuccess = action.payload
+        }
     },
     extraReducers: {
         [fetchGetOperations.pending]: (state) => {
@@ -206,4 +215,5 @@ const operationsSlice = createSlice({
 })
 
 export const operationsReducer = operationsSlice.reducer;
-export const { clearOneOperation } = operationsSlice.actions;
+
+export const { setDeleteError, setDeleteSuccess } = operationsSlice.actions;

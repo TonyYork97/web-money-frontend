@@ -19,10 +19,6 @@ import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen, set
 
 
 export const CategoriesPage = ({ type }) => {
-    // const [isOpen, setIsOpen] = useState(false);
-    // const [curCategoryAmount, setCurCategoryAmount] = useState(0);
-    // const [curCategory, setCurCategory] = useState('')
-    // const [activeCategory, setActiveCategory] = useState(0);
     const [curMonth, setCurMonth] = useState(moment().format('YYYY-MM-DD'))
     const [isLoading, setIsLoading] = useState(false)
     const [operations, setOperations] = useState([]);
@@ -59,6 +55,7 @@ export const CategoriesPage = ({ type }) => {
 
     const getOperations = async () => {
         try {
+            setErrorOperation(null)
             setOperations([])
             setIsLoading(true);
             await axios.get('app/operation/history/category-operations', {
@@ -71,12 +68,13 @@ export const CategoriesPage = ({ type }) => {
                 if (data?.message) {
                     setOperations([])
                     setErrorOperation('error')
+                    return
                 }
                 setErrorOperation(null)
                 setOperations([...data.operations])
             })
         } catch (err) {
-            console.log(err);
+            console.warn(err);
             setErrorOperation('error')
             setOperations([])
         } finally {
@@ -84,45 +82,122 @@ export const CategoriesPage = ({ type }) => {
         }
     }
 
-    const getExpense = async () => {
+    // const getExpense = async () => {
+    //     try {
+    //         setFlag(true)
+    //         setIsLoading(true)
+    //         setOperations([])
+    //         if (type === 'expense') {
+
+    //             await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
+    //                 if (!curCategory) {
+    //                     dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
+    //                 }
+    //                 await axios.get('app/operation/history/category-operations', {
+    //                     params: {
+    //                         type,
+    //                         currentMonth: curMonth,
+    //                         category: curCategory || data.payload?.categories[0]?.title || ''
+    //                     }
+    //                 }).then(({ data }) => {
+    //                     console.log(data.operations.length);
+    //                     if (data.operations?.length === 0) {
+    //                         dispatch(setCurCategory(''))
+    //                         getExpense()
+    //                     } else {
+    //                         setOperations([...data.operations])
+    //                     }
+    //                 })
+    //             })
+    //         } else {
+    //             await dispatch(fetchGetMontRevenue({ currentMonth: curMonth })).then(async (data) => {
+    //                 if (!curCategory) {
+    //                     dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
+    //                 }
+    //                 await axios.get('app/operation/history/category-operations', {
+    //                     params: {
+    //                         type,
+    //                         currentMonth: curMonth,
+    //                         category: curCategory || data.payload?.categories[0]?.title || ''
+    //                     }
+    //                 }).then(({ data }) => {
+    //                     setOperations([...data.operations])
+    //                 })
+    //             })
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     } finally {
+    //         setIsLoading(false)
+    //         setFlag(false)
+    //     }
+    // }
+
+    const getExpense = async (clear = false) => {
         try {
+            setErrorOperation(null)
+            let flag = false
             setFlag(true)
             setIsLoading(true)
+            if (clear && operations.length === 1) {
+                dispatch(setCurCategory(''))
+                dispatch(setCurCategoryAmount(0))
+                dispatch(setActiveCategory(0))
+                dispatch(setIsOpen(false))
+                flag = true
+            }
             setOperations([])
             if (type === 'expense') {
+                const monthExpense = await dispatch(fetchGetMontExpense({ currentMonth: curMonth }))
+                let cat = monthExpense.payload?.categories[0]?.title || ''
+                if (!curCategory) {
+                    dispatch(setCurCategory(cat))
+                }
+                if (clear) {
+                    dispatch(setCurCategory(cat))
+                }
+                const categoryOperations = await axios.get('app/operation/history/category-operations', {
+                    params: {
+                        type,
+                        currentMonth: curMonth,
+                        category: flag ? cat : curCategory || cat || ''
+                    }
+                })
+                if (categoryOperations.data.message) {
+                    setErrorOperation('error')
+                    setOperations([])
+                    return
+                }
+                setErrorOperation(null)
+                setOperations([...categoryOperations.data.operations])
 
-                await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
-                    if (!curCategory) {
-                        dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
-                    }
-                    await axios.get('app/operation/history/category-operations', {
-                        params: {
-                            type,
-                            currentMonth: curMonth,
-                            category: curCategory || data.payload?.categories[0]?.title || ''
-                        }
-                    }).then(({ data }) => {
-                        setOperations([...data.operations])
-                    })
-                })
             } else {
-                await dispatch(fetchGetMontRevenue({ currentMonth: curMonth })).then(async (data) => {
-                    if (!curCategory) {
-                        dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
+                const monthRevenue = await dispatch(fetchGetMontRevenue({ currentMonth: curMonth }))
+                let cat = monthRevenue.payload?.categories[0]?.title || ''
+                if (!curCategory) {
+                    dispatch(setCurCategory(cat))
+                }
+                if (clear) {
+                    dispatch(setCurCategory(cat))
+                }
+                const categoryOperations = await axios.get('app/operation/history/category-operations', {
+                    params: {
+                        type,
+                        currentMonth: curMonth,
+                        category: flag ? cat : curCategory || cat || ''
                     }
-                    await axios.get('app/operation/history/category-operations', {
-                        params: {
-                            type,
-                            currentMonth: curMonth,
-                            category: curCategory || data.payload?.categories[0]?.title || ''
-                        }
-                    }).then(({ data }) => {
-                        setOperations([...data.operations])
-                    })
                 })
+                if (categoryOperations.data.message) {
+                    setErrorOperation('error')
+                    setOperations([])
+                    return
+                }
+                setErrorOperation(null)
+                setOperations([...categoryOperations.data.operations])
             }
         } catch (err) {
-            console.log(err);
+            console.warn(err);
+            setErrorOperation('error')
         } finally {
             setIsLoading(false)
             setFlag(false)

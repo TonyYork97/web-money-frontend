@@ -5,8 +5,8 @@ const initialState = {
   type: '',
   minDateValue: '',
   maxDateValue: '',
-  minAmountValue: 0,
-  maxAmountValue: 999999999.99,
+  minAmountValue: '',
+  maxAmountValue: '',
   page: 1,
   totalPages: 0,
 

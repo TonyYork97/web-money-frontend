@@ -1,4 +1,5 @@
 import React from 'react'
+import { ButtonError } from '../ButtonError'
 import { MainLoading } from '../MainLoading'
 
 export const TotalCash = ({ data, isLoading, error, reload }) => {
@@ -7,7 +8,9 @@ export const TotalCash = ({ data, isLoading, error, reload }) => {
       <div className='text-right'>
         <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Всего средств</p>
         {error
-          ? <button onClick={reload}>Обновить</button>
+          ? <div className='flex justify-end'>
+            <ButtonError title="Обновить" update={reload} />
+          </div>
           : isLoading
             ? <MainLoading size={23} />
             : data.includes('-')
