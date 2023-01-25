@@ -57,14 +57,14 @@ export const ChartBlock = (
         dispatch(setIsOpen(true))
         dispatch(setCurCategory(title))
         dispatch(setCurCategoryAmount(idx))
-        dispatch(setActiveCategory(idx))
+        dispatch(setActiveCategory(title))
     }
     const navigateLink = (titleItem, idx) => {
         navigate(title === 'Расход' ? links.expenses : links.income)
         dispatch(setIsOpen(true))
         dispatch(setCurCategory(titleItem))
         dispatch(setCurCategoryAmount(idx))
-        dispatch(setActiveCategory(idx))
+        dispatch(setActiveCategory(titleItem))
         dispatch(setUpdateFlag(false))
 
     }

@@ -40,9 +40,9 @@ export const AddOperation = () => {
 
     const { register, handleSubmit, setValue, getValues, reset, setError, control, formState: { errors, isValid } } = useForm({
         defaultValues: {
-            title: '',
-            amount: '',
-            category: '',
+            title: 'Трата',
+            amount: '400',
+            category: 'Путешествия',
             paymentMethod: '',
             type: location.pathname.includes('expense') ? 'expense' : 'revenue',
             date: moment().format('YYYY-MM-DD')

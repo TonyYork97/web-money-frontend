@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Container } from '../../components/Container'
 import { links } from '../../links'
 import ArrowLeft from '../../assets/images/arrow.svg'
@@ -14,25 +14,27 @@ import { useResize } from '../../hooks/Rezise'
 const profileLinks = [
   {
     title: "Аккаунт",
+    pathname: "account",
     link: links.profile
   },
   {
     title: "Тема",
+    pathname: "theme",
     link: links.profileTheme
   }
 ]
 
 export const Settings = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(false);
-  const [activeLink, setActiveLink] = useState(0);
+  const [activeLink, setActiveLink] = useState('');
   const styleLink = localStorage.getItem('theme') === 'dark' ? 'bg-whiteOpacity' : 'dark:bg-bggBottom'
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const { width } = useResize()
 
   const isAuth = useSelector(userIsAuth);
-
-  let slashes = window.location.pathname.split('').filter(el => el === '/')
+  const location = useLocation()
+  let slashes = location.pathname.split('').filter(el => el === '/')
 
   const closeMenu = () => {
     setActiveMenu(false)
@@ -61,6 +63,8 @@ export const Settings = ({ children }) => {
     if (!localStorage.getItem('token') && !isAuth) {
       navigate('/', { replace: true })
     }
+    let activePage = location.pathname.split('/')[3]
+    setActiveLink(activePage)
   }, [isAuth, navigate]);
 
 
@@ -80,11 +84,11 @@ export const Settings = ({ children }) => {
             {profileLinks.map((el, i) => <Link
               key={el.title}
               onClick={() => {
-                setActiveLink(i)
+                setActiveLink(el.pathname)
                 setActiveMenu(false)
               }}
               to={el.link}
-              className={`${activeLink === i ? styleLink : ''} px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity dark:hover:bg-bggBottom transition-colors`}
+              className={`${activeLink === el.pathname ? styleLink : ''} px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity dark:hover:bg-bggBottom transition-colors`}
             >{el.title}</Link>
             )}
             {/* <Link to={links.profile} className='px-3 py-2 rounded-full font-bold mb-2  hover:bg-whiteOpacity'>Аккаунт</Link>

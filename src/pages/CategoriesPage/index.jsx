@@ -41,7 +41,7 @@ export const CategoriesPage = ({ type }) => {
     const changeMonth = async (direction) => {
         setOperations([])
         dispatch(setCurCategoryAmount(0))
-        dispatch(setActiveCategory(0))
+        dispatch(setActiveCategory(''))
         dispatch(setCurCategory(''))
         setCurMonth(moment(curMonth).add(direction, 'M').format('YYYY-MM-DD'))
     }
@@ -139,22 +139,26 @@ export const CategoriesPage = ({ type }) => {
             let flag = false
             setFlag(true)
             setIsLoading(true)
-            if (clear && operations.length === 1) {
-                dispatch(setCurCategory(''))
-                dispatch(setCurCategoryAmount(0))
-                dispatch(setActiveCategory(0))
-                dispatch(setIsOpen(false))
-                flag = true
-            }
             setOperations([])
             if (type === 'expense') {
                 const monthExpense = await dispatch(fetchGetMontExpense({ currentMonth: curMonth }))
                 let cat = monthExpense.payload?.categories[0]?.title || ''
+                let indexOfCategory = monthExpense.payload?.categories?.findIndex((el) => el.title === curCategory)
+                if (!activeCategory || indexOfCategory === -1) {
+                    dispatch(setActiveCategory(cat))
+                }
                 if (!curCategory) {
                     dispatch(setCurCategory(cat))
                 }
-                if (clear) {
+                if (clear && indexOfCategory === -1) {
                     dispatch(setCurCategory(cat))
+                    dispatch(setCurCategoryAmount(0))
+                    dispatch(setIsOpen(false))
+                    flag = true
+                }
+                if (clear && indexOfCategory >= 0) {
+                    let indexOfCategory = monthExpense.payload?.categories?.findIndex((el) => el.title === curCategory)
+                    dispatch(setCurCategoryAmount(indexOfCategory))
                 }
                 const categoryOperations = await axios.get('app/operation/history/category-operations', {
                     params: {
@@ -174,11 +178,22 @@ export const CategoriesPage = ({ type }) => {
             } else {
                 const monthRevenue = await dispatch(fetchGetMontRevenue({ currentMonth: curMonth }))
                 let cat = monthRevenue.payload?.categories[0]?.title || ''
+                let indexOfCategory = monthRevenue.payload?.categories?.findIndex((el) => el.title === curCategory)
+                if (!activeCategory || indexOfCategory === -1) {
+                    dispatch(setActiveCategory(cat))
+                }
                 if (!curCategory) {
                     dispatch(setCurCategory(cat))
                 }
-                if (clear) {
+                if (clear && indexOfCategory === -1) {
                     dispatch(setCurCategory(cat))
+                    dispatch(setCurCategoryAmount(0))
+                    dispatch(setIsOpen(false))
+                    flag = true
+                }
+                if (clear && indexOfCategory >= 0) {
+                    let indexOfCategory = monthRevenue.payload?.categories?.findIndex((el) => el.title === curCategory)
+                    dispatch(setCurCategoryAmount(indexOfCategory))
                 }
                 const categoryOperations = await axios.get('app/operation/history/category-operations', {
                     params: {

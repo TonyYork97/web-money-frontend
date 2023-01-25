@@ -12,7 +12,7 @@ const initialState = {
 
   curCategory: '',
   curCategoryAmount: 0,
-  activeCategory: 0,
+  activeCategory: '',
   isOpen: false,
 
   updateFlag: true
