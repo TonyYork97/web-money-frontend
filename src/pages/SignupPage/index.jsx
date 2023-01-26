@@ -14,7 +14,7 @@ import styles from './styles.module.scss'
 export const SignupPage = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector(userIsAuth);
-    const { isLoading, error } = useSelector(state => state.auth.isLoading)
+    const { isLoading, signupError } = useSelector(state => state.auth)
     const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -54,14 +54,14 @@ export const SignupPage = () => {
         <AuthContainer>
             <div className={`w-full md:w-auto  mt-6 sm:mt-0 md:min-w-[448px] flex flex-col justify-center px-1 sm:px-7`}>
                 <h2 className='text-2xl sm:text-3xl mb-4 font-bold'>Зарегистрироваться</h2>
-                {error && <div className='text-red-700'>{error.message}</div>}
+                {signupError && <div className='text-red-700'>{signupError?.message || 'Не удалось зарегестрироваться! Попробуйте еще раз.'}</div>}
 
                 <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col mb-8'>
                     <Input
                         id="signupEmail"
                         type="email"
                         label="Почта"
-                        placeholder="email"
+                        placeholder="Введите Email"
                         onChange={email.onChange}
                         name={email.name}
                         ref={email.ref}

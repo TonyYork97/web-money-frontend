@@ -77,6 +77,12 @@ const initialState = {
     isLoading: false,
     error: null,
 
+    isLoadingSignup: false,
+    signupError: false,
+
+    isLoadingLogin: false,
+    loginError: false,
+
     isLoadingChangeEmail: false,
     changeEmailError: null,
     isSuccessChangeEmail: false,
@@ -107,43 +113,43 @@ const authSlice = createSlice({
     extraReducers: {
         [fetchSignUp.pending]: (state) => {
             state.isLoading = true
-            state.error = null
+            state.signupError = null
             state.data = null
         },
         [fetchSignUp.fulfilled]: (state, action) => {
             state.isLoading = false
             if (action.payload?.message) {
                 state.data = null
-                state.error = action.payload
+                state.signupError = action.payload
             } else {
                 state.data = action.payload
-                state.error = null
+                state.signupError = null
             }
         },
         [fetchSignUp.rejected]: (state) => {
             state.isLoading = false
-            state.error = 'error'
+            state.signupError = 'Не удалось зарегестрироваться'
             state.data = null
         },
         [fetchLogin.pending]: (state) => {
             state.isLoading = true
-            state.error = null
+            state.loginError = null
             state.data = null
         },
         [fetchLogin.fulfilled]: (state, action) => {
             state.isLoading = false
             if (action.payload?.message) {
                 state.data = null
-                state.error = action.payload
+                state.loginError = action.payload
             } else {
                 state.data = action.payload
-                state.error = null
+                state.loginError = null
             }
         },
         [fetchLogin.rejected]: (state) => {
             state.isLoading = false
             state.data = null
-            state.error = 'error'
+            state.loginError = 'Не удалось войти! попробуйте еще раз.'
 
         },
         [fetchChangeEmail.pending]: (state) => {

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// const API_URL = 'https://web-money-backend.vercel.app'
 const API_URL = 'https://web-money-backend.onrender.com'
 // const API_URL = 'http://localhost:8000/'
 

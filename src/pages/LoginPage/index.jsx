@@ -14,7 +14,7 @@ import styles from './styles.module.scss'
 export const LoginPage = () => {
     const dispatch = useDispatch()
     const isAuth = useSelector(userIsAuth);
-    const { isLoading, error } = useSelector(state => state.auth)
+    const { isLoading, loginError } = useSelector(state => state.auth)
     const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -53,7 +53,7 @@ export const LoginPage = () => {
         <AuthContainer>
             <div className={`w-full md:w-auto  mt-6  md:min-w-[448px] flex flex-col justify-center px-1 sm:px-7`}>
                 <h2 className='text-2xl sm:text-3xl mb-4 font-bold'>Войти</h2>
-                {error && <div className='text-red-700'>{error.message}</div>}
+                {loginError && <div className='text-red-700'>{loginError?.message || 'Неверный логин или пароль'}</div>}
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className='flex flex-col mb-8'
@@ -62,7 +62,7 @@ export const LoginPage = () => {
                         id="loginEmail"
                         type="email"
                         label="Почта"
-                        placeholder="Введите email"
+                        placeholder="Введите Email"
                         onChange={email.onChange}
                         name={email.name}
                         ref={email.ref}
