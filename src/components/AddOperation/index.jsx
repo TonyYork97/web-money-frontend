@@ -131,12 +131,6 @@ export const AddOperation = () => {
         }
     }, []);
 
-    useEffect(() => {
-        // console.log(getValues());
-        // console.log(isValid);
-
-    }, [isValid])
-
 
     useEffect(() => {
         setCategoriesArr(categories ? categories.map(el => ({ value: el.title, label: el.title })) : [])
