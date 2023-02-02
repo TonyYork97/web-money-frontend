@@ -26,6 +26,7 @@ import { CategoriesPage } from "./pages/CategoriesPage";
 moment().locale('ru');
 function App() {
   const [theme, setTheme] = useState(true)
+  const [blur, setBlur] = useState(false)
   const isAuth = useSelector(userIsAuth)
   const { isLoading } = useSelector(state => state.auth)
   const dispatch = useDispatch();
@@ -40,6 +41,8 @@ function App() {
     checkAuth();
   }, []);
 
+
+
   useEffect(() => {
     if (!localStorage.getItem('theme')) {
       localStorage.setItem('theme', 'dark')
@@ -49,7 +52,11 @@ function App() {
     if (localStorage.getItem('theme') === 'light') {
       setTheme(false)
     }
-  }, [theme])
+
+    if (localStorage.getItem('blur')) {
+      setBlur(true)
+    }
+  }, [theme, blur])
 
   if (isLoading) {
     return <div className='w-full h-screen flex justify-center items-center'><MainLoading /></div>
@@ -57,6 +64,14 @@ function App() {
 
   return (
     <div className={`${theme ? '' : 'dark'}`}>
+      {blur
+        ? <>
+          <div className="fixed w-60 h-60 bg-mainGreen rounded-full filter blur-[72px]  opacity-80 top-24 -left-24"></div>
+          <div className="fixed w-72 h-72 bg-mainGreen rounded-full filter blur-[72px]  opacity-80 top-96 -right-28"></div>
+        </>
+        : ''
+      }
+
       <div className=" dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-screen flex flex-col justify-between h-full">
         {isAuth && <Header />}
         <div className=" mb-3 flex-1">
@@ -67,7 +82,12 @@ function App() {
             <Route path={links.addRevenue} element={<AddOperation />} />
             <Route path="/app/:id/edit-revenue" element={<AddOperation />} />
             <Route path={links.profile} element={<Settings><Account /> </Settings>} />
-            <Route path={links.profileTheme} element={<Settings><ThemePage setTheme={setTheme} theme={theme} /> </Settings>} />
+            <Route path={links.profileTheme} element={<Settings><ThemePage
+              setTheme={setTheme}
+              theme={theme}
+              blur={blur}
+              setBlur={setBlur}
+            /> </Settings>} />
             <Route path={links.email} element={<Settings ><EmailEdit /></Settings>} />
             <Route path={links.password} element={<Settings ><PasswordEdit /></Settings>} />
             <Route path={links.main} element={<StartPage />} />

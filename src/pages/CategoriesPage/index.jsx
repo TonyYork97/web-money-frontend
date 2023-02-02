@@ -82,57 +82,6 @@ export const CategoriesPage = ({ type }) => {
         }
     }
 
-    // const getExpense = async () => {
-    //     try {
-    //         setFlag(true)
-    //         setIsLoading(true)
-    //         setOperations([])
-    //         if (type === 'expense') {
-
-    //             await dispatch(fetchGetMontExpense({ currentMonth: curMonth })).then(async (data) => {
-    //                 if (!curCategory) {
-    //                     dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
-    //                 }
-    //                 await axios.get('app/operation/history/category-operations', {
-    //                     params: {
-    //                         type,
-    //                         currentMonth: curMonth,
-    //                         category: curCategory || data.payload?.categories[0]?.title || ''
-    //                     }
-    //                 }).then(({ data }) => {
-    //                     console.log(data.operations.length);
-    //                     if (data.operations?.length === 0) {
-    //                         dispatch(setCurCategory(''))
-    //                         getExpense()
-    //                     } else {
-    //                         setOperations([...data.operations])
-    //                     }
-    //                 })
-    //             })
-    //         } else {
-    //             await dispatch(fetchGetMontRevenue({ currentMonth: curMonth })).then(async (data) => {
-    //                 if (!curCategory) {
-    //                     dispatch(setCurCategory(data.payload?.categories[0]?.title || ''))
-    //                 }
-    //                 await axios.get('app/operation/history/category-operations', {
-    //                     params: {
-    //                         type,
-    //                         currentMonth: curMonth,
-    //                         category: curCategory || data.payload?.categories[0]?.title || ''
-    //                     }
-    //                 }).then(({ data }) => {
-    //                     setOperations([...data.operations])
-    //                 })
-    //             })
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     } finally {
-    //         setIsLoading(false)
-    //         setFlag(false)
-    //     }
-    // }
-
     const getExpense = async (clear = false) => {
         try {
             setErrorOperation(null)
@@ -264,25 +213,25 @@ export const CategoriesPage = ({ type }) => {
                 ref={intoViefRefTwo}
                 reset={resetParams}
             >
-                <div className='grid md:grid-cols-2 gap-2 items-start'>
-
-                    <ShadowBlock>
-                        <ChartBlock
-                            scrollToIntoView={scrollToIntoView}
-                            isLoading={type === 'expense' ? isLoadingMonthExpense : isLoadingMonthRevenue}
-                            activeCategory={activeCategory}
-                            changeMonth={changeMonth}
-                            setOperations={setOperations}
-                            curMonth={curMonth}
-                            setCurMonth={setCurMonth}
-                            title={type === 'expense' ? 'Расход' : 'Доход'}
-                            monthExpense={type === 'expense' ? monthExpense : monthRevenue}
-                            error={type === 'expense' ? monthExpenseError : monthRevenueError}
-                            reload={getExpense}
-                            full
-                        />
-                    </ShadowBlock>
-
+                <div className='grid md:grid-cols-2 gap-2 items-start '>
+                    <div className='sticky top-0'>
+                        <ShadowBlock>
+                            <ChartBlock
+                                scrollToIntoView={scrollToIntoView}
+                                isLoading={type === 'expense' ? isLoadingMonthExpense : isLoadingMonthRevenue}
+                                activeCategory={activeCategory}
+                                changeMonth={changeMonth}
+                                setOperations={setOperations}
+                                curMonth={curMonth}
+                                setCurMonth={setCurMonth}
+                                title={type === 'expense' ? 'Расход' : 'Доход'}
+                                monthExpense={type === 'expense' ? monthExpense : monthRevenue}
+                                error={type === 'expense' ? monthExpenseError : monthRevenueError}
+                                reload={getExpense}
+                                full
+                            />
+                        </ShadowBlock>
+                    </div>
                     <div className={`${width < 768 ? classBlock : ''}`} >
                         <ShadowBlock>
                             <div

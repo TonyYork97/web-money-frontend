@@ -7,16 +7,18 @@ import Close from '../../assets/images/close.svg'
 
 export const PopupWindow = ({ text, onClose, timeout = 3500, error = false }) => {
     const [cn, setCn] = useState('translate-y-[-172%]')
+
     useEffect(() => {
-        setTimeout(() => {
+        const cnChange = setTimeout(() => {
             setCn('translate-y-[0%]')
         }, 100)
-        setTimeout(() => {
+        const close = setTimeout(() => {
             onClose()
-
         }, timeout)
         return () => {
             setCn('translate-y-[-172%]')
+            clearTimeout(cnChange)
+            clearTimeout(close)
         }
     }, [])
 
