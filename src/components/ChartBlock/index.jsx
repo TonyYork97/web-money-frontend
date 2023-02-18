@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Chart as ChartJS, ArcElement, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { Link, useNavigate } from 'react-router-dom';
-import { links } from '../../links';
+import { links } from '../../routes/links';
 import { CategoryItem } from '../CategoryItem';
 import { useDispatch } from 'react-redux';
 import moment from 'moment'
@@ -41,7 +41,6 @@ export const ChartBlock = (
                 borderWidth: 1,
             },
         ],
-        // labels: divededMonth.titles.length ? divededMonth?.titles : [],
         labels: monthExpense?.categories ? monthExpense.categories.map(el => el.title) : [],
     }
     const options = {
@@ -66,7 +65,6 @@ export const ChartBlock = (
         dispatch(setCurCategoryAmount(idx))
         dispatch(setActiveCategory(titleItem))
         dispatch(setUpdateFlag(false))
-
     }
 
 
@@ -148,13 +146,10 @@ export const ChartBlock = (
                                             data-name="1"
                                             fill={localStorage.getItem('theme') === 'dark' ? "#eeeeee" : '#292929'}
                                             className="fill-000000"
-
                                         ></path></svg></div>
                                     : ''
                                 }
                             </div>
-                            {/* <img className='w-5 h-5 block mr-1 cursor-pointer' onClick={() => setIsPercent(false)} src={Ruble} alt="ruble" /> */}
-
                             <div className='flex justify-end mb-3 select-none'>
                                 {monthExpense?.categories?.length ? isPercent
                                     ? <svg
@@ -184,11 +179,8 @@ export const ChartBlock = (
                                         <path d="M8 21h2v-3h6v-2h-6v-2h4.5c2.757 0 5-2.243 5-5s-2.243-5-5-5H9a1 1 0 0 0-1 1v7H5v2h3v2H5v2h3v3zm2-15h4.5c1.654 0 3 1.346 3 3s-1.346 3-3 3H10V6z"
                                             fill={localStorage.getItem('theme') === 'dark' ? '#c6ff00' : '#292929'}
                                             className="fill-000000"></path></svg>
-
                                     : ''
                                 }
-
-
                             </div>
                             <ul className='flex flex-col mb-1 flex-1'>
                                 {monthExpense?.categories

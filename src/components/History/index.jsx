@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useObserver } from '../../hooks/useObserver';
-import { links } from '../../links';
+import { links } from '../../routes/links';
 import { setDeleteError, setDeleteSuccess } from '../../store/slices/operationsSlice';
 import { ButtonError } from '../ButtonError';
 import { HistoryCategoryItem } from '../HistoryCategoryItem';

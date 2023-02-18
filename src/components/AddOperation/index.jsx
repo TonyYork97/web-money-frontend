@@ -5,7 +5,7 @@ import { Input } from '../Input'
 import { ButtonGreen } from '../ButtonGreen'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import moment from 'moment'
-import { links } from '../../links'
+import { links } from '../../routes/links'
 import { useDispatch, useSelector } from 'react-redux'
 import { userIsAuth } from '../../store/slices/authSlice'
 import { fetchGetcategories, fetchGetPaymentMethods } from '../../store/slices/categoriesSlice'
@@ -128,6 +128,8 @@ export const AddOperation = () => {
     } else {
       getCategories();
       getOperation()
+      window.scrollTo(0, 0)
+
     }
   }, []);
 
@@ -286,8 +288,9 @@ export const AddOperation = () => {
             />
 
             <Link
-              to={links.home}
-              className='py-3 px-3 border bg-gradient-to-r from-darkBlack to-darkBlack dark:text-textPrime text-center hover:from-darkBlack hover:to-bggBottom transition-all border-white rounded-xl'
+              onClick={() => navigate(-1)}
+              // to={links.home}
+              className='py-3 px-3 border bg-transparent dark:text-blackMenu  text-center  hover:bg-bggBottom transition-all border-white dark:border-darkBlack rounded-xl'
             >
               Отмена
             </Link>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { links } from '../../links'
+import { links } from '../../routes/links'
 import { Container } from '../Container'
 import styles from './styles.module.scss'
 

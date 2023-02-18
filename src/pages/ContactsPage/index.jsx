@@ -13,11 +13,13 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { userIsAuth } from '../../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { MainLoading } from '../../components/MainLoading';
 
 export const ContactsPage = () => {
   const [imageUrl, setImageUrl] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState();
   const inputFileRef = useRef(null);
   const isAuth = useSelector(userIsAuth)
@@ -25,6 +27,7 @@ export const ContactsPage = () => {
 
   const handleChangeFile = async (event) => {
     try {
+      setIsLoading(true)
       const formData = new FormData();
       const files = [...event.target.files];
       files.forEach(el => {
@@ -36,6 +39,8 @@ export const ContactsPage = () => {
     } catch (err) {
       console.warn(err);
       alert('Ошибка при загрузке файла')
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -154,6 +159,12 @@ export const ContactsPage = () => {
             </div>
           </div>
           <div className='mb-3'>
+            {
+              isLoading &&
+              <div className='w-full text-center'>
+                <MainLoading size={30} />
+              </div>
+            }
             {imageUrl.map(el => <div key={el} className='flex gap-3 items-center justify-between mb-2 bg-blackMenu p-3 rounded-xl'>
               <div className='flex items-center gap-3'>
                 {el.includes('.jpg') || el.includes('.jpeg') || el.includes('.png')
@@ -167,7 +178,7 @@ export const ContactsPage = () => {
             </div>)}
           </div>
           <div className='flex justify-center'>
-            <ButtonGreen title="Отправить" type="submit" />
+            <ButtonGreen disabled={!isLoading} title="Отправить" type="submit" />
           </div>
         </form>
       </div>

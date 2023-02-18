@@ -21,10 +21,7 @@ export const PasswordEdit = () => {
 
   const { changePasswordError, isLoadingChangePassword, isSuccessChangePassword } = useSelector(state => state.auth)
 
-
   const dispatch = useDispatch()
-
-
 
   const changePassword = async () => {
     if (!currentPassword) {
@@ -88,8 +85,6 @@ export const PasswordEdit = () => {
     setConfirmPasswordError(false)
     setConfirmPasswordHelperText('')
   }
-
-
 
   const closePopupError = () => {
     dispatch(setChangePasswordError(null))

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Container } from '../../components/Container'
-import { links } from '../../links'
+import { links } from '../../routes/links'
 import ArrowLeft from '../../assets/images/arrow.svg'
 import ArrowLeftLight from '../../assets/images/arrow-light.svg'
 import Close from '../../assets/images/close.svg'
@@ -9,7 +9,6 @@ import CloseLight from '../../assets/images/close-light.svg'
 import { fetchLogOut, userIsAuth } from '../../store/slices/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useResize } from '../../hooks/Rezise'
-
 
 const profileLinks = [
   {
@@ -67,8 +66,6 @@ export const Settings = ({ children }) => {
     setActiveLink(activePage)
   }, [isAuth, navigate]);
 
-
-
   return (
     <Container>
       <div className='relative flex max-w-[1024px] mx-auto bg-blackMenu dark:bg-bggTop rounded-lg p-3'>
@@ -91,9 +88,6 @@ export const Settings = ({ children }) => {
               className={`${activeLink === el.pathname ? styleLink : ''} px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity dark:hover:bg-bggBottom transition-colors`}
             >{el.title}</Link>
             )}
-            {/* <Link to={links.profile} className='px-3 py-2 rounded-full font-bold mb-2  hover:bg-whiteOpacity'>Аккаунт</Link>
-            <Link to={links.profileTheme} className='px-3 py-2 rounded-full font-bold mb-2 hover:bg-whiteOpacity'>Тема</Link> */}
-
             <button
               onClick={logOutClick}
               className='px-3 py-2 text-left rounded-full font-bold mb-2 text-red-600 hover:bg-whiteOpacity'

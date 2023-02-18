@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container } from '../../components/Container'
 import { MainLoading } from '../../components/MainLoading';
-import { links } from '../../links';
+import { links } from '../../routes/links';
 import { userIsAuth } from '../../store/slices/authSlice';
 import Label from '../../assets/images/label.png'
 import LabelLight from '../../assets/images/label-light.png'
@@ -31,7 +31,6 @@ export const StartPage = () => {
                             localStorage.getItem('theme') === 'dark'
                                 ? <img src={Label} alt="logo" />
                                 : <img src={LabelLight} alt="logo" />
-
                         }
                     </div>
                     {/* <div className='relative h-[500px]'>
@@ -43,8 +42,14 @@ export const StartPage = () => {
                     </div> */}
                 </div>
                 <div className='max-w-md mx-auto flex-col sm:flex-row flex justify-between gap-5 font-bold text-center items-center'>
-                    <Link to={links.login} className='w-full py-3 sm:py-2 px-3 border border-mainGreen rounded-3xl hover:bg-secondBackground dark:hover:bg-bggTop transition-colors'>Войти</Link>
-                    <Link to={links.signup} className='w-full py-3 sm:py-2 px-3 bg-mainGreen rounded-3xl text-totalBlack hover:bg-secondGreen transition-colors'>Зарегистрироваться</Link>
+                    <Link
+                        to={links.login}
+                        className='w-full py-3 sm:py-2 px-3 border border-mainGreen rounded-3xl hover:bg-secondBackground dark:hover:bg-bggTop transition-colors'>
+                        Войти</Link>
+                    <Link
+                        to={links.signup}
+                        className='w-full py-3 sm:py-2 px-3 bg-mainGreen rounded-3xl text-totalBlack hover:bg-secondGreen transition-colors'>
+                        Зарегистрироваться</Link>
                 </div>
             </div>
         </Container>

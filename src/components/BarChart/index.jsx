@@ -16,7 +16,6 @@ import { MainLoading } from '../MainLoading';
 import styles from './styles.module.scss'
 import { ButtonError } from '../ButtonError';
 
-
 ChartJS.register(
     CategoryScale,
     LinearScale,

@@ -22,11 +22,25 @@ export const NavMobileItem = ({ closeNav, link, title, submenu = [] }) => {
     return (
         <div className='w-full'>
             <div className='text-center'>
-                <Link onClick={handleClick} to={link ? link : null} className={`${styles.element} inline-block`}>{title}</Link>
+                <Link
+                    onClick={handleClick}
+                    to={link ? link : null}
+                    className={`${styles.element} inline-block`}
+                >{title}</Link>
             </div>
 
-            <div className={`${activeSubmenu ? 'h-[calc(100%-50px)] ' : 'h-0'} overflow-hidden  transition-all flex flex-col bg-blackMenu dark:bg-bggTop w-full`}>
-                {submenu.map(el => <div key={el.title} className='text-center'> <Link onClick={handleClose} className={`${styles.element} inline-block`} to={el.link} >{el.title}</Link></div>)}
+            <div className={`${activeSubmenu ? 'h-[calc(100%-50px)]' : 'h-0'} overflow-hidden  transition-all flex flex-col bg-blackMenu dark:bg-bggTop w-full`}>
+                {submenu.map(el =>
+                    <div
+                        key={el.title}
+                        className='text-center'
+                    >
+                        <Link
+                            onClick={handleClose}
+                            className={`${styles.element} inline-block`}
+                            to={el.link}
+                        >{el.title}</Link>
+                    </div>)}
             </div>
 
         </div>

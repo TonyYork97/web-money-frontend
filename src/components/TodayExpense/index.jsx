@@ -9,7 +9,10 @@ export const TodayExpense = ({ data, isLoading, error, reload }) => {
         <p className='text-sm mb-1 text-textOpacity dark:text-darkBlack'>Потрачено сегодня</p>
         {error
           ? <div className='flex justify-end'>
-            <ButtonError title="Обновить" update={reload} />
+            <ButtonError
+              title="Обновить"
+              update={reload}
+            />
           </div>
           : isLoading
             ? <MainLoading size={23} />

@@ -5,7 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { SignupPage } from "./pages/SignupPage";
 import { StartPage } from "./pages/StartPage";
-import { links } from './links'
+import { links } from './routes/links'
 import { HistoryPage } from "./pages/HistoryPage";
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchCheckAuth, userIsAuth } from "./store/slices/authSlice";
@@ -22,8 +22,8 @@ import 'moment/locale/ru'
 import { ThemePage } from "./pages/ThemePage";
 import { useState } from "react";
 import { CategoriesPage } from "./pages/CategoriesPage";
-
 moment().locale('ru');
+
 function App() {
   const [theme, setTheme] = useState(true)
   const [blur, setBlur] = useState(false)
@@ -40,8 +40,6 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, []);
-
-
 
   useEffect(() => {
     if (!localStorage.getItem('theme')) {
@@ -66,13 +64,13 @@ function App() {
     <div className={`${theme ? '' : 'dark'}`}>
       {blur
         ? <>
-          <div className="fixed w-60 h-60 bg-mainGreen rounded-full filter blur-[72px]  opacity-80 top-24 -left-24"></div>
-          <div className="fixed w-72 h-72 bg-mainGreen rounded-full filter blur-[72px]  opacity-80 top-96 -right-28"></div>
+          <div className="fixed w-60 h-60 bg-mainGreen rounded-full filter blur-[172px] opacity-80 top-24 -left-24"></div>
+          <div className="fixed w-72 h-72 bg-mainGreen rounded-full filter blur-[172px] opacity-80 top-96 -right-28"></div>
         </>
         : ''
       }
 
-      <div className=" dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-screen flex flex-col justify-between h-full">
+      <div className="dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-screen flex flex-col justify-between h-full">
         {isAuth && <Header />}
         <div className=" mb-3 flex-1">
           <Routes>

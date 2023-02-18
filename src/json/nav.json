@@ -1,0 +1,36 @@
+[
+  {
+    "title": "Мой профиль",
+    "link": "app/profile/account"
+  },
+  {
+    "title": "Главная",
+    "link": "app/home"
+  },
+  {
+    "title": "История",
+    "link": "",
+    "submenu": [
+      {
+        "title": "Вся история",
+        "link": "app/history"
+      },
+      {
+        "title": "Все расходы",
+        "link": "app/expenses"
+      },
+      {
+        "title": "Все доходы",
+        "link": "app/income"
+      }
+    ]
+  },
+  {
+    "title": "О нас",
+    "link": "app/about"
+  },
+  {
+    "title": "Контакты",
+    "link": "app/contacts"
+  }
+]

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, } from 'react-router-dom'
 import { ButtonGreen } from '../../components/ButtonGreen'
 import { Input } from '../../components/Input'
-import { links } from '../../links'
+import { links } from '../../routes/links'
 
 import { fetchChangeLastName, fetchChangeName } from '../../store/slices/authSlice'
 import { ButtonLink } from '../ButtonLink'
@@ -18,7 +16,6 @@ export const Account = () => {
   const [nameState, setName] = useState('')
   const [lastNameState, setLastName] = useState('')
   const { data } = useSelector(state => state.auth)
-
 
   const dispatch = useDispatch()
   const emailRef = useRef()
@@ -130,7 +127,6 @@ export const Account = () => {
       </div>
       <div className='mb-8'>
         <h4 className='text-lg font-bold mb-3'>Пароль</h4>
-
         <div className='flex gap-4'>
           <ButtonLink link={links.password} title="Изменить пароль" />
         </div>

@@ -10,7 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    config.headers['x-total-count'] = `${localStorage.getItem('totalCount')}`
+    // config.headers['x-total-count'] = `${localStorage.getItem('totalCount')}`
     return config;
 })
 

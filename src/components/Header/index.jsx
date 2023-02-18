@@ -7,45 +7,9 @@ import CloseLight from '../../assets/images/close-light.svg'
 import { NavMobile } from '../NavMobile'
 import { Nav } from '../Nav'
 import { Link } from 'react-router-dom'
-import { links } from '../../links'
+import { links } from '../../routes/links'
+import nav from '../../json/nav.json'
 import styles from './styles.module.scss'
-
-const nav = [
-    {
-        title: 'Мой профиль',
-        link: 'app/profile/account'
-    },
-    {
-        title: 'Главная',
-        link: 'app/home',
-    },
-    {
-        title: 'История',
-        link: '',
-        submenu: [
-            {
-                title: 'Вся история',
-                link: 'app/history',
-            },
-            {
-                title: 'Все расходы',
-                link: 'app/expenses',
-            },
-            {
-                title: 'Все доходы',
-                link: 'app/income',
-            },
-        ]
-    },
-    {
-        title: 'О нас',
-        link: 'app/about'
-    },
-    {
-        title: 'Контакты',
-        link: 'app/contacts'
-    },
-];
 
 export const Header = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
@@ -67,12 +31,13 @@ export const Header = () => {
                     <img className='w-full h-auto' src={LogoImg} alt="logo" />
                 </div>
             </Link>
+
             <Nav list={nav} />
 
             <div className='md:hidden absolute right-3 top-2' onClick={() => setIsOpenNav(!isOpenNav)}>
                 {isOpenNav
                     ? localStorage.getItem('theme') === 'dark'
-                        ? <button className='w-9'><img className='w-full' src={Close} alt="close" /></button>
+                        ? <button className='w-9'><img className='w-full ' src={Close} alt="close" /></button>
                         : <button className='w-9'><img className='w-full' src={CloseLight} alt="close" /></button>
                     : localStorage.getItem('theme') === 'dark'
                         ? <button className='w-9'><img className='w-full' src={Burger} alt="menu" /></button>

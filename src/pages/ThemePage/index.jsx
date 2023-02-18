@@ -31,6 +31,7 @@ export const ThemePage = ({ theme, setTheme, blur, setBlur }) => {
   }
   return (
     <div>
+      {/* change theme */}
       <h2 className='mb-8 font-bold text-lg '>Тема</h2>
       <div className='flex items-center gap-3 mb-3'>
         <div className=''>
@@ -40,6 +41,7 @@ export const ThemePage = ({ theme, setTheme, blur, setBlur }) => {
         </div>
         <p className=''>{theme ? 'Темная тема' : 'Светлая тема'}</p>
       </div>
+      {/* change blur */}
       <div className='flex items-center gap-3'>
         <div className=''>
           <input type="checkbox" hidden onChange={handleChangeBlur} checked={localStorage.getItem('blur') ? true : false} id="highload2" name="highload1" />

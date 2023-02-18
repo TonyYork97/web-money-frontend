@@ -13,7 +13,6 @@ export const Input = React.forwardRef((
         label = "",
         min = 1.00,
         max = 999999999.99,
-
         error,
         helperText,
         onChange,

@@ -7,7 +7,7 @@ export const ButtonGreen = ({ title, type, func = () => null, cn = "", disabled 
             disabled={!disabled}
             type={type}
             onClick={func}
-            className={`${styles.button} ${cn} ${!disabled ? styles.disabled : `${styles.active} from-mainGreen to-bggGreen hover:from-mainGreen hover:to-mainGreen`}`}
+            className={`bg-gradient-to-r ${styles.button} ${cn} ${!disabled ? 'from-gray-400 to-gray-500' : `${styles.active}  from-mainGreen to-bggGreen hover:from-mainGreen hover:to-mainGreen`}`}
         >
             {title}
         </button>

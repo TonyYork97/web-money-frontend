@@ -89,6 +89,7 @@ export const CategoriesPage = ({ type }) => {
             setFlag(true)
             setIsLoading(true)
             setOperations([])
+            // get expense data
             if (type === 'expense') {
                 const monthExpense = await dispatch(fetchGetMontExpense({ currentMonth: curMonth }))
                 let cat = monthExpense.payload?.categories[0]?.title || ''
@@ -125,6 +126,7 @@ export const CategoriesPage = ({ type }) => {
                 setOperations([...categoryOperations.data.operations])
 
             } else {
+                // get revenue data
                 const monthRevenue = await dispatch(fetchGetMontRevenue({ currentMonth: curMonth }))
                 let cat = monthRevenue.payload?.categories[0]?.title || ''
                 let indexOfCategory = monthRevenue.payload?.categories?.findIndex((el) => el.title === curCategory)
@@ -184,6 +186,7 @@ export const CategoriesPage = ({ type }) => {
             getExpense()
         }
     }, [curMonth, type])
+
     useEffect(() => {
         window.scrollTo(0, 0)
         return () => {

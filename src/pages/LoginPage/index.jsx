@@ -4,7 +4,7 @@ import StickerLogin from '../../assets/images/sticker3.png'
 import { AuthContainer } from '../../components/AuthContainer'
 import { Input } from '../../components/Input'
 import { ButtonGreen } from '../../components/ButtonGreen'
-import { links } from '../../links'
+import { links } from '../../routes/links'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchLogin, userIsAuth } from '../../store/slices/authSlice'
 import { useForm } from 'react-hook-form'
@@ -36,7 +36,6 @@ export const LoginPage = () => {
         }
     }
 
-
     useEffect(() => {
         if (isAuth && localStorage.getItem('token')) {
             navigate('/app/home', { replace: true })
@@ -44,14 +43,13 @@ export const LoginPage = () => {
 
     }, [])
 
-
     if (isLoading && !isAuth) {
         return <div className='w-full h-screen flex justify-center items-center'><MainLoading /></div>
     }
 
     return (
         <AuthContainer>
-            <div className={`w-full md:w-auto  mt-6  md:min-w-[448px] flex flex-col justify-center px-1 sm:px-7`}>
+            <div className={`w-full  md:w-auto  mt-6  md:min-w-[448px] flex flex-col justify-center px-1 sm:px-7`}>
                 <h2 className='text-2xl sm:text-3xl mb-4 font-bold'>Войти</h2>
                 {loginError && <div className='text-red-700'>{loginError?.message || 'Неверный логин или пароль'}</div>}
                 <form
