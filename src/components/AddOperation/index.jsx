@@ -224,18 +224,17 @@ export const AddOperation = () => {
                 control={control}
                 name='paymentMethod'
 
-                render={({ field: { onChange, value }, fieldState: { error } }) => <Select
-                  scrollToFocusedOptionOnUpdate={true}
-                  options={
-                    [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
-                  }
-                  placeholder="Выберете способ оплаты"
-                  classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
-
-
-                  value={getPaymentMethodValue(value)}
-                  onChange={(newValue) => onChange(newValue.value)}
-                />}
+                render={({ field: { onChange, value }, fieldState: { error } }) =>
+                  <Select
+                    scrollToFocusedOptionOnUpdate={true}
+                    options={
+                      [{ value: '', label: <div className='flex gap-3 items-center'><h3>Не выбирать</h3></div> }, ...paymentMethodsArr]
+                    }
+                    placeholder="Выберете способ оплаты"
+                    classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
+                    value={getPaymentMethodValue(value)}
+                    onChange={(newValue) => onChange(newValue.value)}
+                  />}
               />
               </div>
             }
@@ -250,14 +249,15 @@ export const AddOperation = () => {
                   required: 'Укажите категорию'
                 }}
                 name='category'
-                render={({ field: { onChange, value }, fieldState: { error } }) => <Select
-                  options={categoriesArr}
-
-                  placeholder="Выберете категорию"
-                  classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
-                  value={getValue(value)}
-                  onChange={(newValue) => onChange(newValue.value)}
-                />}
+                render={({ field: { onChange, value }, fieldState: { error } }) =>
+                  <Select
+                    scrollToFocusedOptionOnUpdate={true}
+                    options={categoriesArr}
+                    placeholder="Выберете категорию"
+                    classNamePrefix={localStorage.getItem('theme') === 'dark' ? 'custom-select-dark' : 'custom-select'}
+                    value={getValue(value)}
+                    onChange={(newValue) => onChange(newValue.value)}
+                  />}
               />
                 {errors.category && <div className='text-xs text-errorRed'>
                   {errors.category?.message || 'Укажите категорию'}
