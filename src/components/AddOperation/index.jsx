@@ -133,7 +133,6 @@ export const AddOperation = () => {
     }
   }, []);
 
-
   useEffect(() => {
     setCategoriesArr(categories ? categories.map(el => ({ value: el.title, label: el.title })) : [])
     setPaymentMethodsArr(dataPaymentMethods ? dataPaymentMethods.map(el => ({ value: el.title, label: <div className='flex gap-3 items-center'><img className='w-12' src={`https://web-money-backend.onrender.com${el.imageUrl}`} alt={el.title} /><h3>{el.title}</h3></div> })) : [])
@@ -158,6 +157,7 @@ export const AddOperation = () => {
       }
     }
   }, [])
+
   // Минимальные и максимальные даты операций
   const minDate = moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD');
   const maxDate = moment().format('YYYY-MM-DD')
@@ -170,7 +170,7 @@ export const AddOperation = () => {
     <>
       {isPopup && <PopupWindow onClose={togglePopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
       {errorPopup && <PopupWindow onClose={toggleErrorPopup} error text={id ? 'Не удалось изменить операцию' : 'Не удалось добавить операцию'} />}
-      <div className='w-full pt-14 md:max-w-[864px] mx-auto py-2 px-3 md:static bg-background dark:bg-white md:bg-transparent  z-[888] '>
+      <div className='w-full pt-14 md:max-w-[864px] mx-auto py-2 px-3 md:static bg-background dark:bg-white md:bg-transparent z-[888] '>
         <div className='flex py-2 justify-between md:justify-center  items-center mb-3'>
           <h3 className='font-bold text-lg'>{typeOpeation} {typeCategory}</h3>
           <Link to={links.home} className='w-8 h-8 cursor-pointer md:hidden'>

@@ -14,7 +14,6 @@
 
 
 *::-webkit-scrollbar {
-
   @apply w-2 bg-white
 }
 
@@ -69,7 +68,6 @@ select::-ms-expand {
 }
 
 @media screen and (max-width: 767px) {
-
   select:focus,
   textarea:focus,
   input:focus {
