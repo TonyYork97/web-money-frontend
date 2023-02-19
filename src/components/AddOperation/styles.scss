@@ -1,10 +1,10 @@
-.form{
+.form {
     @apply flex flex-col justify-between md:justify-start md:h-[calc(100%-98px)] h-[calc(100%-56px)] md:max-w-xl md:mx-auto
 }
 
-.custom-select-dark{
-    &__control{
-        background: rgba(20,22,24,0.5) !important;
+.custom-select-dark {
+    &__control {
+        background: rgba(20, 22, 24, 0.5) !important;
         border: 1px solid #eeeeee !important;
         padding: 6px 0px !important;
         border-radius: 12px !important;
@@ -12,50 +12,69 @@
         outline: none !important;
         padding: 0 !important;
         box-shadow: none !important;
-        
+
     }
-    &__input-container{
+
+    &__input-container {
         color: white !important
     }
-    &__control--menu-is-open  {
+
+    &__control--menu-is-open {
         box-shadow: 0px 0px 11px 0px #ffffff !important;
         outline: none !important;
     }
-    &__control--is-focused:focus{
-        border: 1px solid #eeeeee !important; 
+
+    &__control--is-focused:focus {
+        border: 1px solid #eeeeee !important;
         outline-color: transparent !important;
         box-shadow: 0px 0px 11px 0px #ffffff !important;
-        
+
     }
-    &__placeholder{
+
+    &__placeholder {
         color: #eeeeee !important;
         opacity: 0.25 !important
     }
-    &__single-value{
+
+    &__single-value {
         color: #eeeeee !important;
     }
-    &__menu{
-        background: rgba(20,22,24,1) !important;
+
+    &__menu {
+        background: rgba(20, 22, 24, 1) !important;
     }
-    &__option:hover{
+
+    &__option:hover {
         background: #ffffff0a !important;
     }
-    &__option:focus{
+
+    &__option:focus {
         background: #ffffff0a !important;
     }
-    &__option:active{
+
+    &__option:active {
         background: #ffffff0a !important;
     }
-    &__option{
+
+    &__option {
         background: transparent !important;
     }
-    &__value-container{
+
+    &__value-container {
         padding: 8px !important;
+    }
+    
+}
+@media screen and (max-width: 767px) {
+    .custom-select-dark {
+    &__control {
+        font-size: 16px;
+        }
     }
 }
 
-.custom-select{
-    &__control{
+.custom-select {
+    &__control {
         background: #f1f1f2 !important;
         border: 1px solid #292929 !important;
         padding: 6px 0px !important;
@@ -65,40 +84,57 @@
         padding: 0 !important;
         box-shadow: none !important
     }
-    &__control--menu-is-open  {
+
+    &__control--menu-is-open {
         box-shadow: 0px 0px 11px 0px #292929 !important;
         outline: none !important;
     }
-    &__input-container{
+
+    &__input-container {
         color: black !important
     }
-    &__control--is-focused:focus{
-        border: 1px solid #292929 !important; 
+
+    &__control--is-focused:focus {
+        border: 1px solid #292929 !important;
         outline-color: transparent !important;
         outline: none !important;
         box-shadow: 0px 0px 11px 0px #292929 !important;
-        
+
     }
-    &__placeholder{
+
+    &__placeholder {
+
         color: black !important;
         opacity: 0.75 !important
     }
-    &__single-value{
+
+    &__single-value {
         color: #292929 !important;
+
     }
-    &__menu{
+
+    &__menu {
         background: #f1f1f2 !important;
     }
-    &__option:hover{
+
+    &__option:hover {
         background: #a2a2a2 !important;
     }
-    &__option{
+
+    &__option {
         background: transparent !important;
-    
+
     }
-    &__value-container{
+
+    &__value-container {
         padding: 8px !important;
     }
-    
 }
 
+@media screen and (max-width: 767px) {
+    .custom-select {
+    &__control {
+        font-size: 16px;
+        }
+    }
+}
