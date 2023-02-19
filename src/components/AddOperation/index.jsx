@@ -170,7 +170,7 @@ export const AddOperation = () => {
     <>
       {isPopup && <PopupWindow onClose={togglePopup} text={id ? 'Операция изменена' : 'Операция добавлена'} />}
       {errorPopup && <PopupWindow onClose={toggleErrorPopup} error text={id ? 'Не удалось изменить операцию' : 'Не удалось добавить операцию'} />}
-      <div className='w-full pt-0 md:pt-14 md:max-w-[864px] mx-auto py-2 px-3 md:static bg-background dark:bg-white md:bg-transparent  z-[888] '>
+      <div className='w-full pt-14 md:max-w-[864px] mx-auto py-2 px-3 md:static bg-background dark:bg-white md:bg-transparent  z-[888] '>
         <div className='flex py-2 justify-between md:justify-center  items-center mb-3'>
           <h3 className='font-bold text-lg'>{typeOpeation} {typeCategory}</h3>
           <Link to={links.home} className='w-8 h-8 cursor-pointer md:hidden'>
