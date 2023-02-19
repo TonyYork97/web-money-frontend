@@ -70,9 +70,9 @@ function App() {
         : ''
       }
 
-      <div className="dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-screen flex flex-col justify-between h-full">
+      <div className="dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-full flex flex-col ">
         {isAuth && <Header />}
-        <div className=" mb-3 flex-1">
+        <div className=" mb-3  flex-grow flex-shrink-0">
           <Routes>
             <Route path={links.home} element={<HomePage />} />
             <Route path={links.addExpense} element={<AddOperation />} />
