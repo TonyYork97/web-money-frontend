@@ -46,6 +46,10 @@ input::-webkit-inner-spin-button {
   /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+html {
+  height: 100%;
+}
+
 body {
   @apply text-sm bg-background h-full
 }

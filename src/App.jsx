@@ -61,7 +61,7 @@ function App() {
   }
 
   return (
-    <div className={`${theme ? '' : 'dark'}`}>
+    <div className={`${theme ? '' : 'dark'} h-full`}>
       {blur
         ? <>
           <div className="fixed w-60 h-60 bg-mainGreen rounded-full filter blur-[172px] opacity-80 top-24 -left-24"></div>
@@ -72,7 +72,7 @@ function App() {
 
       <div className="dark:bg-backgroundLight text-textPrime dark:text-darkBlack bg-background min-w-[260px] min-h-full flex flex-col ">
         {isAuth && <Header />}
-        <div className=" mb-3  flex-grow flex-shrink-0">
+        <div className="flex-auto  mb-3">
           <Routes>
             <Route path={links.home} element={<HomePage />} />
             <Route path={links.addExpense} element={<AddOperation />} />
