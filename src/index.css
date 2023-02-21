@@ -69,6 +69,7 @@ select::-ms-expand {
 
 .modal-open {
   position: fixed;
+  width: 100%;
   overflow: hidden;
 }
 

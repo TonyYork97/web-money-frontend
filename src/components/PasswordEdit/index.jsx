@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchChangePassword, setChangePasswordError, setIsSuccessChangePassword } from '../../store/slices/authSlice';
@@ -22,6 +22,10 @@ export const PasswordEdit = () => {
   const { changePasswordError, isLoadingChangePassword, isSuccessChangePassword } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const changePassword = async () => {
     if (!currentPassword) {

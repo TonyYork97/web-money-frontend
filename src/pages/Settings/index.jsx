@@ -39,12 +39,12 @@ export const Settings = ({ children }) => {
     setActiveMenu(false)
   }
   const openMenu = () => {
-    setTimeout(() => {
-      document.body.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }, 1)
+    // setTimeout(() => {
+    //   document.body.scrollIntoView({
+    //     behavior: 'smooth',
+    //     block: 'start'
+    //   })
+    // }, 1)
 
     if (slashes.length === 3) {
       setActiveMenu(true)

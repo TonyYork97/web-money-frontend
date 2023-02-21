@@ -20,6 +20,10 @@ export const Account = () => {
   const dispatch = useDispatch()
   const emailRef = useRef()
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const changefullName = (e) => {
     if (lastNameState.length < 2 || lastNameState.length > 20) {
       setErrorLastName(true);

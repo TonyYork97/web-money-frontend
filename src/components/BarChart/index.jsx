@@ -49,8 +49,8 @@ const options = {
 
         },
         title: {
-            display: true,
-            text: 'Расходы за год',
+            display: false,
+            text: '',
         },
 
     },
@@ -87,10 +87,14 @@ export const BarChart = ({ yearExpense, isLoading, reload, error }) => {
                 </div>
                 : <>
                     {yearExpense.length ? <TodayMoney min={yearExpense[0] || ''} max={yearExpense[yearExpense.length - 1] || ''} /> : ''}
-
-                    <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>
-                        <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
-                            <Bar options={options} data={data} />
+                    <div className='pt-5 pb-3'>
+                        <div className='w-full text-center'>
+                            <h4 className='text-xs text-textOpacity dark:text-textOpacitySecond'>Расходы за год</h4>
+                        </div>
+                        <div className={`${styles.bar} w-full overflow-x-auto py-2`} ref={barRef}>
+                            <div className='w-[640px] sm:w-full  md:flex-1 h-[320px]'>
+                                <Bar options={options} data={data} />
+                            </div>
                         </div>
                     </div>
                 </>

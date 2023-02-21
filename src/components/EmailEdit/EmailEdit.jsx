@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ButtonGreen } from '../ButtonGreen'
 import { Input } from '../Input'
 import { useState } from 'react'
@@ -18,6 +18,10 @@ export const EmailEdit = () => {
   const { changeEmailError, isLoadingChangeEmail, isSuccessChangeEmail, data } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const changeEmail = async () => {
     let trimEmail = email.trim()
