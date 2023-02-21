@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { fetchLogOut } from '../../store/slices/authSlice';
@@ -13,6 +13,12 @@ export const NavMobile = ({ isOpenNav, list = [], closeNav = () => null }) => {
         dispatch(fetchLogOut())
         navigate('/', { replace: true })
     }
+
+    useEffect(() => {
+        return () => {
+            document.body.classList.remove('modal-open')
+        }
+    }, [])
 
     return (
         <nav className={`${isOpenNav ? 'translate-x-0' : 'translate-x-[100%] hidden'} ${styles.navMobile} bg-background  border-black dark:border-bggBottom dark:bg-gradient-to-r dark:from-bggBottom dark:via-bggTop dark:to-white `}>

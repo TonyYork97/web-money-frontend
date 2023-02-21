@@ -204,6 +204,7 @@ export const CategoriesPage = ({ type }) => {
 
     const closeOperations = () => {
         dispatch(setIsOpen(false))
+        document.body.classList.remove('modal-open')
         operationBlockRef.current.scrollIntoView({
             behavior: 'smooth',
             block: 'end',

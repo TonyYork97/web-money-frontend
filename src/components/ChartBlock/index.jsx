@@ -10,6 +10,7 @@ import { MainLoading } from '../MainLoading';
 import { ShowMoreButton } from '../ShowMoreButton';
 import { setActiveCategory, setCurCategory, setCurCategoryAmount, setIsOpen, setUpdateFlag } from '../../store/slices/filterSlice';
 import { ButtonError } from '../ButtonError';
+import { useResize } from '../../hooks/Rezise';
 ChartJS.register(ArcElement, Legend);
 
 export const ChartBlock = (
@@ -28,6 +29,7 @@ export const ChartBlock = (
     }) => {
     const [isPercent, setIsPercent] = useState(false)
     const dispatch = useDispatch()
+    const { width } = useResize()
 
     const navigate = useNavigate()
 
@@ -57,6 +59,9 @@ export const ChartBlock = (
         dispatch(setCurCategory(title))
         dispatch(setCurCategoryAmount(idx))
         dispatch(setActiveCategory(title))
+        if (width < 768) {
+            document.body.classList.add('modal-open')
+        }
     }
     const navigateLink = (titleItem, idx) => {
         navigate(title === 'Расход' ? links.expenses : links.income)
@@ -65,6 +70,9 @@ export const ChartBlock = (
         dispatch(setCurCategoryAmount(idx))
         dispatch(setActiveCategory(titleItem))
         dispatch(setUpdateFlag(false))
+        if (width < 768) {
+            document.body.classList.add('modal-open')
+        }
     }
 
 

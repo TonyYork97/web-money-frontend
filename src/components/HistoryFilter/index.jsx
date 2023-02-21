@@ -36,7 +36,6 @@ export const HistoryFilter = ({
   setTotalPages,
   setError
 }) => {
-
   const [isPeriodActive, setIsPeriodActive] = useState(false)
   const [isAmountActive, setIsAmountActive] = useState(false)
   const [isTypeActive, setIsTypeActive] = useState(false)
@@ -50,47 +49,6 @@ export const HistoryFilter = ({
   const { width } = useResize()
   const { type, minDateValue, maxDateValue, minAmountValue, maxAmountValue, } = useSelector(state => state.filter)
   const dispatch = useDispatch()
-
-  // const getFilterOperations = async (minDate, maxDate, minAmount, maxAmount, typeOperations) => {
-  //   try {
-  //     setFlag(true)
-  //     setIsLoading(true)
-  //     setPage(1)
-  //     setOperations([])
-  //     setTotalPages(0)
-  //     await axios.get('/app/operation', {
-  //       params: {
-  //         limit: 15,
-  //         page: 1,
-  //         type: typeOperations === undefined ? type.value : typeOperations,
-  //         dateFrom: minDate ? minDate : minDateInput,
-  //         dateTo: maxDate ? maxDate : maxDateInput,
-  //         amountFrom: minAmount ? minAmount : minAmountInput,
-  //         amountTo: maxAmount ? maxAmount : maxAmountInput
-  //       }
-  //     }).then(({ data }) => {
-  //       if (data?.message) {
-  //         setOperations([])
-  //         setTotalPages(0)
-  //         setError('error')
-  //       }
-  //       setError(null)
-  //       setOperations([...data.operations])
-  //       let totalCount = Math.ceil(data.totalCount / 15)
-  //       setTotalPages(totalCount)
-
-  //     })
-
-  //   } catch (err) {
-  //     console.warn(err);
-  //     setOperations([])
-  //     setTotalPages(0)
-  //     setError('error')
-  //   } finally {
-  //     setIsLoading(false)
-  //     setFlag(false)
-  //   }
-  // }
 
   const getFilterOperations = async ({ minDate, maxDate, minAmount, maxAmount, typeOperations }) => {
     try {
@@ -119,9 +77,7 @@ export const HistoryFilter = ({
         setOperations([...data.operations])
         let totalCount = Math.ceil(data.totalCount / limit)
         setTotalPages(totalCount)
-
       })
-
     } catch (err) {
       console.warn(err);
       setOperations([])
@@ -241,6 +197,7 @@ export const HistoryFilter = ({
     setIsAmountActive(false)
     setIsPeriodActive(false)
     setIsTypeActive(false)
+    document.body.classList.remove('modal-open')
   }
 
   const closePeriod = (e) => {
@@ -271,12 +228,21 @@ export const HistoryFilter = ({
     dispatch(setMaxAmountValue(e.target.value))
   }
 
+  const addHiddenOverflow = () => {
+    if (width < 1133) {
+      document.body.classList.add('modal-open')
+    }
+  }
+
   return (
     <>
       <div className={`${width > 1132 ? 'overflow-visible' : 'overflow-x-auto'} pb-1 mb-3 w-[calc(100%-14px)] absolute ${styles.filterHistory}`}>
         <div className='flex items-center gap-3 w-[556px]'>
           <div className='w-[170px] relative '>
-            <div onClick={() => setIsTypeActive(!isTypeActive)} className=' cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
+            <div onClick={() => {
+              setIsTypeActive(!isTypeActive)
+              addHiddenOverflow()
+            }} className=' cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
               <p className='text-textOpacity dark:text-darkBlack dark:text-opacity-75 select-none'>
                 {type ? type.label : 'Тип операции'}
               </p>
@@ -296,7 +262,10 @@ export const HistoryFilter = ({
             }
           </div>
           <div className='w-[180px] relative'>
-            <div onClick={() => setIsPeriodActive(!isPeriodActive)} className='cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
+            <div onClick={() => {
+              setIsPeriodActive(!isPeriodActive)
+              addHiddenOverflow()
+            }} className='cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
               <p className='text-textOpacity dark:text-darkBlack dark:text-opacity-75 select-none'>
                 {fullDateValue ? fullDateValue : 'Период'}
               </p>
@@ -317,7 +286,10 @@ export const HistoryFilter = ({
           </div>
 
           <div className='w-[180px] relative'>
-            <div onClick={() => setIsAmountActive(!isAmountActive)} className='cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
+            <div onClick={() => {
+              setIsAmountActive(!isAmountActive)
+              addHiddenOverflow()
+            }} className='cursor-pointer rounded-xl border border-bggBottom dark:bg-white py-1 lg:py-2 px-2 flex justify-between items-center'>
               <p className='text-textOpacity dark:text-darkBlack dark:text-opacity-75 select-none w-[140px] overflow-hidden whitespace-nowrap  '>
                 {fullAmountValue ? fullAmountValue : 'Сумма'}
               </p>

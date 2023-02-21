@@ -10,11 +10,14 @@ import { Link } from 'react-router-dom'
 import { links } from '../../routes/links'
 import nav from '../../json/nav.json'
 import styles from './styles.module.scss'
+import { useResize } from '../../hooks/Rezise'
 
 export const Header = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
+    const { width } = useResize()
     const closeNav = () => {
         setIsOpenNav(false)
+        document.body.classList.remove('modal-open')
     }
 
     const scrollToIntoView = (e) => {
@@ -34,7 +37,18 @@ export const Header = () => {
 
             <Nav list={nav} />
 
-            <div className='md:hidden absolute right-3 top-2' onClick={() => setIsOpenNav(!isOpenNav)}>
+            <div className='md:hidden absolute right-3 top-2' onClick={() => {
+                setIsOpenNav(!isOpenNav)
+                if (width < 768) {
+                    if (!isOpenNav) {
+                        document.body.classList.add('modal-open')
+                    } else {
+                        document.body.classList.remove('modal-open')
+
+                    }
+                }
+            }
+            }>
                 {isOpenNav
                     ? localStorage.getItem('theme') === 'dark'
                         ? <button className='w-9'><img className='w-full ' src={Close} alt="close" /></button>
