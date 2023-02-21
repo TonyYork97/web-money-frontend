@@ -90,6 +90,7 @@ export const HistoryFilter = ({
   }
 
   const handleDate = () => {
+    removeHiddenOverflow()
     if (!minDateValue && !maxDateValue) {
       dispatch(setMinDateValue(''))
       dispatch(setMaxDateValue(''))
@@ -117,6 +118,7 @@ export const HistoryFilter = ({
   }
 
   const handleAmount = async () => {
+    removeHiddenOverflow()
     if (!maxAmountValue && !minAmountValue) {
       dispatch(setMinAmountValue(''))
       dispatch(setMaxAmountValue(''))
@@ -156,6 +158,7 @@ export const HistoryFilter = ({
     dispatch(setMaxDateValue(''))
     setFullDateValue('')
     getFilterOperations({ minDate, maxDate })
+    removeHiddenOverflow()
   }
 
   const removeAmount = (e) => {
@@ -164,12 +167,14 @@ export const HistoryFilter = ({
     dispatch(setMaxAmountValue(''))
     setFullAmountValue('')
     getFilterOperations({ minAmount, maxAmount })
+    removeHiddenOverflow()
   }
 
   const removeType = (e) => {
     e.stopPropagation()
     dispatch(setTypeOperation(''))
     getFilterOperations({ typeOperations: '' })
+    removeHiddenOverflow()
   }
 
   useEffect(() => {
@@ -188,6 +193,7 @@ export const HistoryFilter = ({
   }, [])
 
   const handleType = (value) => {
+    removeHiddenOverflow()
     dispatch(setTypeOperation(value))
     setIsTypeActive(false)
     getFilterOperations({ typeOperations: value.value })
@@ -197,7 +203,7 @@ export const HistoryFilter = ({
     setIsAmountActive(false)
     setIsPeriodActive(false)
     setIsTypeActive(false)
-    document.body.classList.remove('modal-open')
+    removeHiddenOverflow()
   }
 
   const closePeriod = (e) => {
@@ -205,6 +211,7 @@ export const HistoryFilter = ({
     setIsPeriodActive(false)
     setIsAmountActive(false)
     setIsTypeActive(false)
+    removeHiddenOverflow()
   }
 
   const changeMinDateInput = e => {
@@ -228,6 +235,10 @@ export const HistoryFilter = ({
     dispatch(setMaxAmountValue(e.target.value))
   }
 
+  const removeHiddenOverflow = () => {
+    document.body.classList.remove('modal-open')
+  }
+
   const addHiddenOverflow = () => {
     if (width < 1133) {
       document.body.classList.add('modal-open')
@@ -247,7 +258,10 @@ export const HistoryFilter = ({
                 {type ? type.label : 'Тип операции'}
               </p>
               {type
-                ? <img onClick={removeType} className='w-5 h-5 cursor-pointer dark:bg-darkBlack dark:rounded-full rounded-xl hover:bg-textOpacity transition-colors' src={Close} alt="remove" />
+                ? <img onClick={removeType}
+                  className='w-5 h-5 cursor-pointer dark:bg-darkBlack dark:rounded-full rounded-xl hover:bg-textOpacity transition-colors'
+                  src={Close}
+                  alt="remove" />
                 : ''
               }
             </div>
@@ -256,7 +270,10 @@ export const HistoryFilter = ({
               <>
                 <div onClick={closePeriod} className='fixed z-[990] top-0 right-0 left-0 bottom-0'></div>
                 <div className='absolute w-full bg-blackMenu dark:border dark:border-bggBottom dark:bg-white py-3 px-3 rounded-lg z-[997]'>
-                  {typeOperations.map(el => <p key={el.label} className='cursor-pointer select-none hover:bg-background dark:hover:bg-bggBottom  transition-colors rounded-lg mb-2 last:mb-0 p-2' onClick={() => handleType(el)}>{el.label}</p>)}
+                  {typeOperations.map(el =>
+                    <p key={el.label}
+                      className='cursor-pointer select-none hover:bg-background dark:hover:bg-bggBottom  transition-colors rounded-lg mb-2 last:mb-0 p-2'
+                      onClick={() => handleType(el)}>{el.label}</p>)}
                 </div>
               </>
             }
@@ -270,7 +287,11 @@ export const HistoryFilter = ({
                 {fullDateValue ? fullDateValue : 'Период'}
               </p>
               {fullDateValue
-                ? <img onClick={removeDate} className='w-5 h-5 cursor-pointer dark:bg-darkBlack dark:rounded-full rounded-xl hover:bg-textOpacity transition-colors' src={Close} alt="remove" />
+                ? <img
+                  onClick={removeDate}
+                  className='w-5 h-5 cursor-pointer dark:bg-darkBlack dark:rounded-full rounded-xl hover:bg-textOpacity transition-colors'
+                  src={Close}
+                  alt="remove" />
                 : ''
               }
             </div>
@@ -333,7 +354,10 @@ export const HistoryFilter = ({
         }
         {isTypeActive && width <= 1132
           ? <ModalWindow title="Тип операции" onClose={closeActive}>
-            {typeOperations.map(el => <p key={el.label} className='cursor-pointer select-none hover:bg-background dark:hover:bg-bggBottom  transition-colors rounded-lg mb-2 last:mb-0 p-2' onClick={() => handleType(el)}>{el.label}</p>)}
+            {typeOperations.map(el =>
+              <p key={el.label}
+                className='cursor-pointer select-none hover:bg-background dark:hover:bg-bggBottom  transition-colors rounded-lg mb-2 last:mb-0 p-2'
+                onClick={() => handleType(el)}>{el.label}</p>)}
 
           </ModalWindow>
           : ''
