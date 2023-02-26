@@ -62,8 +62,8 @@ export const HistoryFilter = ({
           limit,
           page: 1,
           type: typeOperations === undefined ? type.value : typeOperations,
-          dateFrom: minDate ? minDate : minDateValue,
-          dateTo: maxDate ? maxDate : maxDateValue,
+          dateFrom: minDate || minDateValue || moment().add(-11, 'M').startOf('M').format('YYYY-MM-DD'),
+          dateTo: maxDate || maxDateValue || moment().format('YYYY-MM-DD'),
           amountFrom: minAmount ? minAmount : minAmountValue,
           amountTo: maxAmount ? maxAmount : maxAmountValue
         }
