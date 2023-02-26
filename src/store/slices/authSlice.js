@@ -2,71 +2,68 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 import axios from '../../axios'
 
+const addToLocalStorage = (data) => {
+    if ('accessToken' in data) {
+        localStorage.setItem('token', data.accessToken)
+    }
+    if ('refreshToken' in data) {
+        localStorage.setItem('refresh', data.refreshToken)
+    }
+}
+
 export const fetchSignUp = createAsyncThunk('auth/signUp', async (params) => {
     const { data } = await axios.post('/auth/signup', params);
+    addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 })
 
 export const fetchLogin = createAsyncThunk('auth/login', async (params) => {
     const { data } = await axios.post('/auth/login', params);
+       addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 })
 
 export const fetchChangeEmail = createAsyncThunk('auth/changeEmail', async (params) => {
     const { data } = await axios.post('/auth/change-email', params);
+       addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 }
 )
 export const fetchChangePassword = createAsyncThunk('auth/changePassword', async (params) => {
     const { data } = await axios.post('/auth/change-password', params);
+       addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 })
 
 export const fetchChangeName = createAsyncThunk('auth/changeName', async (params) => {
     const { data } = await axios.post('/auth/change-name', params);
+       addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 })
 
 export const fetchChangeLastName = createAsyncThunk('auth/changeName', async (params) => {
     const { data } = await axios.post('/auth/change-lastname', params);
+       addToLocalStorage(data)
 
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
     return data
 })
 
 export const fetchLogOut = createAsyncThunk('auth/logOut', async () => {
-    await axios.post('/auth/logout');
+    await axios.post(`/auth/logout/${localStorage.getItem('refresh')}`);
     localStorage.removeItem('token');
+    localStorage.removeItem('refresh');
 })
 
 
 export const fetchCheckAuth = createAsyncThunk('auth/checkAuth', async () => {
-    const { data } = await axios.get('/auth/refresh', { withCredentials: true });
-    if ('accessToken' in data) {
-        window.localStorage.setItem('token', data.accessToken)
-    }
+    const { data } = await axios.get(`/auth/refresh/${localStorage.getItem('refresh')}`, { withCredentials: true });
+    addToLocalStorage(data)
+
     return data
 })
 
@@ -241,6 +238,7 @@ const authSlice = createSlice({
             state.isLoading = false
             state.data = null
             window.localStorage.removeItem('token')
+            window.localStorage.removeItem('refresh')
             window.location.reload()
         },
     }
