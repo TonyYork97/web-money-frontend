@@ -5,12 +5,12 @@ import { categoriesReducer } from './slices/categoriesSlice'
 import { filterReducer } from './slices/filterSlice'
 
 const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        operations: operationsReducer,
-        categories: categoriesReducer,
-        filter: filterReducer
-    }
+  reducer: {
+    auth: authReducer,
+    operations: operationsReducer,
+    categories: categoriesReducer,
+    filter: filterReducer,
+  },
 })
 
 export default store

@@ -3,19 +3,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ButtonGreen } from '../../components/ButtonGreen'
 import { Input } from '../../components/Input'
 import { links } from '../../routes/links'
-
-import { fetchChangeLastName, fetchChangeName } from '../../store/slices/authSlice'
+import {
+  fetchChangeLastName,
+  fetchChangeName,
+} from '../../store/slices/authSlice'
 import { ButtonLink } from '../ButtonLink'
 
 export const Account = () => {
   const [emailState, setEmail] = useState('')
-  const [errorName, setErrorName] = useState(false);
-  const [errorLastName, setErrorLastName] = useState(false);
-  const [helperTextName, setHelperTextName] = useState('');
-  const [helperTextLastName, setHelperTextLastName] = useState('');
+  const [errorName, setErrorName] = useState(false)
+  const [errorLastName, setErrorLastName] = useState(false)
+  const [helperTextName, setHelperTextName] = useState('')
+  const [helperTextLastName, setHelperTextLastName] = useState('')
   const [nameState, setName] = useState('')
   const [lastNameState, setLastName] = useState('')
-  const { data } = useSelector(state => state.auth)
+  const { data } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch()
   const emailRef = useRef()
@@ -26,23 +28,27 @@ export const Account = () => {
 
   const changefullName = (e) => {
     if (lastNameState.length < 2 || lastNameState.length > 20) {
-      setErrorLastName(true);
-      setHelperTextLastName('Фамилия должна содержать не менее 2 и не более 20 символов')
+      setErrorLastName(true)
+      setHelperTextLastName(
+        'Фамилия должна содержать не менее 2 и не более 20 символов'
+      )
       return
     }
     if (nameState.length < 2 || nameState.length > 20) {
-      setErrorName(true);
-      setHelperTextName('Имя должно содержать не менее 2 и не более 20 символов')
+      setErrorName(true)
+      setHelperTextName(
+        'Имя должно содержать не менее 2 и не более 20 символов'
+      )
       return
     }
     if (nameState !== data?.user?.name) {
       dispatch(fetchChangeName({ name: nameState }))
-      setErrorName(false);
+      setErrorName(false)
       setHelperTextName('')
     }
     if (lastNameState !== data?.user?.lastName) {
       dispatch(fetchChangeLastName({ lastName: lastNameState }))
-      setErrorLastName(false);
+      setErrorLastName(false)
       setHelperTextLastName('')
     }
   }
@@ -54,29 +60,29 @@ export const Account = () => {
   }, [data])
 
   const resetFullName = () => {
-    setLastName(data?.user?.lastName);
-    setErrorLastName(false);
+    setLastName(data?.user?.lastName)
+    setErrorLastName(false)
     setHelperTextLastName('')
-    setName(data?.user?.name);
-    setErrorName(false);
+    setName(data?.user?.name)
+    setErrorName(false)
     setHelperTextName('')
   }
 
   const copyEmail = (e) => {
-    emailRef.current.select();
-    document.execCommand('copy');
-    e.target.focus();
+    emailRef.current.select()
+    document.execCommand('copy')
+    e.target.focus()
   }
 
   const onChangeName = (e) => {
     setName(e.target.value)
-    setErrorName(false);
+    setErrorName(false)
     setHelperTextName('')
   }
 
   const onChangeLastName = (e) => {
     setLastName(e.target.value)
-    setErrorLastName(false);
+    setErrorLastName(false)
     setHelperTextLastName('')
   }
 
@@ -113,26 +119,33 @@ export const Account = () => {
             maxLength={20}
           />
         </div>
-        {lastNameState !== data?.user?.lastName || nameState !== data?.user?.name
-          ? <div className='flex gap-4'>
-            <ButtonGreen func={changefullName} title="Сохранить изменения" />
-            <ButtonGreen func={resetFullName} title="Отменить" />
+        {lastNameState !== data?.user?.lastName ||
+        nameState !== data?.user?.name ? (
+          <div className='flex gap-4'>
+            <ButtonGreen func={changefullName} title='Сохранить изменения' />
+            <ButtonGreen func={resetFullName} title='Отменить' />
           </div>
-          : ''
-        }
+        ) : (
+          ''
+        )}
       </div>
       <div className='mb-8'>
         <h4 className='text-lg font-bold mb-3'>Почта</h4>
-        <input ref={emailRef} className='bg-transparent inline mb-2 cursor-default focus:outline-none' value={emailState} readOnly />
+        <input
+          ref={emailRef}
+          className='bg-transparent inline mb-2 cursor-default focus:outline-none'
+          value={emailState}
+          readOnly
+        />
         <div className='flex gap-4'>
           {/* <button onClick={copyEmail}>copy</button> */}
-          <ButtonLink link={links.email} title="Изменить почту" />
+          <ButtonLink link={links.email} title='Изменить почту' />
         </div>
       </div>
       <div className='mb-8'>
         <h4 className='text-lg font-bold mb-3'>Пароль</h4>
         <div className='flex gap-4'>
-          <ButtonLink link={links.password} title="Изменить пароль" />
+          <ButtonLink link={links.password} title='Изменить пароль' />
         </div>
       </div>
     </div>

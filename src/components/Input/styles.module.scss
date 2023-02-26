@@ -1,31 +1,28 @@
-.input{
-@apply py-3 px-3 rounded-xl border mb-2   w-full active:outline-none focus:outline-none  
-
+.input {
+  @apply py-3 px-3 rounded-xl border mb-2   w-full active:outline-none focus:outline-none;
 }
 
-.error{
-    @apply border-myRed focus:shadow-redShadow
+.error {
+  @apply border-myRed focus:shadow-redShadow;
 }
-.valid{
-    @apply border-textPrime 
+.valid {
+  @apply border-textPrime;
 }
 
-.inp{
-    position:relative;
-    user-select:none
+.inp {
+  position: relative;
+  user-select: none;
 }
 .inp::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: auto;
-        height: auto;
-        color: transparent;
-        background: transparent;
-        user-select:none
-    }
-
-  
+  filter: invert(1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  user-select: none;
+}

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   typeOfPayment: '',
@@ -15,7 +15,7 @@ const initialState = {
   activeCategory: '',
   isOpen: false,
 
-  updateFlag: true
+  updateFlag: true,
 }
 
 const filterSlice = createSlice({
@@ -61,7 +61,7 @@ const filterSlice = createSlice({
     setIsOpen: (state, action) => {
       state.isOpen = action.payload
     },
-  }
+  },
 })
 
 export const {
@@ -77,6 +77,6 @@ export const {
   setCurCategoryAmount,
   setActiveCategory,
   setIsOpen,
-  setUpdateFlag
-} = filterSlice.actions;
+  setUpdateFlag,
+} = filterSlice.actions
 export const filterReducer = filterSlice.reducer
