@@ -35,6 +35,7 @@ export const CategoriesPage = ({ type }) => {
   const { width } = useResize()
 
   const operationBlockRef = useRef()
+  const intoViefRefTwo = useRef(null)
 
   const dispatch = useDispatch()
   const {
@@ -55,7 +56,6 @@ export const CategoriesPage = ({ type }) => {
     isOpen ? '' : 'translate-x-full'
   } md:translate-x-0  transition-all fixed md:static top-0 bottom-0 left-0 right-0 z-[500] md:z-0 overflow-auto bg-blackMenu dark:bg-bggTop  md:bg-transparent rounded-xl`
 
-  const intoViefRefTwo = useRef(null)
   const changeMonth = async (direction) => {
     setOperations([])
     dispatch(setCurCategoryAmount(0))
