@@ -182,7 +182,7 @@ export const ContactsPage = () => {
                   alt=''
                 />
                 <p className='text-textOpacity dark:text-darkBlack text-xs mt-2'>
-                  <span className='text-mainGreen dark:text-darkBlack dark:underline'>
+                  <span className='text-mainGreen dark:text-darkBlack dark:underline mr-2'>
                     Выберите файл
                   </span>
                   или перетащите его сюда
