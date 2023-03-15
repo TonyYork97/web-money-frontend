@@ -87,7 +87,7 @@ function App() {
               path={links.profile}
               element={
                 <Settings>
-                  <Account />{' '}
+                  <Account />
                 </Settings>
               }
             />
