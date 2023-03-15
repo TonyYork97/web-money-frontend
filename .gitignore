@@ -8,6 +8,8 @@ task.txt
 /.pnp
 .pnp.js
 
+
+.env
 # testing
 /coverage
 
