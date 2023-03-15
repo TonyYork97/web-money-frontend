@@ -171,7 +171,7 @@ export const AddOperation = () => {
               <div className='flex gap-3 items-center'>
                 <img
                   className='w-12'
-                  src={`${process.env.REACT_APP_API_HOST}${el.imageUrl}`}
+                  src={`https://web-money-backend.vercel.app${el.imageUrl}`}
                   alt={el.title}
                 />
                 <h3>{el.title}</h3>
