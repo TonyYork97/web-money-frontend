@@ -36,7 +36,7 @@ export const HistoryItem = ({
               {paymentMethodImage ? (
                 <img
                   className='w-6 sm:w-7 text-textOpacity'
-                  src={`https://web-money-backend.onrender.com${paymentMethodImage}`}
+                  src={`https://web-money-backend.vercel.app${paymentMethodImage}`}
                   alt={paymentMethod}
                   title={paymentMethod}
                 />
