@@ -66,6 +66,7 @@ export const AddOperation = () => {
     minLength: 2,
     maxLength: 24,
   })
+
   const type = register('type')
   const amount = register('amount', {
     required: 'Сумма не должна превышать 99 999 999 рублей 99 копеек',

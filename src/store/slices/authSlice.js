@@ -11,12 +11,16 @@ const addToLocalStorage = (data) => {
   }
 }
 
-export const fetchSignUp = createAsyncThunk('auth/signUp', async (params) => {
-  const { data } = await axios.post('/auth/signup', params)
-  addToLocalStorage(data)
+export const fetchSignUp = createAsyncThunk(
+  'auth/signUp',
+  async (params, thunkApi) => {
+    const { data } = await axios.post('/auth/signup', params)
 
-  return data
-})
+    addToLocalStorage(data)
+
+    return data
+  }
+)
 
 export const fetchLogin = createAsyncThunk('auth/login', async (params) => {
   const { data } = await axios.post('/auth/login', params)
@@ -135,7 +139,7 @@ const authSlice = createSlice({
     },
     [fetchSignUp.rejected]: (state) => {
       state.isLoading = false
-      state.signupError = 'Не удалось зарегестрироваться'
+      state.signupError = 'Не удалось зарегистрироваться'
       state.data = null
     },
     [fetchLogin.pending]: (state) => {
@@ -156,7 +160,7 @@ const authSlice = createSlice({
     [fetchLogin.rejected]: (state) => {
       state.isLoading = false
       state.data = null
-      state.loginError = 'Не удалось войти! попробуйте еще раз.'
+      state.loginError = 'Не удалось войти! Попробуйте еще раз.'
     },
     [fetchChangeEmail.pending]: (state) => {
       state.isSuccessChangeEmail = false
