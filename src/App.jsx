@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Header } from './components/Header'
 import { HomePage } from './pages/HomePage'
@@ -31,15 +31,15 @@ function App() {
   const { isLoading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     if (localStorage.getItem('token')) {
       await dispatch(fetchCheckAuth())
     }
-  }
+  }, [dispatch])
 
   useEffect(() => {
     checkAuth()
-  }, [])
+  }, [checkAuth])
 
   useEffect(() => {
     if (!localStorage.getItem('theme')) {
