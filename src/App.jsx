@@ -47,6 +47,7 @@ function App() {
     } else {
       console.warn('ReactGA.send не найден, объект:', ga);
     }
+    // check
   }, [location]);
   const checkAuth = useCallback(async () => {
     if (localStorage.getItem('token')) {
