@@ -1,30 +1,30 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { Container } from '../../components/Container'
-import { MainLoading } from '../../components/MainLoading'
-import { links } from '../../routes/links'
-import { userIsAuth } from '../../store/slices/authSlice'
-import Label from '../../assets/images/label.png'
-import LabelLight from '../../assets/images/label-light.png'
+import React from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Container } from '../../components/Container';
+import { MainLoading } from '../../components/MainLoading';
+import { links } from '../../routes/links';
+import { userIsAuth } from '../../store/slices/authSlice';
+import Label from '../../assets/images/label.png';
+import LabelLight from '../../assets/images/label-light.png';
 
 export const StartPage = () => {
-  const isAuth = useSelector(userIsAuth)
-  const isLoading = useSelector((state) => state.auth.isLoading)
-  const navigate = useNavigate()
+  const isAuth = useSelector(userIsAuth);
+  const isLoading = useSelector((state) => state.auth.isLoading);
+  const navigate = useNavigate();
   useEffect(() => {
     if (isAuth && localStorage.getItem('token')) {
-      navigate('/app/home', { replace: true })
+      navigate('/app/home', { replace: true });
     }
-  })
+  });
 
   if (isLoading) {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
         <MainLoading size={100} />
       </div>
-    )
+    );
   }
   return (
     <Container>
@@ -61,5 +61,5 @@ export const StartPage = () => {
         </div>
       </div>
     </Container>
-  )
-}
+  );
+};

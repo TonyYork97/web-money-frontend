@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import StickerLogin from '../../assets/images/sticker3.png'
-import { AuthContainer } from '../../components/AuthContainer'
-import { Input } from '../../components/Input'
-import { ButtonGreen } from '../../components/ButtonGreen'
-import { links } from '../../routes/links'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchLogin, userIsAuth } from '../../store/slices/authSlice'
-import { useForm } from 'react-hook-form'
-import { MainLoading } from '../../components/MainLoading'
-import styles from './styles.module.scss'
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import StickerLogin from '../../assets/images/sticker3.png';
+import { AuthContainer } from '../../components/AuthContainer';
+import { Input } from '../../components/Input';
+import { ButtonGreen } from '../../components/ButtonGreen';
+import { links } from '../../routes/links';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLogin, userIsAuth } from '../../store/slices/authSlice';
+import { useForm } from 'react-hook-form';
+import { MainLoading } from '../../components/MainLoading';
+import styles from './styles.module.scss';
 
 export const LoginPage = () => {
-  const dispatch = useDispatch()
-  const isAuth = useSelector(userIsAuth)
-  const { isLoading, loginError } = useSelector((state) => state.auth)
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const isAuth = useSelector(userIsAuth);
+  const { isLoading, loginError } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -27,34 +27,34 @@ export const LoginPage = () => {
       password: '',
     },
     mode: 'onChange',
-  })
-  const email = register('email', { required: 'Укажите почту' })
+  });
+  const email = register('email', { required: 'Укажите почту' });
   const password = register('password', {
     required: 'Пароль должен иметь не менее 6 и не более 32 символов',
     minLength: 6,
     maxLength: 32,
-  })
+  });
 
   const onSubmit = async (value) => {
-    const data = await dispatch(fetchLogin(value))
+    const data = await dispatch(fetchLogin(value));
 
     if (!data.payload?.message) {
-      navigate('/app/home', { replace: true })
+      navigate('/app/home', { replace: true });
     }
-  }
+  };
 
   useEffect(() => {
     if (isAuth && localStorage.getItem('token')) {
-      navigate('/app/home', { replace: true })
+      navigate('/app/home', { replace: true });
     }
-  }, [])
+  }, []);
 
   if (isLoading && !isAuth) {
     return (
       <div className='w-full h-screen flex justify-center items-center'>
         <MainLoading />
       </div>
-    )
+    );
   }
 
   return (
@@ -65,7 +65,7 @@ export const LoginPage = () => {
         <h2 className='text-2xl sm:text-3xl mb-4 font-bold'>Войти</h2>
         {loginError && (
           <div className='text-red-700'>
-            {loginError?.message || 'Неверный логин или пароль'}
+            {loginError?.message || 'Неверная почта или пароль'}
           </div>
         )}
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col mb-8'>
@@ -117,5 +117,5 @@ export const LoginPage = () => {
         </div>
       </div>
     </AuthContainer>
-  )
-}
+  );
+};
